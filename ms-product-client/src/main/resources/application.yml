@@ -1,0 +1,9 @@
+# Application name configuration for Eureka
+spring:
+  application:
+    name: product
+
+# Application port configuration
+server:
+  port: 8082
+
