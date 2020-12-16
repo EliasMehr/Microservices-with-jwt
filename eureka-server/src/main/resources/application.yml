@@ -9,3 +9,12 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+    region: region1
+    serviceUrl:
+      zone1: http://eureka-server:8761/eureka/
+    availability-zones:
+      region1: zone1
+  instance:
+    hostname: eureka-server
+    metadata-map:
+      zone: zone1

@@ -2,8 +2,26 @@
 spring:
   application:
     name: product
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
 
 # Application port configuration
 server:
   port: 8082
 
+# Eureka client
+eureka:
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      zone: zone1
+  client:
+    prefer-same-zone-eureka: true
+    register-with-eureka: true
+    region: region1
+    service-url:
+      zone1: http://eureka-server:8761/eureka/
+    availability-zones:
+      region1: zone1
