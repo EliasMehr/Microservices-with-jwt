@@ -19,5 +19,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User("foo", "foo", new ArrayList<>());
     }
 
-    //Test commit via commandline
+    //Test commit 2 via commandline
 }
