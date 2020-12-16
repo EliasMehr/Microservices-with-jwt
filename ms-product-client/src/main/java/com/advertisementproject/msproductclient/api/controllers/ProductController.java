@@ -15,7 +15,7 @@ public class ProductController {
 
     @GetMapping("/eli/product")
         public String eliProduct() {
-            return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fisk. IDENTICAL?ss:)";
+            return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fisk. IDENTICAL?:)";
         }
 
 }
