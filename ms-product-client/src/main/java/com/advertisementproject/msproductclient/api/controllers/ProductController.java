@@ -20,7 +20,7 @@ public class ProductController {
 
     @GetMapping("/github")
     public String githubProduct() {
-        return "GitHub, Skit, Jobbigt, Please, Funka, Be, Signed, Please";
+        return "GitHub, Skit, Jobbigt, Please, Funka, Be, Signed, Pleasesss";
     }
 
 }
