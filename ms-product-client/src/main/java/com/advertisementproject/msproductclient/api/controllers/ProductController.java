@@ -13,9 +13,14 @@ public class ProductController {
         return "Hello Microservies";
     }
 
-    @GetMapping("/eli/product")
-        public String eliProduct() {
-            return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fisk. IDENTICAL?:)";
-        }
+    @GetMapping("/eli")
+    public String eliProduct() {
+        return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fisk. IDENTICAL?:)";
+    }
+
+    @GetMapping("/github")
+    public String githubProduct() {
+        return "GitHub, Skit, Jobbigt, Please, Funka, Be, Signed, Please";
+    }
 
 }
