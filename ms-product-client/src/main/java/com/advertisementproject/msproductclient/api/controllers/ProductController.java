@@ -12,4 +12,10 @@ public class ProductController {
     public String helloWorld() {
         return "Hello Microservies";
     }
+
+    @GetMapping("/eli/product")
+        public String eliProduct() {
+            return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fisk. IDENTICAL?:)";
+        }
+
 }
