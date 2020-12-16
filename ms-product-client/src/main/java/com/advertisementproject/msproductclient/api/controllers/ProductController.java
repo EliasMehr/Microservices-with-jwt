@@ -15,7 +15,7 @@ public class ProductController {
 
     @GetMapping("/eli")
     public String eliProduct() {
-        return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fisk. IDENTICAL?:)";
+        return "Man, 30, Söt, Har en hund, Fru, Villa, Volvo, Granne med fiskar. IDENTICAL?:)";
     }
 
     @GetMapping("/github")
