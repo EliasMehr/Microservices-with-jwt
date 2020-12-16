@@ -48,8 +48,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-    <!-- JWT Dependency -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- JWT Dependency -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

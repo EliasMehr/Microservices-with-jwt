@@ -14,9 +14,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     /*
         IMPLEMENTATION OF "DATABASE" TO FETCH USER, STARTERS USE IN-Memory USER
      */
-
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return new User("foo", "foo", new ArrayList<>());
     }
+
 }
