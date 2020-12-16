@@ -8,4 +8,5 @@ server:
 zuul:
   routes:
     product:
-      url: http://localhost:8082
+      url: product-service:8082
+      #http://localhost:8082
