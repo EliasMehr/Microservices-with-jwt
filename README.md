@@ -26,3 +26,13 @@ Paste this URL into your web browser
 ```
 http://localhost:8761/eureka
 
+# Zuul API Gateway
+Zuul gateway proxy will route all requests to concerned services, the gateway is JWT Authentication based and all requests requires a valid JWT token.
+The only exposed API endpoints are the following:
+```
+http://localhost:8080/login
+```
+```
+http://localhost:8080/register
+
+```
