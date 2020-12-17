@@ -1,0 +1,22 @@
+version: '3'
+
+services: 
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - 8761:8761
+  
+  zuul-gateway:
+    build: ./zuulgateway
+    container_name: zuul-gateway
+    ports:
+      - 8080:8080
+    depends_on: 
+      - eureka-server
+  
+  product-service:
+    build: ./ms-product-client
+    container_name: product-service
+    depends_on: 
+      - eureka-server
