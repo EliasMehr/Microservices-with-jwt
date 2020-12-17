@@ -1,20 +1,11 @@
 # Application port runtime
-
 server:
   port: 8761
 
 # Eureka server configurations
-
 eureka:
   client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
     register-with-eureka: false
     fetch-registry: false
-    region: region1
-    serviceUrl:
-      zone1: http://eureka-server:8761/eureka/
-    availability-zones:
-      region1: zone1
-  instance:
-    hostname: eureka-server
-    metadata-map:
-      zone: zone1

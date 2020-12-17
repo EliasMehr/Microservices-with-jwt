@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class ProductController {
-
-    @GetMapping("/all")
+    
+    @GetMapping("all")
     public String helloWorld() {
         return "Hello Microservies";
     }

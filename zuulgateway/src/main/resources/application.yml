@@ -1,39 +1,20 @@
+# Application name configuration for Eureka
 spring:
   application:
     name: gateway
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
 
+# Server port configuration
 server:
   port: 8080
 
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
-
+# Zuul configuration
 zuul:
   routes:
     product:
-      url: product-service:8082/
-      #http://localhost:8082
+      url: http://product-service:8082/
 
 # Eureka client
 eureka:
-  instance:
-    prefer-ip-address: true
-    metadata-map:
-      zone: zone1
   client:
-    prefer-same-zone-eureka: true
-    register-with-eureka: true
-    region: region1
     service-url:
-      zone1: http://eureka-server:8761/eureka/
-    availability-zones:
-      region1: zone1
+      defaultZone: http://eureka-server:8761/eureka/
