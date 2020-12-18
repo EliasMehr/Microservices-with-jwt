@@ -11,10 +11,10 @@ server:
 zuul:
   routes:
     product:
-      url: http://product-service:8082/
+      url: http://${CAMPAIGN_SERVICE_HOST:localhost}:8082/
 
 # Eureka client
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
