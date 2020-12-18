@@ -1,22 +1,29 @@
-version: '3'
+version: "3"
 
-services: 
+services:
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server
+    environment:
+      - EUREKA_HOST=${EUREKA_HOST}
     ports:
       - 8761:8761
-  
+
   zuul-gateway:
     build: ./zuulgateway
     container_name: zuul-gateway
+    environment:
+      - EUREKA_HOST=${EUREKA_HOST}
+      - CAMPAIGN_SERVICE_HOST=${CAMPAIGN_SERVICE_HOST}
     ports:
       - 8080:8080
-    depends_on: 
+    depends_on:
       - eureka-server
-  
+
   product-service:
     build: ./ms-product-client
     container_name: product-service
-    depends_on: 
+    environment:
+      - EUREKA_HOST=${EUREKA_HOST}
+    depends_on:
       - eureka-server
