@@ -49,6 +49,4 @@ export VARIABLE-NAME=VALUE
 Run following in your terminal to verify that the variable has been stored successfully:
 ```
 echo $VARIABLE-NAME
-
-
-
+```
