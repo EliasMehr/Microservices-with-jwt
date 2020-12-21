@@ -1,8 +1,8 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
-import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
-import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
+import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
