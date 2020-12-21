@@ -35,5 +35,17 @@ http://localhost:8080/login
 ```
 ```
 http://localhost:8080/register
+```
 
+# Environment variables
+To add environment variables open .env file which is stored in the root folder of the project.
+If you're running on macOS you may need to store the variables on your computer so that docker-compose can read the variables.
+
+Run following in your terminal to store variables:
+```
+export VARIABLE-NAME=VALUE
+```
+Run following in your terminal to verify that the variable has been stored successfully:
+```
+echo $VARIABLE-NAME
 ```

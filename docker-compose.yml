@@ -56,6 +56,7 @@ services:
     ports:
       - "5555:80"
     restart: unless-stopped
+    
 #Volumes for DB data
 volumes:
   matrix-data:
