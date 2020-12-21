@@ -4,6 +4,7 @@ import com.advertisementproject.zuulgateway.request.AuthenticationRequest;
 import com.advertisementproject.zuulgateway.response.AuthenticationResponse;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,20 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/login")
 public class LoginController {
 
-    Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-    private final  AuthenticationManager authenticationManager;
+    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
-
-    public LoginController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-        this.userDetailsService = userDetailsService;
-    }
 
     @PostMapping
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {

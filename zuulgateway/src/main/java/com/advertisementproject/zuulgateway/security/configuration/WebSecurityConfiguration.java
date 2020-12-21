@@ -1,6 +1,7 @@
 package com.advertisementproject.zuulgateway.security.configuration;
 
 import com.advertisementproject.zuulgateway.security.filters.JwtRequestFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,17 +15,13 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtRequestFilter jwtRequestFilter;
     private final UserDetailsServiceImpl userDetailsService;
-
-    public WebSecurityConfiguration(JwtRequestFilter jwtRequestFilter, UserDetailsServiceImpl userDetailsService) {
-        this.jwtRequestFilter = jwtRequestFilter;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
