@@ -27,3 +27,37 @@ services:
       - EUREKA_HOST=${EUREKA_HOST}
     depends_on:
       - eureka-server
+
+  #Postgres configuration
+  matrix-postgres:
+    image: "postgres:13.0-alpine"
+    container_name: matrix-postgres
+    volumes:
+      - matrix-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  #pgAdmin configuration
+  pgadmin:
+    image: "dpage/pgadmin4:latest"
+    container_name: pgadmin4
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - matrix-postgres
+    ports:
+      - "5555:80"
+    restart: unless-stopped
+    
+#Volumes for DB data
+volumes:
+  matrix-data:
+  pgadmin-data:
