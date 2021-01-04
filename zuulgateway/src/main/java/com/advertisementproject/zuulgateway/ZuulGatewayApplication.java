@@ -16,6 +16,8 @@ public class ZuulGatewayApplication {
         SpringApplication.run(ZuulGatewayApplication.class, args);
     }
 
+
+
     @Bean
     public SimpleFilter simpleFilter() {
         return new SimpleFilter();

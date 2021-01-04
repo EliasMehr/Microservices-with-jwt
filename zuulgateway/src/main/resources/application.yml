@@ -2,8 +2,19 @@
 spring:
   application:
     name: gateway
+# Database configuration
+  datasource:
+    url: jdbc:postgresql://matrix-postgres:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Server port configuration
 server:
   port: 8080
 
@@ -20,10 +31,4 @@ eureka:
     service-url:
       defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
 
-# Database credentials
-data:
-  datasource:
-    jdbc-url: jdbc:postgresql://matrix-postgres:5432/campaigndb
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
-    pool-size: 30
+
