@@ -3,7 +3,17 @@ spring:
   application:
     name: gateway
 
-# Server port configuration
+# Database configuration
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jooq:
+    sql-dialect: Postgres
+
+# Application server port
 server:
   port: 8080
 
@@ -19,3 +29,5 @@ eureka:
   client:
     service-url:
       defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+
+
