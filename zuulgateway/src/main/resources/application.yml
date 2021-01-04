@@ -19,3 +19,11 @@ eureka:
   client:
     service-url:
       defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+
+# Database credentials
+data:
+  datasource:
+    jdbc-url: jdbc:postgresql://matrix-postgres:5432/campaigndb
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    pool-size: 30
