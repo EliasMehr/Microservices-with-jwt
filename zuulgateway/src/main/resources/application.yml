@@ -2,19 +2,18 @@
 spring:
   application:
     name: gateway
+
 # Database configuration
-  datasource:
-    url: jdbc:postgresql://matrix-postgres:5432/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  jooq:
+    sql-dialect: Postgres
 
+# Application server port
 server:
   port: 8080
 
