@@ -81,7 +81,12 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
             <version>2.4.1</version>
         </dependency>
-
+        
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.18.jre7</version>
+        </dependency>
 
     </dependencies>
 
