@@ -15,6 +15,9 @@ services:
     environment:
       - EUREKA_HOST=${EUREKA_HOST}
       - CAMPAIGN_SERVICE_HOST=${CAMPAIGN_SERVICE_HOST}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - 8080:8080
     depends_on:
@@ -56,7 +59,7 @@ services:
     ports:
       - "5555:80"
     restart: unless-stopped
-    
+
 #Volumes for DB data
 volumes:
   matrix-data:
