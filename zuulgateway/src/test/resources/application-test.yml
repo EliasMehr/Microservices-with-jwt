@@ -1,0 +1,18 @@
+spring:
+  profiles: test
+
+#  datasource:
+#    url: jdbc:tc:postgresql:13.0:///
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  jooq:
+    sql-dialect: Postgres
+
+logging:
+  level:
+    root: info
