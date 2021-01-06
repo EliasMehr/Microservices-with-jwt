@@ -72,7 +72,7 @@ public class JwtUtils {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(Date.from(Instant.now().plus(1L, ChronoUnit.MINUTES)))
+                .setExpiration(generateExpirationDate())
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
                 .compact();
     }
