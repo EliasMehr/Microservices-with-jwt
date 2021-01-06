@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
+import java.sql.Date;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler extends ResponseStatusExceptionHandler {
@@ -18,7 +21,7 @@ public class ControllerExceptionHandler extends ResponseStatusExceptionHandler {
         return build(
                 ErrorMessage.builder()
                         .statusCode(401)
-                        .timestamp(Instant.now())
+                        .timestamp(Date.from(Instant.now()).toString())
                         .message(exception.getMessage())
                         .build()
         );

@@ -1,9 +1,9 @@
 package com.advertisementproject.zuulgateway.security.configuration;
 
 import com.advertisementproject.zuulgateway.api.exceptions.RestAuthenticationEntryPoint;
-import com.advertisementproject.zuulgateway.security.Utils.JwtUsernameAndPasswordAuthenticationFilter;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.filters.JwtRequestFilter;
+import com.advertisementproject.zuulgateway.security.filters.JwtUsernameAndPasswordAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,13 +38,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
-                .addFilterAt(new JwtRequestFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtRequestFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests();
     }
 
     public JwtUsernameAndPasswordAuthenticationFilter jwtUsernameAndPasswordAuthenticationFilter() throws Exception {
-        JwtUsernameAndPasswordAuthenticationFilter jwtFilter = new JwtUsernameAndPasswordAuthenticationFilter(
-                jwtUtils);
+        JwtUsernameAndPasswordAuthenticationFilter jwtFilter = new JwtUsernameAndPasswordAuthenticationFilter(jwtUtils);
         jwtFilter.setAuthenticationManager(authenticationManagerBean());
         jwtFilter.setFilterProcessesUrl("/api/login");
         return jwtFilter;

@@ -19,7 +19,6 @@ public class JwtUtils {
 
     private final Long EXPIRATION_VALUE = 24L;
     private final String JWT_SECRET = "ABCABCABCABCABCABCABCABCABCABCABCABCABC";
-
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /*
@@ -60,14 +59,11 @@ public class JwtUtils {
             return Jwts.parser()
                     .setSigningKey(JWT_SECRET)
                     .parseClaimsJws(token).getBody();
-        } catch (ExpiredJwtException e) {
-            throw new ResponseException("JWT token has expired");
-        } catch (UnsupportedJwtException e) {
-            throw new ResponseException("Unsupported JWT Token");
-        } catch (MalformedJwtException e) {
-            throw new ResponseException("Malformed JWT");
-        } catch (SignatureException e) {
-            throw new ResponseException("JWT Signature exception");
+        } catch (ExpiredJwtException |
+                UnsupportedJwtException |
+                MalformedJwtException |
+                SignatureException e) {
+            throw new ResponseException(e.getMessage());
         }
     }
 
