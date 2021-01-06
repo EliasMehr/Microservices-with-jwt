@@ -38,7 +38,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
-                .addFilterAt(new JwtRequestFilter(jwtUtils), JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilterAt(new JwtRequestFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests();
     }
 

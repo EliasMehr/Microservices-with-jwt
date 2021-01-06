@@ -2,6 +2,8 @@ package com.advertisementproject.zuulgateway.security.Utils;
 
 import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
 import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ public class JwtUtils {
 
     private final Long EXPIRATION_VALUE = 24L;
     private final String JWT_SECRET = "ABCABCABCABCABCABCABCABCABCABCABCABCABC";
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /*
         To add custom claims, put key and value in the generateToken method!
@@ -36,6 +40,7 @@ public class JwtUtils {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractSubject(token);
@@ -71,7 +76,7 @@ public class JwtUtils {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(generateExpirationDate())
+                .setExpiration(Date.from(Instant.now().plus(1L, ChronoUnit.MINUTES)))
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
                 .compact();
     }

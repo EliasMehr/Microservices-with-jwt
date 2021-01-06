@@ -1,5 +1,6 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
+import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
 import com.advertisementproject.zuulgateway.api.request.AuthenticationRequest;
 import com.advertisementproject.zuulgateway.api.response.AuthenticationResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +45,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
             return authenticate(authentication);
         } catch (IOException e) {
-            throw new AuthenticationCredentialsNotFoundException(e.getMessage());
+//            throw new AuthenticationCredentialsNotFoundException(e.getMessage());
+            throw new ResponseException(e.getMessage());
         }
     }
 
@@ -70,7 +72,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     private <T> void sendResponse(HttpServletResponse response,
                                   Integer status,
-                                  T responseBody) throws IOException {
+                                  T responseBody) throws IOException, ServletException, ResponseException {
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON);
         new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
