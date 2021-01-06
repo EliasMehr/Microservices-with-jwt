@@ -26,8 +26,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-
-
     public User register(RegistrationRequest request) {
         User user = User.builder()
                 .id(UUID.randomUUID())

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static javax.servlet.http.HttpServletResponse.*;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 @Component
 @RequiredArgsConstructor
@@ -30,12 +30,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
 
         try {
-            if (authorizationHeader.isEmpty() || !authorizationHeader.startsWith("Bearer ")) {
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
             String subject = jwtUtils.extractSubject(authorizationHeader);
+
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     subject,
                     null,

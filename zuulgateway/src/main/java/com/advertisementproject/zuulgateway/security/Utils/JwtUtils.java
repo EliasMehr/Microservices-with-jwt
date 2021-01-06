@@ -26,9 +26,10 @@ public class JwtUtils {
     // TODO -> We should insert the users id in the claims to validate all requests through our
     // TODO -> communication layers, we dont want an unauthorized user to retrieve data about another user if that's the case
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+
+        return createToken(claims, username);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

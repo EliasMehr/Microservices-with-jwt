@@ -2,8 +2,9 @@ package com.advertisementproject.zuulgateway.security.Utils;
 
 import com.advertisementproject.zuulgateway.api.request.AuthenticationRequest;
 import com.advertisementproject.zuulgateway.api.response.AuthenticationResponse;
-import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter implements AuthenticationProvider {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final JwtUtils jwtUtils;
 
@@ -52,8 +54,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getDetails();
-        String token = jwtUtils.generateToken(userDetails);
+        String token = jwtUtils.generateToken(authResult.getName());
         AuthenticationResponse authResponse = new AuthenticationResponse(token);
         sendResponse(response, HttpStatus.OK.value(), authResponse);
     }
@@ -70,7 +71,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     private <T> void sendResponse(HttpServletResponse response,
                                   Integer status,
                                   T responseBody) throws IOException {
-
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON);
         new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
