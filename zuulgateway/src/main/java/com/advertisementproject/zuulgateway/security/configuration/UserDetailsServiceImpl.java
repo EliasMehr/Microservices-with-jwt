@@ -1,22 +1,23 @@
 package com.advertisementproject.zuulgateway.security.configuration;
 
-import org.springframework.security.core.userdetails.User;
+import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    /*
-        IMPLEMENTATION OF "DATABASE" TO FETCH USER, STARTERS USE IN-Memory USER
-     */
+    private final UserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return new User("foo", "foo", new ArrayList<>());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByUsername(username)
+                .map(UserDetailsImpl::new)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
     }
 }

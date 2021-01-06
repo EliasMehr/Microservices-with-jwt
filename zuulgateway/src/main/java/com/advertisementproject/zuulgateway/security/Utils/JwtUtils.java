@@ -1,9 +1,7 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
+import io.jsonwebtoken.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +23,8 @@ public class JwtUtils {
         for instance -> admin: true or false based on userDetails
      */
 
+    // TODO -> We should insert the users id in the claims to validate all requests through our
+    // TODO -> communication layers, we dont want an unauthorized user to retrieve data about another user if that's the case
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -50,9 +50,19 @@ public class JwtUtils {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parser()
+                    .setSigningKey(JWT_SECRET)
+                    .parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            throw new ResponseException("JWT token has expired");
+        } catch (UnsupportedJwtException e) {
+            throw new ResponseException("Unsupported JWT Token");
+        } catch (MalformedJwtException e) {
+            throw new ResponseException("Malformed JWT");
+        } catch (SignatureException e) {
+            throw new ResponseException("JWT Signature exception");
+        }
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
