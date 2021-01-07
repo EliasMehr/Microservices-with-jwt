@@ -1,11 +1,18 @@
 package com.advertisementproject.zuulgateway.db.models;
 
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 @Table(name = "users")
 @Entity
 public class User {

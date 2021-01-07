@@ -1,5 +1,7 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
+import com.advertisementproject.zuulgateway.api.exceptions.ErrorMessage;
+import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendResponse;
+import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toResponseMessage;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -26,27 +32,34 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException, ResponseException {
 
-        String authorization = request.getHeader("Authorization");
-        String subject = null;
-        String token = null;
+        String authorizationHeader = request.getHeader("Authorization");
+        String subject;
 
-        if (authorization != null && authorization.startsWith("Bearer ")) {
-            token = authorization.substring(7);
-            subject = jwtUtils.extractSubject(token);
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails =  userDetailsService.loadUserByUsername(subject);
+        try {
+            authorizationHeader = authorizationHeader.substring(7);
+            subject = jwtUtils.extractSubject(authorizationHeader);
+        } catch (Exception e) {
+            ErrorMessage responseMessage = toResponseMessage(e.getMessage(), SC_UNAUTHORIZED);
+            sendResponse(response, responseMessage.getStatusCode(), responseMessage);
+            return;
+        }
+        UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
 
-            if (jwtUtils.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
-                );
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }
+        if (jwtUtils.validateToken(authorizationHeader, userDetails)) {
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    null);
+
+            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
 
         filterChain.doFilter(request, response);
