@@ -37,9 +37,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                //Might be necessary, but it seems like it doesn't get triggered. We may want to refactor our structure later
+//                .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
                 .addFilterBefore(new JwtRequestFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
