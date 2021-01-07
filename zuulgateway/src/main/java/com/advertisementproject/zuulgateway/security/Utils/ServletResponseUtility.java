@@ -1,10 +1,8 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
 import com.advertisementproject.zuulgateway.api.exceptions.ErrorMessage;
-import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -14,8 +12,8 @@ import java.time.Instant;
 public class ServletResponseUtility {
 
     public static <T> void sendResponse(HttpServletResponse response,
-                                  Integer status,
-                                  T responseBody) throws IOException, ServletException, ResponseException {
+                                        Integer status,
+                                        T responseBody) throws IOException {
 
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON);
