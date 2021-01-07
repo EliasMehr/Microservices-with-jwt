@@ -57,6 +57,6 @@ public class User {
 
     @Enumerated(STRING)
     private CompanyType companyType = NOT_SPECIFIED;
-    
+
     private boolean enabled;
 }
