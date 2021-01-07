@@ -1,7 +1,7 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
 import com.advertisementproject.zuulgateway.api.exceptions.ErrorMessage;
-import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
+import com.advertisementproject.zuulgateway.api.exceptions.RegistrationException;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException, ResponseException {
+                                    FilterChain filterChain) throws ServletException, IOException, RegistrationException {
 
         String authorizationHeader = request.getHeader("Authorization");
         String subject;

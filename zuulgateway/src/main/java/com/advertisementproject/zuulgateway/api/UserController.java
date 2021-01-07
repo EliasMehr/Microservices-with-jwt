@@ -2,7 +2,7 @@ package com.advertisementproject.zuulgateway.api;
 
 import com.advertisementproject.zuulgateway.api.request.RegistrationRequest;
 import com.advertisementproject.zuulgateway.db.models.User;
-import com.advertisementproject.zuulgateway.services.UserService;
+import com.advertisementproject.zuulgateway.services.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserService userService;
+    private final RegistrationService registrationService;
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /*
@@ -24,10 +24,10 @@ public class UserController {
         All Requests should be handled with POJO's to ensure data-hiding and to not expose sensitive
         data concerning a user. All POJO's should have constrains
      */
-    
+
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegistrationRequest request) {
-        User user = userService.register(request);
+        User user = registrationService.register(request);
         return ResponseEntity.ok(user);
     }
 }

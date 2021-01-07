@@ -1,5 +1,6 @@
 package com.advertisementproject.zuulgateway.db.models;
 
+import com.advertisementproject.zuulgateway.api.request.RegistrationRequest;
 import com.advertisementproject.zuulgateway.db.models.types.CompanyType;
 import com.advertisementproject.zuulgateway.db.models.types.Role;
 import lombok.*;
@@ -10,7 +11,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
-import static com.advertisementproject.zuulgateway.db.models.types.CompanyType.*;
 import static javax.persistence.EnumType.STRING;
 
 @AllArgsConstructor
@@ -56,7 +56,25 @@ public class User {
     private Role role;
 
     @Enumerated(STRING)
-    private CompanyType companyType = NOT_SPECIFIED;
+    private CompanyType companyType;
 
     private boolean enabled;
+
+    public static User toUser(RegistrationRequest request, Role role, String hashedPassword) {
+        return builder()
+                .id(UUID.randomUUID())
+                .identificationNumber(request.getIdentificationNumber())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .address(request.getAddress())
+                .city(request.getCity())
+                .zipCode(request.getZipCode())
+                .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
+                .role(role)
+                .companyType(request.getType())
+                .hashedPassword(hashedPassword)
+                .enabled(false)
+                .build();
+    }
 }

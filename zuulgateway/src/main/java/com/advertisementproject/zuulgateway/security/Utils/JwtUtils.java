@@ -1,7 +1,8 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,16 +56,10 @@ public class JwtUtils {
     }
 
     private Claims extractAllClaims(String token) {
-        try {
             return Jwts.parser()
                     .setSigningKey(JWT_SECRET)
-                    .parseClaimsJws(token).getBody();
-        } catch (ExpiredJwtException |
-                UnsupportedJwtException |
-                MalformedJwtException |
-                SignatureException e) {
-            throw new ResponseException(e.getMessage());
-        }
+                    .parseClaimsJws(token)
+                    .getBody();
     }
 
     private String createToken(Map<String, Object> claims, String subject) {

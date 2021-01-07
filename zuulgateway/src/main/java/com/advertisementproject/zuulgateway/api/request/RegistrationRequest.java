@@ -1,6 +1,9 @@
 package com.advertisementproject.zuulgateway.api.request;
 
+import com.advertisementproject.zuulgateway.db.models.types.CompanyType;
 import lombok.Data;
+
+import static com.advertisementproject.zuulgateway.db.models.types.CompanyType.NOT_SPECIFIED;
 
 @Data
 public class RegistrationRequest {
@@ -14,6 +17,6 @@ public class RegistrationRequest {
     private final int zipCode;
     private final String email;
     private final String password;
-    private final String type;
+    private final CompanyType type = NOT_SPECIFIED;
 
 }
