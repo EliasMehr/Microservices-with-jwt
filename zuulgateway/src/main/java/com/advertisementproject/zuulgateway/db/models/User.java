@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
+import static com.advertisementproject.zuulgateway.db.models.types.CompanyType.*;
 import static javax.persistence.EnumType.STRING;
 
 @AllArgsConstructor
@@ -49,14 +50,13 @@ public class User {
     private String phoneNumber;
 
     @NotEmpty
-    @Size(min = 6, max = 20, message = "Password need to be 6 characters long as minimum")
     private String hashedPassword;
 
     @Enumerated(STRING)
     private Role role;
 
     @Enumerated(STRING)
-    private CompanyType companyType;
-
+    private CompanyType companyType = NOT_SPECIFIED;
+    
     private boolean enabled;
 }

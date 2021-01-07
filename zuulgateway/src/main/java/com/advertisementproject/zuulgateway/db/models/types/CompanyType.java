@@ -7,5 +7,6 @@ public enum CompanyType {
     RESTAURANT,
     TRANSPORTATION,
     SOFTWARE,
-    OTHER
+    OTHER,
+    NOT_SPECIFIED
 }
