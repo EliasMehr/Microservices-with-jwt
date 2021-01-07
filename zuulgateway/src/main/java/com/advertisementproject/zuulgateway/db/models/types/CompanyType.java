@@ -6,5 +6,6 @@ public enum CompanyType {
     HEALTH,
     RESTAURANT,
     TRANSPORTATION,
-    SOFTWARE
+    SOFTWARE,
+    OTHER
 }
