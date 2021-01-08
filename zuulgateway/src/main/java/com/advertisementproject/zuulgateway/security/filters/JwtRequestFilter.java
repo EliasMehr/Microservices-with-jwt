@@ -6,8 +6,6 @@ import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -28,7 +26,6 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
 
