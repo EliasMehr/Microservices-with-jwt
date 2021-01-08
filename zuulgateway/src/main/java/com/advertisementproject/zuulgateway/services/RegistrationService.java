@@ -30,6 +30,8 @@ public class RegistrationService {
         User user = toCustomerOrCompany(request);
         // 3. Call AccountValidationService to create a auto generated code to confirm account by email
         // 3.1 If account is validated, create permissions for user
+        // 4. Persist user into db
+        repository.save(user);
 
         return null;
     }
@@ -45,4 +47,5 @@ public class RegistrationService {
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         return toUser(request, role, hashedPassword);
     }
+
 }
