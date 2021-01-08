@@ -29,7 +29,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
 
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
@@ -52,7 +51,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
-
 
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(authResult.getName());
         String token = jwtUtils.generateToken(userDetails);

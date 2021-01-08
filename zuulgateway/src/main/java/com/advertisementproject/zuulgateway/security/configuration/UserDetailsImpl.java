@@ -16,7 +16,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("CoolKid"));
+        return List.of(new SimpleGrantedAuthority(user.getRole().toString()));
     }
 
     @Override
@@ -28,7 +28,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
-
 
     public User getUser() {
         return user;

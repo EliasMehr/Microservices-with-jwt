@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
@@ -28,16 +29,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
+                .cors()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/api/register").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/me").hasAnyAuthority("ORGANIZATION", "CUSTOMER")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                //Might be necessary, but it seems like it doesn't get triggered. We may want to refactor our structure later
-//                .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
                 .addFilterBefore(new JwtRequestFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
@@ -47,7 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public JwtUsernameAndPasswordAuthenticationFilter jwtUsernameAndPasswordAuthenticationFilter() throws Exception {
         JwtUsernameAndPasswordAuthenticationFilter jwtFilter = new JwtUsernameAndPasswordAuthenticationFilter(jwtUtils, userDetailsService);
         jwtFilter.setAuthenticationManager(authenticationManagerBean());
-        jwtFilter.setFilterProcessesUrl("/api/login");
+        jwtFilter.setFilterProcessesUrl("/login");
         return jwtFilter;
     }
 
@@ -63,17 +63,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public FilterRegistrationBean corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new org.springframework.web.filter.CorsFilter(source));
-        bean.setOrder(0);
-        return bean;
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
     }
 
 

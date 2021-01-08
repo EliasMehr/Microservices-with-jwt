@@ -17,11 +17,9 @@ import java.security.Principal;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     private final RegistrationService registrationService;
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /*
         This UserController manages Authentication for login and also the registration flow.

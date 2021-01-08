@@ -6,6 +6,7 @@ import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -31,8 +32,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException, RegistrationException {
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException, RegistrationException {
 
         String authorizationHeader = request.getHeader("Authorization");
         String subject;
@@ -57,7 +58,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
-                    null);
+                    userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
