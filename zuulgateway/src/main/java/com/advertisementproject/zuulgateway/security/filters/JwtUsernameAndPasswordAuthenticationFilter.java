@@ -3,13 +3,18 @@ package com.advertisementproject.zuulgateway.security.filters;
 import com.advertisementproject.zuulgateway.api.request.AuthenticationRequest;
 import com.advertisementproject.zuulgateway.api.response.AuthenticationResponse;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
+import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +30,9 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final JwtUtils jwtUtils;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -49,7 +57,18 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
 
-        String token = jwtUtils.generateToken(authResult.getName());
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(authResult.getName());
+
+//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+//                userDetails,
+//                null,
+//                null);
+//        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+        String token = jwtUtils.generateToken(userDetails);
+
+//        logger.info(usernamePasswordAuthenticationToken.getDetails().toString());
         AuthenticationResponse authResponse = new AuthenticationResponse(token);
         sendResponse(response, OK.value(), authResponse);
     }
