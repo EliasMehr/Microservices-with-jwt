@@ -24,6 +24,8 @@ zuul:
   routes:
     product:
       url: http://${CAMPAIGN_SERVICE_HOST:localhost}:8082/
+    user:
+      url: http://${USER_SERVICE_HOST:localhost}:8081/
   sensitive-headers: Cookie,Set-Cookie
 
 # Eureka client
