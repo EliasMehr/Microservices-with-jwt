@@ -27,7 +27,7 @@ services:
   user-service:
     build: ./user-service
     container_name: user-service
-    environment:g
+    environment:
       - EUREKA_HOST=${EUREKA_HOST}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

@@ -1,8 +1,8 @@
-package com.advertisementproject.zuulgateway.db.models;
+package com.advertisementproject.userservice.db.models;
 
-import com.advertisementproject.zuulgateway.api.request.RegistrationRequest;
-import com.advertisementproject.zuulgateway.db.models.types.CompanyType;
-import com.advertisementproject.zuulgateway.db.models.types.Role;
+import com.advertisementproject.userservice.api.request.RegistrationRequest;
+import com.advertisementproject.userservice.db.models.types.Role;
+import com.advertisementproject.userservice.db.models.types.CompanyType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -77,4 +77,5 @@ public class User {
                 .enabled(false)
                 .build();
     }
+
 }
