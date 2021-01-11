@@ -4,15 +4,18 @@ import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.Role;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-
 import static com.advertisementproject.userservice.db.models.types.Role.CUSTOMER;
 
 @Service
 public class ValidationService {
 
-    public void validateUser(@Valid User user){
-        if(!isValidIdentificationNumber(user.getIdentificationNumber(), user.getRole())){
+//    public void validateUser(@Valid User user){
+//        if(!isValidIdentificationNumber(user.getIdentificationNumber(), user.getRole())){
+//            throw new IllegalArgumentException("Invalid identificationNumber");
+//        }
+//    }
+    public void validateIdentificationNumber(User user){
+        if (!isValidIdentificationNumber(user.getIdentificationNumber(), user.getRole())) {
             throw new IllegalArgumentException("Invalid identificationNumber");
         }
     }

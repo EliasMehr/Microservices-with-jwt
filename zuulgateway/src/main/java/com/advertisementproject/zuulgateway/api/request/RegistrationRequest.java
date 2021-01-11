@@ -14,7 +14,7 @@ public class RegistrationRequest {
     private final String phoneNumber;
     private final String address;
     private final String city;
-    private final int zipCode;
+    private final String zipCode;
     private final String email;
     private final String password;
     private final CompanyType type = NOT_SPECIFIED;

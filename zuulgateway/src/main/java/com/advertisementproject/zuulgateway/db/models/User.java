@@ -39,8 +39,8 @@ public class User {
     @Size(min = 2, max = 20, message = "City must be 2-20 characters long")
     private String city;
 
-    @Size(min = 5, max = 5, message = "Zip code must be 5 digits long")
-    private int zipCode;
+    @Pattern( regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits long")
+    private String zipCode;
 
     @Column(unique = true)
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Must enter an valid email")

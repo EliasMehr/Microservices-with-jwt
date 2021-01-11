@@ -24,22 +24,19 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final ValidationService validationService;
 
-    public void registerUser(RegistrationRequest registrationRequest) {
+    public User registerUser(RegistrationRequest registrationRequest) {
         User user = toUser(registrationRequest);
-        validationService.validateUser(user);
+        validationService.validateIdentificationNumber(user);
         userRepository.save(user);
-        //TODO validate identification number and make sure any other validation is being done correctly
+        //TODO validate identification number and make sure any other validation is being done correctly (custom validator for User?)
         //TODO send request to email service to send email for validation
+
+        return user;
     }
 
     private User toUser(RegistrationRequest request) {
         Role role = request.getType() == CompanyType.NOT_SPECIFIED ? CUSTOMER : ORGANIZATION;
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         return User.toUser(request, role, hashedPassword);
-    }
-
-    @Bean
-    public PasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder(12, new SecureRandom());
     }
 }

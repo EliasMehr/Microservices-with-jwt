@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.UUID;
@@ -25,27 +26,35 @@ public class User {
     @Id
     private UUID id;
 
+    @NotNull(message = "Identification number must not be null")
     private String identificationNumber;
 
+    @NotNull
     @Size(min = 2, max = 20, message = "First name must be 2-20 characters long")
     private String firstName;
 
+    @NotNull
     @Size(min = 2, max = 20, message = "Last name must be 2-20 characters long")
     private String lastName;
 
+    @NotNull
     @Size(min = 2, max = 20, message = "Address must be 2-20 characters long")
     private String address;
 
+    @NotNull
     @Size(min = 2, max = 20, message = "City must be 2-20 characters long")
     private String city;
 
-    @Size(min = 5, max = 5, message = "Zip code must be 5 digits long")
-    private int zipCode;
+    @NotNull
+    @Pattern( regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits long")
+    private String zipCode;
 
     @Column(unique = true)
+    @NotNull
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Must enter an valid email")
     private String email;
 
+    @NotNull
     @Pattern( regexp = "^[0-9]{10}$", message = "PhoneNumber must be exactly 10 digits")
     private String phoneNumber;
 
