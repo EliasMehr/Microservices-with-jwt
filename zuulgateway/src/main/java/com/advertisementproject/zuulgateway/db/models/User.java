@@ -18,7 +18,7 @@ import static javax.persistence.EnumType.STRING;
 @Getter
 @Setter
 @Builder
-@Table(name = "users")
+@Table(name = "users2")
 @Entity
 public class User {
 

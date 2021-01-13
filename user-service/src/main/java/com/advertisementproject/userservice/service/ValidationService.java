@@ -3,18 +3,23 @@ package com.advertisementproject.userservice.service;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.Role;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 
 import static com.advertisementproject.userservice.db.models.types.Role.CUSTOMER;
 
 @Service
+@Validated
 public class ValidationService {
 
-//    public void validateUser(@Valid User user){
+    //    public void validateUser(@Valid User user){
 //        if(!isValidIdentificationNumber(user.getIdentificationNumber(), user.getRole())){
 //            throw new IllegalArgumentException("Invalid identificationNumber");
 //        }
 //    }
-    public void validateIdentificationNumber(User user){
+    public void validateUser(@Valid @RequestBody User user) {
         if (!isValidIdentificationNumber(user.getIdentificationNumber(), user.getRole())) {
             throw new IllegalArgumentException("Invalid identificationNumber");
         }

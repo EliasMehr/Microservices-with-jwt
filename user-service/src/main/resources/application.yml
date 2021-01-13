@@ -4,14 +4,14 @@ spring:
     name: user-service
 
 # Database configuration
-jpa:
-  hibernate:
-    ddl-auto: update
-  properties:
+  jpa:
     hibernate:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-jooq:
-  sql-dialect: Postgres
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jooq:
+    sql-dialect: Postgres
 
 # Application server port
 server:
