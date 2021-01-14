@@ -1,13 +1,13 @@
-package com.advertisementproject.userservice.service;
+package com.advertisementproject.userservice.serviceTest;
 
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.CompanyType;
 import com.advertisementproject.userservice.db.models.types.Role;
 import com.advertisementproject.userservice.db.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeAll;
+import com.advertisementproject.userservice.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,28 +16,32 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @ActiveProfiles("test")
 @Testcontainers
-@DataJpaTest
+//@DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class RegistrationServiceTest {
 
 
-//    private final RegistrationService registrationService;
-    @Autowired
+    //    private final RegistrationService registrationService;
     UserRepository repository;
-//    @Autowired
-//    RegistrationService registrationService;
+    private final UserService userService;
+
+    @Autowired
+    public RegistrationServiceTest(UserRepository repository, UserService userService) {
+        this.repository = repository;
+        this.userService = userService;
+    }
 
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.0");
@@ -78,7 +82,7 @@ class RegistrationServiceTest {
                 .city("Stockholm")
                 .zipCode("11134")
                 .email("kontakt@adlibris.se")
-                .phoneNumber("0844140501") //TODO allow phone numbers such as 08-etc? 1 at the end is not part of a real number
+                .phoneNumber("084414050") //TODO allow phone numbers such as 08-etc? 1 at the end is not part of a real number
                 .identificationNumber("556261-3512")
                 .companyType(CompanyType.RETAIL)
                 .enabled(true)
@@ -98,5 +102,6 @@ class RegistrationServiceTest {
 
     @Test
     void registerUser() {
+
     }
 }
