@@ -23,7 +23,6 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<User> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
 
-        //TODO fix so rawPassword doesn't show for User (transient or ResponseUserClass)
         //TODO fix validation for enums and make sure CompanyType registers correctly (Custom enum validator?)
         //TODO fix validation for identificationNumber
         //TODO fix proper error message when trying to register with an already existing email

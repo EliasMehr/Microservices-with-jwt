@@ -3,6 +3,8 @@ package com.advertisementproject.userservice.db.models;
 import com.advertisementproject.userservice.api.request.RegistrationRequest;
 import com.advertisementproject.userservice.db.models.types.CompanyType;
 import com.advertisementproject.userservice.db.models.types.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -61,13 +63,14 @@ public class User {
     private String phoneNumber;
 
     @Transient
+    @JsonIgnore
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",
             message = "Password must contain at least one digit [0-9], " +
                     "at least one lowercase Latin character [a-z], " +
                     "at least one uppercase Latin character [A-Z], " +
                     "at least one special character like ! @ # & ( ) " +
                     "and have a length of at least 8 characters and a maximum of 20 characters")
-    private transient String rawPassword;
+    private String rawPassword;
 
     @NotNull
     @Size(min = 60, max = 60)
