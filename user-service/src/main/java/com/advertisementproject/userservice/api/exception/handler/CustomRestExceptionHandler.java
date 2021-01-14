@@ -1,8 +1,10 @@
 package com.advertisementproject.userservice.api.exception.handler;
 
+import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
 import com.advertisementproject.userservice.api.response.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,16 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return getAndLogApiError(ex, HttpStatus.BAD_REQUEST, errors);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        logger.info(ex.getClass().getName());
+        //
+        final String error = ex.getValue() + " value for " + ex.getPropertyName() + " should be of type " + ex.getRequiredType();
+        List<String> errors = Collections.singletonList(error);
+
+        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST, errors);
+    }
+
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(
             ConstraintViolationException ex) {
@@ -52,12 +64,22 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return getAndLogApiError(HttpStatus.BAD_REQUEST, errors, "Field error(s) for request");
     }
 
+    @ExceptionHandler({EmailAlreadyRegisteredException.class})
+    public ResponseEntity<Object> handleConflictError(Exception ex) {
+        List<String> errors = Collections.singletonList("Could not register user: " + ex.getClass().getSimpleName());
+        logger.warn(Arrays.toString(ex.getStackTrace()));
+        return getAndLogApiError(ex, HttpStatus.CONFLICT, errors);
+    }
+
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleInternalServerError(Exception ex) {
         List<String> errors = Collections.singletonList("An internal error occured: " + ex.getClass().getSimpleName());
         logger.warn(Arrays.toString(ex.getStackTrace()));
         return getAndLogApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR, errors);
     }
+
+
+
 
     private ResponseEntity<Object> getAndLogApiError(Exception ex, HttpStatus httpStatus, List<String> errors) {
         ApiError apiError = ApiError.builder()

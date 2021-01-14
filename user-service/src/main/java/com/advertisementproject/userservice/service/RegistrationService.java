@@ -18,21 +18,18 @@ import static com.advertisementproject.userservice.db.models.types.Role.ORGANIZA
 public class RegistrationService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final ValidationService validationService;
 
     public User registerUser(RegistrationRequest registrationRequest) {
+        validationService.validateNotAlreadyRegistered(registrationRequest.getEmail());
         User user = toUser(registrationRequest);
         validationService.validateUser(user);
-//        encodeUserPassword(user);
         userRepository.save(user);
         //TODO validate identification number and make sure any other validation is being done correctly (custom validator for User?)
         //TODO send request to email service to send email for validation
-
         return user;
     }
 
-//    private void encodeUserPassword(User user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//    }
+
+
 }

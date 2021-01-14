@@ -2,8 +2,13 @@ package com.advertisementproject.userservice.api;
 
 import com.advertisementproject.userservice.api.request.RegistrationRequest;
 import com.advertisementproject.userservice.db.models.User;
+import com.advertisementproject.userservice.db.models.types.CompanyType;
 import com.advertisementproject.userservice.service.RegistrationService;
+import com.google.common.base.Enums;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.enums.EnumUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,12 +23,14 @@ import javax.validation.Valid;
 public class UserController {
 
     private final RegistrationService registrationService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @PostMapping("register")
     public ResponseEntity<User> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
 
-        //TODO fix validation for enums and make sure CompanyType registers correctly (Custom enum validator?)
+        logger.info("REQ TYPE " + registrationRequest.getType().toString());
+        //TODO fix custom message for enum
         //TODO fix validation for identificationNumber
         //TODO fix proper error message when trying to register with an already existing email
         //TODO Remove User entity, registrationRequest etc from Zuul and replace User in UserDetailsImpl with UserCredentials

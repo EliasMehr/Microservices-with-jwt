@@ -4,8 +4,9 @@ import com.advertisementproject.userservice.api.request.RegistrationRequest;
 import com.advertisementproject.userservice.db.models.types.CompanyType;
 import com.advertisementproject.userservice.db.models.types.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ import static javax.persistence.EnumType.STRING;
 @Table(name = "users")
 @Entity
 public class User {
+
+    private static final Logger logger = LoggerFactory.getLogger(User.class);
+
 
     @Id
     private UUID id;
@@ -85,8 +89,10 @@ public class User {
     private boolean enabled = false;
 
     public static User toUser(RegistrationRequest request) {
-        Role role = request.getType() == null ? CUSTOMER : ORGANIZATION;
-        CompanyType companyType = request.getType() == null ? CompanyType.NOT_SPECIFIED : request.getType();
+
+        Role role = request.getType() == CompanyType.NOT_SPECIFIED ? CUSTOMER : ORGANIZATION;
+//        CompanyType companyType = request.getType() == null ? CompanyType.NOT_SPECIFIED : request.getType();
+        logger.info("Role = " + role + " request type = " + request.getType());
         return builder()
                 .id(UUID.randomUUID())
                 .identificationNumber(request.getIdentificationNumber())
@@ -98,7 +104,7 @@ public class User {
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .role(role)
-                .companyType(companyType)
+                .companyType(request.getType())
                 .rawPassword(request.getPassword())
                 .hashedPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()))
                 .enabled(false)
