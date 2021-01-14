@@ -32,7 +32,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register", "/user/register").permitAll()
+                .antMatchers("/register", "/user/**").permitAll()
                 .antMatchers("/me").hasAnyAuthority("ORGANIZATION", "CUSTOMER")
                 .anyRequest()
                 .authenticated()
