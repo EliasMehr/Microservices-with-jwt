@@ -1,6 +1,7 @@
 package com.advertisementproject.userservice.api.exception.handler;
 
 import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
+import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
 import com.advertisementproject.userservice.api.response.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +70,13 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> errors = Collections.singletonList("Could not register user: " + ex.getClass().getSimpleName());
         logger.warn(Arrays.toString(ex.getStackTrace()));
         return getAndLogApiError(ex, HttpStatus.CONFLICT, errors);
+    }
+
+    @ExceptionHandler({IdentificationNumberException.class})
+    public ResponseEntity<Object> handleCustomBadRequestExceptions(Exception ex) {
+        List<String> errors = Collections.singletonList("Bad request syntax: " + ex.getClass().getSimpleName());
+        logger.warn(Arrays.toString(ex.getStackTrace()));
+        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST, errors);
     }
 
     @ExceptionHandler({Exception.class})

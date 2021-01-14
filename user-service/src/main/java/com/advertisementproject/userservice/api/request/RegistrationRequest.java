@@ -25,5 +25,5 @@ public class RegistrationRequest {
     @NotNull
     private final String password;
 
-    private final CompanyType type = CompanyType.NOT_SPECIFIED;
+    private final CompanyType companyType = CompanyType.NOT_SPECIFIED;
 }

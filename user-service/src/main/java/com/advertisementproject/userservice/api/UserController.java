@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<User> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
 
-        logger.info("REQ TYPE " + registrationRequest.getType().toString());
+        logger.info("REQ TYPE " + registrationRequest.getCompanyType().toString());
         //TODO fix custom message for enum
         //TODO fix validation for identificationNumber
         //TODO fix proper error message when trying to register with an already existing email

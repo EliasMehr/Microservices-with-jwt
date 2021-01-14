@@ -90,9 +90,9 @@ public class User {
 
     public static User toUser(RegistrationRequest request) {
 
-        Role role = request.getType() == CompanyType.NOT_SPECIFIED ? CUSTOMER : ORGANIZATION;
+        Role role = request.getCompanyType() == CompanyType.NOT_SPECIFIED ? CUSTOMER : ORGANIZATION;
 //        CompanyType companyType = request.getType() == null ? CompanyType.NOT_SPECIFIED : request.getType();
-        logger.info("Role = " + role + " request type = " + request.getType());
+        logger.info("Role = " + role + " request type = " + request.getCompanyType());
         return builder()
                 .id(UUID.randomUUID())
                 .identificationNumber(request.getIdentificationNumber())
@@ -104,7 +104,7 @@ public class User {
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .role(role)
-                .companyType(request.getType())
+                .companyType(request.getCompanyType())
                 .rawPassword(request.getPassword())
                 .hashedPassword(new BCryptPasswordEncoder(12).encode(request.getPassword()))
                 .enabled(false)
