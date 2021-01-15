@@ -1,13 +1,14 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
 import com.advertisementproject.zuulgateway.api.exceptions.ErrorMessage;
-import com.advertisementproject.zuulgateway.api.exceptions.ResponseException;
+import com.advertisementproject.zuulgateway.api.exceptions.RegistrationException;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
+import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,8 +32,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException, ResponseException {
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException, RegistrationException {
 
         String authorizationHeader = request.getHeader("Authorization");
         String subject;
@@ -50,14 +51,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             sendResponse(response, responseMessage.getStatusCode(), responseMessage);
             return;
         }
-        UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(subject);
 
         if (jwtUtils.validateToken(authorizationHeader, userDetails)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
-                    null);
-
+                    userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }

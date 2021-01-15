@@ -11,5 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 public class AuthenticationResponse implements Serializable {
-    private  String token;
+    private String token;
 }

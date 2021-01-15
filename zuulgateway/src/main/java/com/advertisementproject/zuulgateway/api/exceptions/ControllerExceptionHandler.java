@@ -9,15 +9,13 @@ import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler extends ResponseStatusExceptionHandler {
 
-    @ExceptionHandler(ResponseException.class)
+    @ExceptionHandler(RegistrationException.class)
     @ResponseBody
-    protected ResponseEntity<ErrorMessage> handleJwtException(ResponseException exception) {
+    protected ResponseEntity<ErrorMessage> handleJwtException(RegistrationException exception) {
         return build(
                 ErrorMessage.builder()
                         .statusCode(401)

@@ -43,8 +43,9 @@ public class LoginTest {
     public void shouldRegisterUser() {
         User user = new User();
         user.setId(UUID.randomUUID());
-        user.setUsername("Teletubbies");
-        user.setPassword("OKejDaniel");
+        user.setEmail("teletubbies@hotmail.com");
+        user.setHashedPassword("OKejDaniel");
+        user.setPhoneNumber("0709724042");
         user.setEnabled(true);
         repository.save(user);
         Optional<User> userFromDB = repository.findById(user.getId());

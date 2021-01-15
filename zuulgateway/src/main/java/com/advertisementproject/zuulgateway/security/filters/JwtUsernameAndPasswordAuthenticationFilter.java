@@ -3,6 +3,8 @@ package com.advertisementproject.zuulgateway.security.filters;
 import com.advertisementproject.zuulgateway.api.request.AuthenticationRequest;
 import com.advertisementproject.zuulgateway.api.response.AuthenticationResponse;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
+import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -25,6 +27,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final JwtUtils jwtUtils;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -49,7 +52,9 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
 
-        String token = jwtUtils.generateToken(authResult.getName());
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(authResult.getName());
+        String token = jwtUtils.generateToken(userDetails);
+
         AuthenticationResponse authResponse = new AuthenticationResponse(token);
         sendResponse(response, OK.value(), authResponse);
     }
