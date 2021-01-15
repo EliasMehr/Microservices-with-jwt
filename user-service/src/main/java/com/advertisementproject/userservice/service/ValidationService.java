@@ -2,10 +2,12 @@ package com.advertisementproject.userservice.service;
 
 import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
+import com.advertisementproject.userservice.api.exception.UserNotFoundException;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.Role;
 import com.advertisementproject.userservice.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +20,18 @@ import java.text.SimpleDateFormat;
 import static com.advertisementproject.userservice.db.models.types.Role.CUSTOMER;
 
 @Service
-@RequiredArgsConstructor
 @Validated
 public class ValidationService {
 
-    private final UserRepository userRepository;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public void validateNotAlreadyRegistered(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
+        if(userService.emailAlreadyExists(email)){
             throw new EmailAlreadyRegisteredException("Email is already registered for email: " + email);
         }
     }

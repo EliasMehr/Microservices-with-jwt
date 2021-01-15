@@ -1,22 +1,24 @@
 package com.advertisementproject.userservice.serviceTest;
 
+import com.advertisementproject.userservice.api.exception.UserNotFoundException;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.CompanyType;
 import com.advertisementproject.userservice.db.models.types.Role;
 import com.advertisementproject.userservice.db.repository.UserRepository;
 import com.advertisementproject.userservice.service.UserService;
+import com.advertisementproject.userservice.service.ValidationService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,21 +28,18 @@ import java.util.UUID;
 
 @ActiveProfiles("test")
 @Testcontainers
-//@DataJpaTest
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@RunWith(SpringRunner.class)
-@SpringBootTest
-class RegistrationServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+class UserServiceTest {
 
-
-    //    private final RegistrationService registrationService;
-    UserRepository repository;
+    private final UserRepository repository;
     private final UserService userService;
 
     @Autowired
-    public RegistrationServiceTest(UserRepository repository, UserService userService) {
+    public UserServiceTest(UserRepository repository) {
         this.repository = repository;
-        this.userService = userService;
+        this.userService = new UserService(repository, new ValidationService());
     }
 
     @Container
@@ -82,7 +81,7 @@ class RegistrationServiceTest {
                 .city("Stockholm")
                 .zipCode("11134")
                 .email("kontakt@adlibris.se")
-                .phoneNumber("084414050") //TODO allow phone numbers such as 08-etc? 1 at the end is not part of a real number
+                .phoneNumber("0844140501") //TODO allow phone numbers such as 08-etc? 1 at the end is not part of a real number
                 .identificationNumber("556261-3512")
                 .companyType(CompanyType.RETAIL)
                 .enabled(true)
@@ -103,5 +102,30 @@ class RegistrationServiceTest {
     @Test
     void registerUser() {
 
+        //TODO make this a registration test!
+        User userKalle = User.builder()
+                .id(UUID.fromString("9a42a264-529e-43b6-ad4d-9a832a91f927"))
+                .firstName("Erik")
+                .lastName("Andersson")
+                .address("Kvartersgatan 23")
+                .city("Kista")
+                .zipCode("11642")
+                .email("epic_hero@gmail.com")
+                .phoneNumber("0713123476")
+                .identificationNumber("19891011-1957")
+                .companyType(CompanyType.NOT_SPECIFIED)
+                .enabled(true)
+                .rawPassword("Knattarna12!")
+                .hashedPassword(new BCryptPasswordEncoder(12).encode("Knattarna12!"))
+                .role(Role.CUSTOMER)
+                .build();
+        repository.save(userKalle);
+
+        Assertions.assertEquals("epic_hero@gmail.com", userService.findUserById(UUID.fromString("9a42a264-529e-43b6-ad4d-9a832a91f927")).getEmail());
+    }
+
+    @Test
+    void getUserExpectNotFound() {
+        Assertions.assertThrows(UserNotFoundException.class, () -> userService.findUserById(UUID.fromString("9a42a264-529e-43b6-ad4d-9a832a91f927")));
     }
 }

@@ -7,6 +7,7 @@ import com.advertisementproject.userservice.db.models.types.CompanyType;
 import com.advertisementproject.userservice.db.models.types.Role;
 import com.advertisementproject.userservice.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +70,9 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User not found for id: " + id);
         }
+    }
 
-
+    public boolean emailAlreadyExists(String email){
+        return userRepository.existsByEmail(email);
     }
 }
