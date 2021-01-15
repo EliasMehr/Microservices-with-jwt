@@ -30,7 +30,6 @@ import java.util.UUID;
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@RunWith(SpringJUnit4ClassRunner.class)
 class UserServiceTest {
 
     private final UserRepository repository;
