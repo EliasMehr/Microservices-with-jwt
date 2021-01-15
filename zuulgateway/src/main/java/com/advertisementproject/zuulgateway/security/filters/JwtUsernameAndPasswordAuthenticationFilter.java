@@ -8,6 +8,7 @@ import com.advertisementproject.zuulgateway.security.configuration.UserDetailsSe
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -28,6 +29,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -40,7 +42,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                     authenticationRequest.getUsername(),  // Principal
                     authenticationRequest.getPassword()); // Credentials
 
-            return getAuthenticationManager().authenticate(authentication);
+            return authenticationManager.authenticate(authentication);
         } catch (IOException e) {
             throw new AuthenticationCredentialsNotFoundException(e.getMessage());
         }
