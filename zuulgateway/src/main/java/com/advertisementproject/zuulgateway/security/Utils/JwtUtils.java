@@ -1,7 +1,6 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
-import io.jsonwebtoken.Claims;
+import com.advertisementproject.zuulgateway.services.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 public class JwtUtils {

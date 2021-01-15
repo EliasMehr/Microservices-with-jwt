@@ -10,11 +10,6 @@ import java.security.SecureRandom;
 @Configuration
 public class BCryptPassEncoder {
 
-        /*
-            BCrypt Password Encoder configured with SecureRandom Algorithm!
-            DO NOT CHANGE "strength" to maintain performance
-         */
-
     @Bean
     public PasswordEncoder bcryptPasswordEncoder() {
         return new BCryptPasswordEncoder(12, new SecureRandom());
