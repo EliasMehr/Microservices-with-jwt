@@ -33,30 +33,11 @@ public class JwtUtils {
         return createToken(claims, userDetails.getUser().getId().toString());
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-
-    public boolean validateToken(String token, UserDetailsImpl userDetails) {
-        final String userId = extractSubject(token);
-        return (userId.equals(userDetails.getUser().getId().toString()) && !isTokenExpired(token));
-    }
-
     public String extractSubject(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    private Claims extractAllClaims(String token) {
             return Jwts.parser()
                     .setSigningKey(JWT_SECRET)
                     .parseClaimsJws(token)
-                    .getBody();
+                    .getBody().getSubject();
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -69,9 +50,6 @@ public class JwtUtils {
                 .compact();
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
 
     private Date generateExpirationDate() {
         Instant expiry = Instant.now().plus(EXPIRATION_VALUE, ChronoUnit.HOURS);

@@ -5,6 +5,7 @@ import com.advertisementproject.zuulgateway.api.exceptions.RegistrationException
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.configuration.UserDetailsServiceImpl;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,31 +37,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException, RegistrationException {
 
         String authorizationHeader = request.getHeader("Authorization");
-        String subject;
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        String userId;
+        String token = authorizationHeader.replace("Bearer ", "");
+
         try {
-            authorizationHeader = authorizationHeader.substring(7);
-            subject = jwtUtils.extractSubject(authorizationHeader);
-        } catch (Exception e) {
-            ErrorMessage responseMessage = toResponseMessage(e.getMessage(), SC_UNAUTHORIZED);
-            sendResponse(response, responseMessage.getStatusCode(), responseMessage);
-            return;
-        }
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(subject);
-
-        if (jwtUtils.validateToken(authorizationHeader, userDetails)) {
+            userId = jwtUtils.extractSubject(token);
+            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(userId);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
                     userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        } catch (JwtException e) {
+            ErrorMessage responseMessage = toResponseMessage(e.getMessage(), SC_UNAUTHORIZED);
+            sendResponse(response, responseMessage.getStatusCode(), responseMessage);
+            return;
         }
 
         filterChain.doFilter(request, response);
