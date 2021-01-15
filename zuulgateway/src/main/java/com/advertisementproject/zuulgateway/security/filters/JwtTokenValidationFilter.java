@@ -26,7 +26,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 @Component
 @RequiredArgsConstructor
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;

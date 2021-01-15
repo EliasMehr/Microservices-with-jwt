@@ -1,10 +1,9 @@
 package com.advertisementproject.zuulgateway.security.configuration;
 
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
-import com.advertisementproject.zuulgateway.security.filters.JwtRequestFilter;
+import com.advertisementproject.zuulgateway.security.filters.JwtTokenValidationFilter;
 import com.advertisementproject.zuulgateway.security.filters.JwtUsernameAndPasswordAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(jwtUsernameAndPasswordAuthenticationFilter())
-                .addFilterBefore(new JwtRequestFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenValidationFilter(jwtUtils, userDetailsService), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests();
     }
 
