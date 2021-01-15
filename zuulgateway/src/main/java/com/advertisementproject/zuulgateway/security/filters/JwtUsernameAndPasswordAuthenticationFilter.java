@@ -20,9 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendResponse;
-import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toResponseMessage;
+import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toErrorResponse;
+import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendErrorResponse;
+
+import static javax.servlet.http.HttpServletResponse.*;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RequiredArgsConstructor
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -55,7 +57,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             Authentication authResult) throws IOException {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(authResult.getName());
-        String token = jwtUtils.generateToken(userDetails);
+        String token = jwtUtils.createToken(userDetails);
 
         AuthenticationResponse authResponse = new AuthenticationResponse(token);
         sendResponse(response, OK.value(), authResponse);
@@ -66,7 +68,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                               HttpServletResponse response,
                                               AuthenticationException failed) throws IOException {
 
-        sendResponse(response, UNAUTHORIZED.value(), toResponseMessage(failed.getMessage(), 401));
+        sendErrorResponse(response, toErrorResponse(failed.getMessage(), SC_UNAUTHORIZED));
     }
 
 }

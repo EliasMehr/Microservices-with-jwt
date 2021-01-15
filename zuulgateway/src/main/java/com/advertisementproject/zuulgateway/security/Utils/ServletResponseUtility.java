@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.api.exceptions.ErrorMessage;
+import com.advertisementproject.zuulgateway.api.exceptions.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +22,20 @@ public class ServletResponseUtility {
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON);
         new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
-
-        logger.warn(responseBody.toString());
         response.getOutputStream().flush();
 
     }
 
-    public static ErrorMessage toResponseMessage(String responseMsg, int statusCode) {
-        return ErrorMessage.builder()
+    public static void sendErrorResponse(HttpServletResponse response,
+                                         ErrorResponse errorResponse) throws IOException {
+
+        logger.warn(errorResponse.toString());
+        sendResponse(response, errorResponse.getStatusCode(), errorResponse);
+
+    }
+
+    public static ErrorResponse toErrorResponse(String responseMsg, int statusCode) {
+        return ErrorResponse.builder()
                 .timestamp(toCurrentDate())
                 .statusCode(statusCode)
                 .message(responseMsg)

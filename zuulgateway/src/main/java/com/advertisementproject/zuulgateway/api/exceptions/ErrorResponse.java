@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class ErrorMessage {
+public class ErrorResponse {
 
     private final int statusCode;
     private final String timestamp;

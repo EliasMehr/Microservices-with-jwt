@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
-import com.advertisementproject.zuulgateway.api.exceptions.ErrorMessage;
+import com.advertisementproject.zuulgateway.api.exceptions.ErrorResponse;
 import com.advertisementproject.zuulgateway.api.exceptions.RegistrationException;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.services.UserDetailsImpl;
@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendResponse;
-import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toResponseMessage;
+import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toErrorResponse;
+import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendErrorResponse;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 @Component
@@ -43,21 +45,20 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String userId;
         String token = authorizationHeader.replace("Bearer ", "");
 
         try {
-            userId = jwtUtils.extractSubject(token);
+            String userId = jwtUtils.extractSubject(token);
             UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(userId);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
                     userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        } catch (JwtException e) {
-            ErrorMessage responseMessage = toResponseMessage(e.getMessage(), SC_UNAUTHORIZED);
-            sendResponse(response, responseMessage.getStatusCode(), responseMessage);
+        } catch (JwtException | UsernameNotFoundException e) {
+            sendErrorResponse(response, toErrorResponse(e.getMessage(), SC_UNAUTHORIZED));
             return;
         }
 

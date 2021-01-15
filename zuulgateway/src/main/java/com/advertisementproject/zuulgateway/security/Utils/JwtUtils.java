@@ -17,28 +17,26 @@ public class JwtUtils {
     private final Long EXPIRATION_VALUE = 24L;
     private final String JWT_SECRET = "ABCABCABCABCABCABCABCABCABCABCABCABCABC";
 
-    /*
-        To add custom claims, put key and value in the generateToken method!
-        for instance -> admin: true or false based on userDetails
-     */
 
-    // TODO -> We should insert the users id in the claims to validate all requests through our
-    // TODO -> communication layers, we dont want an unauthorized user to retrieve data about another user if that's the case
-
-    public String generateToken(UserDetailsImpl userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("authorities", userDetails.getAuthorities());
-        return createToken(claims, userDetails.getUser().getId().toString());
-    }
+//    public String generateToken(UserDetailsImpl userDetails) {
+//        Map<String, Object> claims = new HashMap<>();
+//        claims.put("authorities", userDetails.getAuthorities());
+//        return createToken(claims, userDetails.getUser().getId().toString());
+//    }
 
     public String extractSubject(String token) {
             return Jwts.parser()
                     .setSigningKey(JWT_SECRET)
                     .parseClaimsJws(token)
-                    .getBody().getSubject();
+                    .getBody()
+                    .getSubject();
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String createToken(UserDetailsImpl userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("authorities", userDetails.getAuthorities());
+        String subject = userDetails.getUser().getId().toString();
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
