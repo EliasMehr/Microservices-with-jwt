@@ -1,5 +1,6 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
+import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.JwtException;
@@ -32,7 +33,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException, RegistrationException {
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -45,7 +46,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
         try {
             String userId = jwtUtils.extractSubject(token);
-            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(userId);
+            UserDetailsImpl userDetails = userDetailsService.loadUserById(userId);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(
                     userDetails,

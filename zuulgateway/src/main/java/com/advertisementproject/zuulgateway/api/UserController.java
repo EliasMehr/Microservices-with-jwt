@@ -1,6 +1,9 @@
 package com.advertisementproject.zuulgateway.api;
 
+import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -12,12 +15,12 @@ public class UserController {
         All Requests should be handled with POJO's to ensure data-hiding and to not expose sensitive
         data concerning a user. All POJO's should have constrains
      */
-//    @GetMapping("/me")
-//    public ResponseEntity<?> me() {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        User currentUser = ((UserDetailsImpl) principal).getUser();
-//        return ResponseEntity.ok(currentUser);
-//    }
+    @GetMapping("/me")
+    public ResponseEntity<?> me() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        UserDetailsImpl currentUser = ((UserDetailsImpl) principal).getUser();
+        return ResponseEntity.ok(principal);
+    }
 
 }
 

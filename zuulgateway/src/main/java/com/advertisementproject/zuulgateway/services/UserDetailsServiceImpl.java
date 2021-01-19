@@ -1,5 +1,6 @@
 package com.advertisementproject.zuulgateway.services;
 
+import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.db.repositories.UserDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,15 +17,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserDetailsRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetailsImpl loadUserByUsername(String email) throws UsernameNotFoundException {
         return repository.findByEmail(email)
-                .map(UserDetailsImpl::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public UserDetails loadUserById(String id) throws UsernameNotFoundException {
+    public UserDetailsImpl loadUserById(String id) throws UsernameNotFoundException {
         return repository.findById(UUID.fromString(id))
-                .map(UserDetailsImpl::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

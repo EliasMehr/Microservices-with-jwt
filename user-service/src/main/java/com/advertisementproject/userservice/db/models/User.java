@@ -31,26 +31,10 @@ public class User {
     @Id
     private UUID id;
 
-    @NotNull
-    @Size(min = 2, max = 20, message = "Address must be 2-20 characters long")
-    private String address;
-
-    @NotNull
-    @Size(min = 2, max = 20, message = "City must be 2-20 characters long")
-    private String city;
-
-    @NotNull
-    @Pattern( regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits long")
-    private String zipCode;
-
     @Column(unique = true)
     @NotNull
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Must enter an valid email")
     private String email;
-
-    @NotNull
-    @Pattern(regexp = "^[0-9]{10}$", message = "PhoneNumber must be exactly 10 digits")
-    private String phoneNumber;
 
     @Transient
     @JsonIgnore
@@ -66,8 +50,24 @@ public class User {
     @Size(min = 60, max = 60)
     private String hashedPassword;
 
+    @NotNull
+    @Pattern(regexp = "^[0-9]{10}$", message = "PhoneNumber must be exactly 10 digits")
+    private String phoneNumber;
+
     @Enumerated(STRING)
     private Role role;
+
+    @NotNull
+    @Size(min = 2, max = 20, message = "Address must be 2-20 characters long")
+    private String address;
+
+    @NotNull
+    @Size(min = 2, max = 20, message = "City must be 2-20 characters long")
+    private String city;
+
+    @NotNull
+    @Pattern( regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits long")
+    private String zipCode;
 
     private boolean enabled = false;
 
