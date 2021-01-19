@@ -28,7 +28,7 @@ public class EmailService {
             helper.setText(emailTemplate, true);
             helper.setTo(toEmail);
             helper.setSubject("Confirm your email");
-            helper.setFrom("hello@amigoscode.com");
+            helper.setFrom("campaignemailhandler@gmail.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             log.warn("failed to send email", e);
