@@ -2,11 +2,10 @@ package com.advertisementproject.userservice.service;
 
 import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
-import com.advertisementproject.userservice.api.exception.UserNotFoundException;
+import com.advertisementproject.userservice.db.models.Company;
+import com.advertisementproject.userservice.db.models.Customer;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.Role;
-import com.advertisementproject.userservice.db.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -36,20 +35,21 @@ public class ValidationService {
         }
     }
 
-    public void validateUser(@Valid @RequestBody User user) {
-        if (!isValidIdentificationNumber(user.getIdentificationNumber(), user.getRole())) {
-            String errorMessage = user.getRole() == CUSTOMER ? "Invalid personal number" : "Invalid organization number";
-            throw new IdentificationNumberException(errorMessage);
+    public void validateUser(@Valid @RequestBody User user) {}
+
+    public void validateCustomer(@Valid @RequestBody Customer customer){
+        if(!isValidPersonalIdNumber(customer.getPersonalIdNumber())){
+            throw new IdentificationNumberException("Invalid personal ID number");
         }
     }
 
-    private boolean isValidIdentificationNumber(String identificationNumber, Role role){
-        //TODO Fix actual validation!!!
-        //Would have to be changed if more roles are added
-        return role == CUSTOMER ? isValidPersonalNumber(identificationNumber) : isValidOrganizationNumber(identificationNumber);
+    public void validateCompany(@Valid @RequestBody Company company){
+        if(!isValidOrganizationNumber(company.getOrganizationNumber())){
+            throw new IdentificationNumberException("Invalid organization number");
+        }
     }
 
-    private boolean isValidPersonalNumber(String input){
+    private boolean isValidPersonalIdNumber(String input){
         boolean isValid = false;
 
         if (input.length() == 13 && input.charAt(8) == '-') {
