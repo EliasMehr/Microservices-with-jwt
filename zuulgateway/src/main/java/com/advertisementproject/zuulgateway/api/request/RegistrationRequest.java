@@ -1,6 +1,5 @@
 package com.advertisementproject.zuulgateway.api.request;
 
-import com.advertisementproject.zuulgateway.db.models.types.CompanyType;
 import lombok.Data;
 
 import static com.advertisementproject.zuulgateway.db.models.types.CompanyType.NOT_SPECIFIED;

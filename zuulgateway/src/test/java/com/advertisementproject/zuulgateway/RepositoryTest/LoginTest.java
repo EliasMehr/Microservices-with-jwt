@@ -1,6 +1,5 @@
 package com.advertisementproject.zuulgateway.RepositoryTest;
 
-import com.advertisementproject.zuulgateway.db.models.User;
 import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
