@@ -1,6 +1,5 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
-import com.advertisementproject.zuulgateway.api.exceptions.RegistrationException;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.JwtException;

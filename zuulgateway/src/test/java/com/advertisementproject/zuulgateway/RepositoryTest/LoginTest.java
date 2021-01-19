@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.RepositoryTest;
 
-import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
+import com.advertisementproject.zuulgateway.db.repositories.UserDetailsRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class LoginTest {
 
     @Autowired
-    UserRepository repository;
+    UserDetailsRepository repository;
 
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.0");

@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.services;
 
-import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
+import com.advertisementproject.zuulgateway.db.repositories.UserDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final UserDetailsRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
