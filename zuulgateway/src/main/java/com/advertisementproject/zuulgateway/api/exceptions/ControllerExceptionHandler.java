@@ -15,9 +15,9 @@ public class ControllerExceptionHandler extends ResponseStatusExceptionHandler {
 
     @ExceptionHandler(RegistrationException.class)
     @ResponseBody
-    protected ResponseEntity<ErrorMessage> handleJwtException(RegistrationException exception) {
+    protected ResponseEntity<ErrorResponse> handleJwtException(RegistrationException exception) {
         return build(
-                ErrorMessage.builder()
+                ErrorResponse.builder()
                         .statusCode(401)
                         .timestamp(Date.from(Instant.now()).toString())
                         .message(exception.getMessage())
@@ -25,7 +25,7 @@ public class ControllerExceptionHandler extends ResponseStatusExceptionHandler {
         );
     }
 
-    private ResponseEntity<ErrorMessage> build(ErrorMessage errorMessage) {
-        return new ResponseEntity<>(errorMessage, HttpStatus.UNAUTHORIZED);
+    private ResponseEntity<ErrorResponse> build(ErrorResponse errorResponse) {
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 }

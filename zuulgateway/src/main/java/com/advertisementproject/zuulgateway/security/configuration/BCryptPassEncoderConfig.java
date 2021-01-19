@@ -8,12 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.security.SecureRandom;
 
 @Configuration
-public class BCryptPassEncoder {
-
-        /*
-            BCrypt Password Encoder configured with SecureRandom Algorithm!
-            DO NOT CHANGE "strength" to maintain performance
-         */
+public class BCryptPassEncoderConfig {
 
     @Bean
     public PasswordEncoder bcryptPasswordEncoder() {
