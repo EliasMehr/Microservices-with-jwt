@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,9 @@ public class RegistrationService {
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
     private final CompanyRepository companyRepository;
+    private final ConfirmationTokenService confirmationTokenService;
     private final ValidationService validationService;
+    private final EmailService emailService;
 
     @Transactional
     public User registerCustomer(CustomerRegistrationRequest registrationRequest) {
@@ -31,10 +34,15 @@ public class RegistrationService {
 
         Customer customer = Customer.toCustomer(user.getId(), registrationRequest);
         validationService.validateCustomer(customer);
-
         userRepository.save(user);
         customerRepository.save(customer);
-        //TODO send request to email service to send email for validation
+
+        String token = confirmationTokenService.generateAndSaveToken(user);
+        emailService.send(
+                user.getEmail(),
+                customer.getFirstName() + " " + customer.getLastName(),
+                token);
+
         return user;
     }
 
@@ -50,6 +58,20 @@ public class RegistrationService {
 
         userRepository.save(user);
         companyRepository.save(company);
+
+        String token = confirmationTokenService.generateAndSaveToken(user);
+        emailService.send(
+                user.getEmail(),
+                company.getName(),
+                token);
+
         return user;
     }
+
+    @Transactional
+    public void enableUser(UUID userId) {
+        userRepository.enableUser(userId);
+    }
+
+
 }

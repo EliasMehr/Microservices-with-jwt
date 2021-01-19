@@ -3,17 +3,16 @@ package com.advertisementproject.userservice.api.controller;
 import com.advertisementproject.userservice.api.request.CompanyRegistrationRequest;
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
 import com.advertisementproject.userservice.db.models.User;
+import com.advertisementproject.userservice.service.ConfirmationTokenService;
 import com.advertisementproject.userservice.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/register/")
@@ -30,6 +29,7 @@ public class RegistrationController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final RegistrationService registrationService;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @PostMapping("customer")
     public ResponseEntity<User> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
@@ -41,5 +41,12 @@ public class RegistrationController {
     public ResponseEntity<User> registerCompany(@Valid @RequestBody CompanyRegistrationRequest registrationRequest) {
         User user = registrationService.registerCompany(registrationRequest);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("confirm/{token}")
+    public ResponseEntity<String> confirm(@PathVariable String token) {
+        UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);
+        registrationService.enableUser(userId);
+        return ResponseEntity.ok("Your email has been confirmed");
     }
 }
