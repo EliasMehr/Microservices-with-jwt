@@ -1,17 +1,21 @@
 package com.advertisementproject.userservice.api.request;
 
 import com.advertisementproject.userservice.db.models.types.CompanyType;
-import lombok.*;
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 
 @Data
-public class RegistrationRequest {
+public class CompanyRegistrationRequest {
     @NotNull
-    private final String identificationNumber;
+    private final String name;
     @NotNull
-    private final String firstName;
+    private final String organizationNumber;
     @NotNull
-    private final String lastName;
+    private final String email;
+    @NotNull
+    private final String password;
+    private final String description = null;
     @NotNull
     private final String address;
     @NotNull
@@ -21,9 +25,5 @@ public class RegistrationRequest {
     @NotNull
     private final String phoneNumber;
     @NotNull
-    private final String email;
-    @NotNull
-    private final String password;
-
-    private final CompanyType companyType = CompanyType.NOT_SPECIFIED;
+    private final CompanyType companyType;
 }

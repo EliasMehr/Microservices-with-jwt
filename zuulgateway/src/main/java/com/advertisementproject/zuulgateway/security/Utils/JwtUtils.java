@@ -1,7 +1,6 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.security.configuration.UserDetailsImpl;
-import io.jsonwebtoken.Claims;
+import com.advertisementproject.zuulgateway.services.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 public class JwtUtils {
@@ -19,47 +17,26 @@ public class JwtUtils {
     private final Long EXPIRATION_VALUE = 24L;
     private final String JWT_SECRET = "ABCABCABCABCABCABCABCABCABCABCABCABCABC";
 
-    /*
-        To add custom claims, put key and value in the generateToken method!
-        for instance -> admin: true or false based on userDetails
-     */
 
-    // TODO -> We should insert the users id in the claims to validate all requests through our
-    // TODO -> communication layers, we dont want an unauthorized user to retrieve data about another user if that's the case
-
-    public String generateToken(UserDetailsImpl userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("authorities", userDetails.getAuthorities());
-        return createToken(claims, userDetails.getUser().getId().toString());
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-
-    public boolean validateToken(String token, UserDetailsImpl userDetails) {
-        final String userId = extractSubject(token);
-        return (userId.equals(userDetails.getUser().getId().toString()) && !isTokenExpired(token));
-    }
+//    public String generateToken(UserDetailsImpl userDetails) {
+//        Map<String, Object> claims = new HashMap<>();
+//        claims.put("authorities", userDetails.getAuthorities());
+//        return createToken(claims, userDetails.getUser().getId().toString());
+//    }
 
     public String extractSubject(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    private Claims extractAllClaims(String token) {
             return Jwts.parser()
                     .setSigningKey(JWT_SECRET)
                     .parseClaimsJws(token)
-                    .getBody();
+                    .getBody()
+                    .getSubject();
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String createToken(UserDetailsImpl userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("authorities", userDetails.getAuthorities());
+        String subject = userDetails.getUser().getId().toString();
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
@@ -69,9 +46,6 @@ public class JwtUtils {
                 .compact();
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
 
     private Date generateExpirationDate() {
         Instant expiry = Instant.now().plus(EXPIRATION_VALUE, ChronoUnit.HOURS);

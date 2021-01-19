@@ -3,12 +3,16 @@ package com.advertisementproject.zuulgateway.api.exceptions;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
 @Builder
-public class ErrorMessage {
+@ToString
+public class ErrorResponse {
+
     private final int statusCode;
     private final String timestamp;
     private final String message;
+
 }

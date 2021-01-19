@@ -1,6 +1,5 @@
-package com.advertisementproject.userservice.api;
+package com.advertisementproject.userservice.api.controller;
 
-import com.advertisementproject.userservice.api.request.RegistrationRequest;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.ws.rs.Path;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,20 +20,9 @@ public class UserController {
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    @PostMapping("/")
-    public ResponseEntity<User> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
-        logger.info("REQ TYPE " + registrationRequest.getCompanyType().toString());
-        //TODO Add more CRUD endpoints for UserController and add antMatchers to Zuul accordingly
-        //TODO Remove User entity, registrationRequest etc from Zuul and replace User in UserDetailsImpl with UserCredentials
-        //TODO Make Zuul get User info from the User Service?
-        //TODO Verify the new registration and login flow
-        //TODO fix custom message for enum
-        //TODO write lots of tests!
-        //TODO Add email messaging validation service
-        User user = userService.registerUser(registrationRequest);
-        return ResponseEntity.ok(user);
-    }
+    //TODO fix put!
+    //TODO endpoints for customer and company (separate controllers, cascade or SQL views?)
+    //TODO delete user etc should have a cascade effect
 
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {

@@ -1,4 +1,4 @@
-package com.advertisementproject.zuulgateway.security.configuration;
+package com.advertisementproject.zuulgateway.services;
 
 import com.advertisementproject.zuulgateway.db.models.User;
 import lombok.RequiredArgsConstructor;
