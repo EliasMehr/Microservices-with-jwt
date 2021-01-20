@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,15 +21,6 @@ public class UserController {
 
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    //TODO fix put!
-    //TODO endpoints for customer and company (separate controllers, cascade or SQL views?)
-    //TODO delete user etc should have a cascade effect
-
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Object> getUserByEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(userService.findUserByEmail(email));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable("id") UUID id) {
