@@ -47,6 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/register/**")
                     .permitAll()
 
+
                 .antMatchers("/me")
                     .hasAnyAuthority("COMPANY", "CUSTOMER")
 
