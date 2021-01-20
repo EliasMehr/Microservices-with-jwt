@@ -1,5 +1,6 @@
 package com.advertisementproject.userservice.api.controller;
 
+import com.advertisementproject.userservice.api.request.UpdateUserRequest;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +26,17 @@ public class UserController {
     //TODO delete user etc should have a cascade effect
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<Object> getUserByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(userService.findUserByEmail(email));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(userService.findUserById(id));
+    public ResponseEntity<Object> getUserById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(userService.getFullUserInfoById(id));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<Object>> getAllUsers(){
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
@@ -46,7 +47,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserById(@PathVariable("id") UUID id, @Valid @RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
+    public ResponseEntity<Object> updateUserById(@PathVariable("id") UUID id, @RequestBody UpdateUserRequest updateUserRequest) {
+        return ResponseEntity.ok(userService.updateUser(id, updateUserRequest));
     }
+
+
 }

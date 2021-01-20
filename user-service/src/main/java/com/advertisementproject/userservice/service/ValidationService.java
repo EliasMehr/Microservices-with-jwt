@@ -6,6 +6,7 @@ import com.advertisementproject.userservice.db.models.Company;
 import com.advertisementproject.userservice.db.models.Customer;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.db.models.types.Role;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,20 +21,8 @@ import static com.advertisementproject.userservice.db.models.types.Role.CUSTOMER
 
 @Service
 @Validated
+@AllArgsConstructor
 public class ValidationService {
-
-    private UserService userService;
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void validateNotAlreadyRegistered(String email) {
-        if(userService.emailAlreadyExists(email)){
-            throw new EmailAlreadyRegisteredException("Email is already registered for email: " + email);
-        }
-    }
 
     public void validateUser(@Valid @RequestBody User user) {}
 

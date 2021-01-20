@@ -22,12 +22,13 @@ public class RegistrationService {
     private final CustomerRepository customerRepository;
     private final CompanyRepository companyRepository;
     private final ConfirmationTokenService confirmationTokenService;
+    private final UserService userService;
     private final ValidationService validationService;
     private final EmailService emailService;
 
     @Transactional
     public User registerCustomer(CustomerRegistrationRequest registrationRequest) {
-        validationService.validateNotAlreadyRegistered(registrationRequest.getEmail());
+        userService.validateNotAlreadyRegistered(registrationRequest.getEmail());
 
         User user = User.toUser(registrationRequest);
         validationService.validateUser(user);
@@ -48,7 +49,7 @@ public class RegistrationService {
 
     @Transactional
     public User registerCompany(CompanyRegistrationRequest registrationRequest) {
-        validationService.validateNotAlreadyRegistered(registrationRequest.getEmail());
+        userService.validateNotAlreadyRegistered(registrationRequest.getEmail());
 
         User user = User.toUser(registrationRequest);
         validationService.validateUser(user);
