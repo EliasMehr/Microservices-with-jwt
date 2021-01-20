@@ -13,6 +13,26 @@ spring:
   jooq:
     sql-dialect: Postgres
 
+# Mail SMTP configuration
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: campaignemailhandler@gmail.com
+    password: campaign123
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+
+
 # Application server port
 server:
   port: 8081

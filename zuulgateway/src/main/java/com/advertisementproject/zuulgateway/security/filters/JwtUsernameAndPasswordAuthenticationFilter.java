@@ -2,8 +2,8 @@ package com.advertisementproject.zuulgateway.security.filters;
 
 import com.advertisementproject.zuulgateway.api.request.AuthenticationRequest;
 import com.advertisementproject.zuulgateway.api.response.AuthenticationResponse;
+import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
-import com.advertisementproject.zuulgateway.services.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +56,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(authResult.getName());
+        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(authResult.getName());
         String token = jwtUtils.createToken(userDetails);
 
         AuthenticationResponse authResponse = new AuthenticationResponse(token);

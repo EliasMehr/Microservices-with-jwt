@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.services.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class JwtUtils {
     public String createToken(UserDetailsImpl userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", userDetails.getAuthorities());
-        String subject = userDetails.getUser().getId().toString();
+        String subject = userDetails.getId().toString();
 
         return Jwts.builder()
                 .setClaims(claims)

@@ -1,9 +1,7 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
-import com.advertisementproject.zuulgateway.api.exceptions.ErrorResponse;
-import com.advertisementproject.zuulgateway.api.exceptions.RegistrationException;
+import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
-import com.advertisementproject.zuulgateway.services.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendResponse;
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toErrorResponse;
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendErrorResponse;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
@@ -36,7 +33,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException, RegistrationException {
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -49,7 +46,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
         try {
             String userId = jwtUtils.extractSubject(token);
-            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(userId);
+            UserDetailsImpl userDetails = userDetailsService.loadUserById(userId);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(
                     userDetails,
