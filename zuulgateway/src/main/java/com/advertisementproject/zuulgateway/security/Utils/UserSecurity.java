@@ -6,15 +6,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
-
+@RequiredArgsConstructor
 @Component("userSecurity")
 public class UserSecurity {
-
-    public boolean hasUserId(Authentication authentication, UUID userId) {
-        if(authentication instanceof AnonymousAuthenticationToken) {
-            return false;
-        }
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return userDetails.getId().equals(userId);
+private final JwtUtils jwtUtils;
+private final HttpServletRequest request;
+    public boolean isSameIdAsHeader(UUID userId){
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String subject = jwtUtils.extractSubject(token);
+        return UUID.fromString(subject).equals(userId);
     }
 }

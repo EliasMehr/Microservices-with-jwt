@@ -52,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .hasAnyAuthority("COMPANY", "CUSTOMER")
 
                 .antMatchers("/user/{id}")
-                    .access("@userSecurity.hasUserId(authentication, #id) and hasAnyAuthority('CUSTOMER', 'COMPANY')")
+                    .access("@userSecurity.isSameIdAsHeader(#id) and hasAnyAuthority('CUSTOMER', 'COMPANY')")
 
                 .anyRequest()
                 .authenticated()
