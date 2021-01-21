@@ -1,6 +1,7 @@
 package com.advertisementproject.campaignservice.controller;
 
 import com.advertisementproject.campaignservice.db.model.Campaign;
+import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.advertisementproject.campaignservice.service.interfaces.CampaignService;
 import lombok.RequiredArgsConstructor;
@@ -49,10 +50,7 @@ public class CampaignController {
 
     @GetMapping("/{campaignId}")
     public ResponseEntity<Campaign> getCampaign(@PathVariable UUID campaignId){
-
-
-
-        return null;
+        throw new CampaignNotFoundException("Campaign not found for id: " + campaignId);
     }
 
     @PutMapping("/{campaignId}/company/{companyId}")
