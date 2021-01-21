@@ -1,16 +1,20 @@
 package com.advertisementproject.campaignservice.service;
 
 import com.advertisementproject.campaignservice.db.model.Campaign;
+import com.advertisementproject.campaignservice.db.repository.CampaignRepository;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.advertisementproject.campaignservice.service.interfaces.CampaignService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class CampaignServiceImpl implements CampaignService {
 
+    private final CampaignRepository campaignRepository;
 
     @Override
     public List<Campaign> getAllCampaignsByCompanyId(UUID companyId) {
@@ -29,9 +33,11 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public Campaign createCampaign(UUID companyId, CampaignRequest campaignRequest) {
+        Campaign campaign = Campaign.toCampaign(companyId, campaignRequest);
+        //TODO validation
+        campaignRepository.save(campaign);
 
-
-        return null;
+        return campaign;
     }
 
     @Override
