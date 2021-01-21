@@ -8,5 +8,4 @@ import java.util.UUID;
 
 @Repository
 public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
-
 }
