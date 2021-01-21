@@ -43,7 +43,8 @@ public class CampaignController {
     public ResponseEntity<Campaign> createCampaign(@PathVariable UUID companyId,
                                                    @Valid @RequestBody CampaignRequest campaignRequest) {
 
-        return ResponseEntity.ok(campaignService.createCampaign(companyId, campaignRequest));
+        Campaign campaign = campaignService.createCampaign(companyId, campaignRequest);
+        return ResponseEntity.ok(campaign);
     }
 
     @GetMapping("/{campaignId}")

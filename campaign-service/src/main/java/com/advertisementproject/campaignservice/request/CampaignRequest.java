@@ -11,9 +11,9 @@ public class CampaignRequest {
     private String title;
     private String description;
     @NotNull
-    private double discount;
+    private Double discount;
     @NotNull
-    private boolean isPercentage;
+    private Boolean isPercentage;
     private byte[] image;
     @NotNull
     private String category;
