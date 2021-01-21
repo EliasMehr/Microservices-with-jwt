@@ -1,7 +1,7 @@
 # Application name configuration for Eureka
 spring:
   application:
-    name: user-service
+    name: campaign-service
 
   # Database configuration
   jpa:
