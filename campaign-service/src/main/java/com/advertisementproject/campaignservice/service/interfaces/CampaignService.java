@@ -13,8 +13,8 @@ public interface CampaignService {
     void deleteAllCampaignsByCompanyId(UUID companyId);
     Campaign getCampaignById(UUID campaignId);
     Campaign createCampaign(UUID companyId, CampaignRequest campaignRequest);
-    Campaign updateCampaignById(UUID campaignId, CampaignRequest campaignRequest);
-    void deleteCampaignById(UUID campaignId);
+    Campaign updateCampaignById(UUID campaignId, UUID companyId, CampaignRequest campaignRequest);
+    void deleteCampaignById(UUID campaignId, UUID companyId);
 
 
 }

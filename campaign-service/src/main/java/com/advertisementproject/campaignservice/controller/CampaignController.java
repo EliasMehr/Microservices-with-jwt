@@ -20,23 +20,19 @@ public class CampaignController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Campaign>> getAllCampaigns(){
-
-
-        return null;
+        List<Campaign> campaigns = campaignService.getAllCampaigns();
+        return ResponseEntity.ok(campaigns);
     }
 
     @GetMapping("/all/company/{companyId}")
     public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@PathVariable UUID companyId){
-
-
-
-        return null;
+        List<Campaign> campaigns = campaignService.getAllCampaignsByCompanyId(companyId);
+        return ResponseEntity.ok(campaigns);
     }
 
     @DeleteMapping("/all/company/{companyId}")
     public ResponseEntity<String> deleteAllCampaignsByCompanyId(@PathVariable UUID companyId){
-
-
+        campaignService.deleteAllCampaignsByCompanyId(companyId);
         return ResponseEntity.ok("All campaigns have been deleted for id: " + companyId);
     }
 
@@ -50,22 +46,22 @@ public class CampaignController {
 
     @GetMapping("/{campaignId}")
     public ResponseEntity<Campaign> getCampaign(@PathVariable UUID campaignId){
-        throw new CampaignNotFoundException("Campaign not found for id: " + campaignId);
+        Campaign campaign = campaignService.getCampaignById(campaignId);
+        return ResponseEntity.ok(campaign);
     }
 
     @PutMapping("/{campaignId}/company/{companyId}")
     public ResponseEntity<Campaign> updateCampaign(@PathVariable UUID campaignId,
-                                                   @PathVariable String companyId,
+                                                   @PathVariable UUID companyId,
                                                    @Valid @RequestBody CampaignRequest campaignRequest){
 
-        return null;
+        Campaign campaign = campaignService.updateCampaignById(campaignId, companyId, campaignRequest);
+        return ResponseEntity.ok(campaign);
     }
 
     @DeleteMapping("/{campaignId}/company/{companyId}")
-    public ResponseEntity<String> deleteCampaign(@PathVariable UUID campaignId, @PathVariable String companyId){
-
-
-
+    public ResponseEntity<String> deleteCampaign(@PathVariable UUID campaignId, @PathVariable UUID companyId){
+        campaignService.deleteCampaignById(campaignId, companyId);
         return ResponseEntity.ok("Campaign has been deleted for id: " + campaignId);
     }
 }

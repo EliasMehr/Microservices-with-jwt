@@ -1,6 +1,7 @@
 package com.advertisementproject.campaignservice.exception.handler;
 
 import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
+import com.advertisementproject.campaignservice.exception.UnauthorizedAccessException;
 import com.advertisementproject.campaignservice.exception.response.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,16 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({CampaignNotFoundException.class})
     public ResponseEntity<Object> handleNotFoundException(Exception ex){
         return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({UnauthorizedAccessException.class})
+    public ResponseEntity<Object> handleForbiddenAccessException(Exception ex){
+        return getAndLogApiError(ex, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<Object> handleBadRequest(Exception ex){
+        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({Exception.class})

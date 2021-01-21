@@ -3,10 +3,12 @@ package com.advertisementproject.campaignservice.db.model;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,10 +18,10 @@ import java.util.Currency;
 import java.util.UUID;
 
 @Entity
-@Getter
+@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Campaign {
 
     @Id
@@ -70,6 +72,7 @@ public class Campaign {
     private UUID companyId; //TODO make sure that when a company user is deleted, the campaigns are also deleted or added to a legacy table
 
     public static Campaign toCampaign(UUID companyId, CampaignRequest request) {
+
         return Campaign.builder()
                 .id(UUID.randomUUID())
                 .title(request.getTitle())
