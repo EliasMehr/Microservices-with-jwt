@@ -1,9 +1,11 @@
 package com.advertisementproject.campaignservice.controller;
 
 import com.advertisementproject.campaignservice.db.model.Campaign;
+import com.advertisementproject.campaignservice.request.CampaignRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,8 +34,9 @@ public class CampaignController {
         return ResponseEntity.ok("All campaigns have been deleted for id: " + companyId);
     }
 
-    @PostMapping
-    public ResponseEntity<Campaign> createCampaign() {
+    @PostMapping("/create/{companyId}")
+    public ResponseEntity<Campaign> createCampaign(@PathVariable UUID companyId,
+                                                   @Valid @RequestBody CampaignRequest campaignRequest) {
 
 
         return null;
@@ -48,7 +51,8 @@ public class CampaignController {
     }
 
     @PutMapping("/{campaignId}")
-    public ResponseEntity<Campaign> updateCampaign(@PathVariable UUID campaignId){
+    public ResponseEntity<Campaign> updateCampaign(@PathVariable UUID campaignId,
+                                                   @Valid @RequestBody CampaignRequest campaignRequest){
 
 
 
