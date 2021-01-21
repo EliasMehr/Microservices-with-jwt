@@ -24,7 +24,7 @@ public class CampaignController {
         return null;
     }
 
-    @GetMapping("/all/{companyId}")
+    @GetMapping("/all/company/{companyId}")
     public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@PathVariable UUID companyId){
 
 
@@ -32,14 +32,14 @@ public class CampaignController {
         return null;
     }
 
-    @DeleteMapping("/all/{companyId}")
+    @DeleteMapping("/all/company/{companyId}")
     public ResponseEntity<String> deleteAllCampaignsByCompanyId(@PathVariable UUID companyId){
 
 
         return ResponseEntity.ok("All campaigns have been deleted for id: " + companyId);
     }
 
-    @PostMapping("/create/{companyId}")
+    @PostMapping("/company/{companyId}")
     public ResponseEntity<Campaign> createCampaign(@PathVariable UUID companyId,
                                                    @Valid @RequestBody CampaignRequest campaignRequest) {
 
@@ -55,17 +55,16 @@ public class CampaignController {
         return null;
     }
 
-    @PutMapping("/{campaignId}")
+    @PutMapping("/{campaignId}/company/{companyId}")
     public ResponseEntity<Campaign> updateCampaign(@PathVariable UUID campaignId,
+                                                   @PathVariable String companyId,
                                                    @Valid @RequestBody CampaignRequest campaignRequest){
-
-
 
         return null;
     }
 
-    @DeleteMapping("/{campaignId}")
-    public ResponseEntity<String> deleteCampaign(@PathVariable UUID campaignId){
+    @DeleteMapping("/{campaignId}/company/{companyId}")
+    public ResponseEntity<String> deleteCampaign(@PathVariable UUID campaignId, @PathVariable String companyId){
 
 
 

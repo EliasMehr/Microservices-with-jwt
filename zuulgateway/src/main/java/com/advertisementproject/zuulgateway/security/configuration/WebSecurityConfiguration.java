@@ -44,15 +44,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/user/register/**")
-                    .anonymous()
-
-
                 .antMatchers("/me")
                     .hasAnyAuthority("COMPANY", "CUSTOMER")
 
+                .antMatchers("/user/register/**")
+                    .anonymous()
+
                 .antMatchers("/user/{id}")
                     .access("@userSecurity.isSameIdAsHeader(#id) and hasAnyAuthority('CUSTOMER', 'COMPANY')")
+
+                .antMatchers(HttpMethod.GET,"/campaign/**")
+                    .hasAnyAuthority("CUSTOMER", "COMPANY")
+
+                .antMatchers(
+                        "/campaign/all/company/{companyId}",
+                        "/campaign/company/{companyId}",
+                        "/campaign/{campaignId}/company/{companyId}")
+                    .access("@userSecurity.isSameIdAsHeader(#companyId) and hasAuthority('COMPANY')")
 
                 .anyRequest()
                 .authenticated()
