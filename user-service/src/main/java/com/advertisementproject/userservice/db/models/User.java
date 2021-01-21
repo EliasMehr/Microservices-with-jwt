@@ -28,6 +28,7 @@ import static javax.persistence.EnumType.STRING;
 public class User {
 
     private static final Logger logger = LoggerFactory.getLogger(User.class);
+
     @Id
     private UUID id;
 

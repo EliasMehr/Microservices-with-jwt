@@ -1,5 +1,6 @@
 package com.advertisementproject.userservice.api.controller;
 
+import com.advertisementproject.userservice.api.request.UpdateUserRequest;
 import com.advertisementproject.userservice.db.models.User;
 import com.advertisementproject.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,22 +22,13 @@ public class UserController {
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //TODO fix put!
-    //TODO endpoints for customer and company (separate controllers, cascade or SQL views?)
-    //TODO delete user etc should have a cascade effect
-
-    @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(userService.findUserByEmail(email));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(userService.findUserById(id));
+    public ResponseEntity<Object> getUserById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(userService.getFullUserInfoById(id));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<Object>> getAllUsers(){
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
@@ -46,7 +39,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserById(@PathVariable("id") UUID id, @Valid @RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
+    public ResponseEntity<Object> updateUserById(@PathVariable("id") UUID id, @RequestBody UpdateUserRequest updateUserRequest) {
+        return ResponseEntity.ok(userService.updateUser(id, updateUserRequest));
     }
+
+
 }

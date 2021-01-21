@@ -32,6 +32,7 @@ public class ServletResponseUtility {
         logger.warn(errorResponse.toString());
         sendResponse(response, errorResponse.getStatusCode(), errorResponse);
 
+
     }
 
     public static ErrorResponse toErrorResponse(String responseMsg, int statusCode) {
