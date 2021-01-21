@@ -22,7 +22,7 @@ server:
 # Zuul configuration
 zuul:
   routes:
-    product:
+    campaign:
       url: http://${CAMPAIGN_SERVICE_HOST:localhost}:8082/
     user:
       url: http://${USER_SERVICE_HOST:localhost}:8081/
