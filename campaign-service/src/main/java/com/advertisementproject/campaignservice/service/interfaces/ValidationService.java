@@ -9,5 +9,4 @@ import java.time.Instant;
 public interface ValidationService {
 
     void validateCampaign(@Valid @RequestBody Campaign campaign);
-    void validateInstantNotInThePast(Instant instant, String fieldName);
 }

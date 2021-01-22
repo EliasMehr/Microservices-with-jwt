@@ -16,11 +16,4 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public void validateCampaign(@Valid @RequestBody Campaign campaign) {
     }
-
-    @Override
-    public void validateInstantNotInThePast(Instant instant, String fieldName){
-        if (instant.isBefore(Instant.now())){
-            throw new IllegalArgumentException(fieldName + " can not be set in the past");
-        }
-    }
 }
