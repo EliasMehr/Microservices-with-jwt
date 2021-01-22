@@ -1,9 +1,11 @@
 package com.advertisementproject.zuulgateway.services;
 
+import com.advertisementproject.zuulgateway.db.models.Permissions;
+import com.advertisementproject.zuulgateway.db.models.User;
 import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
-import com.advertisementproject.zuulgateway.db.repositories.UserDetailsRepository;
+import com.advertisementproject.zuulgateway.db.repositories.PermissionsRepository;
+import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,16 +16,26 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserDetailsRepository repository;
+    private final UserRepository userRepository;
+    private final PermissionsRepository permissionsRepository;
 
     @Override
     public UserDetailsImpl loadUserByUsername(String email) throws UsernameNotFoundException {
-        return repository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Permissions permissions = getPermissions(user.getId());
+        return new UserDetailsImpl(user, permissions.isHasPermission());
     }
 
     public UserDetailsImpl loadUserById(String id) throws UsernameNotFoundException {
-        return repository.findById(UUID.fromString(id))
+        User user = userRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Permissions permissions = getPermissions(user.getId());
+        return new UserDetailsImpl(user, permissions.isHasPermission());
+    }
+
+    private Permissions getPermissions(UUID userId){
+        return permissionsRepository.findById(userId)
+                .orElseThrow(()-> new IllegalStateException("Permissions not found for userId: " + userId));
     }
 }

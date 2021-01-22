@@ -48,6 +48,7 @@ public class User {
     private String rawPassword;
 
     @NotNull
+    @JsonIgnore
     @Size(min = 60, max = 60)
     private String hashedPassword;
 

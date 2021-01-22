@@ -23,4 +23,5 @@ private final HttpServletRequest request;
 
         return UUID.fromString(subject).equals(userId);
     }
+
 }

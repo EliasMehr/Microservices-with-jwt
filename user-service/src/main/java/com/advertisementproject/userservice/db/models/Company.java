@@ -25,7 +25,7 @@ public class Company {
     @Id
     private UUID userId;
     @NotNull
-    @Size(min = 2, max = 20, message = "First name must be 2-20 characters long")
+    @Size(min = 2, max = 30, message = "Name must be 2-30 characters long")
     private String name;
     @NotNull(message = "Organization number must not be null")
     private String organizationNumber;

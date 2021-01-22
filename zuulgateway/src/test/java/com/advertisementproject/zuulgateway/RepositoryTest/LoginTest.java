@@ -1,7 +1,6 @@
 package com.advertisementproject.zuulgateway.RepositoryTest;
 
-import com.advertisementproject.zuulgateway.db.repositories.UserDetailsRepository;
-import org.assertj.core.api.Assertions;
+import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,9 +12,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.Optional;
-import java.util.UUID;
-
 @ActiveProfiles("test")
 @Testcontainers
 @DataJpaTest
@@ -23,7 +19,7 @@ import java.util.UUID;
 public class LoginTest {
 
     @Autowired
-    UserDetailsRepository repository;
+    UserRepository repository;
 
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.0");
