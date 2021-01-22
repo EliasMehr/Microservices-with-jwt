@@ -78,7 +78,8 @@ public class CampaignServiceImpl implements CampaignService {
 
 
     private Campaign getCampaignAndAuthorize(UUID campaignId, UUID companyId) {
-        Campaign campaign = getCampaignById(campaignId, companyId);
+        Campaign campaign = campaignRepository.findById(campaignId)
+                .orElseThrow(() -> new CampaignNotFoundException("Campaign not found for id: " + campaignId));
         if(!campaign.getCompanyId().equals(companyId)){
             throw new UnauthorizedAccessException("Unauthorized access not allowed");
         }

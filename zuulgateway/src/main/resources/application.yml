@@ -13,10 +13,6 @@ spring:
   jooq:
     sql-dialect: Postgres
 
-  #Daniel had issues with TestDataSourceConfig taking priority even in main application, there's probably a better fix
-  main:
-    allow-bean-definition-overriding: true
-
 # Application server port
 server:
   port: 8080
