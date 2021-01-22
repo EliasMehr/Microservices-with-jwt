@@ -12,4 +12,5 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
 
     List<Campaign> findAllByCompanyId(UUID companyId);
     void deleteByCompanyId(UUID companyId);
+    List<Campaign> findAllByIsPublishedTrue();
 }

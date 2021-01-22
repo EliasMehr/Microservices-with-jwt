@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,6 +72,11 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignRepository.findAll();
     }
 
+    @Override
+    public List<Campaign> getAllPublishedCampaigns() {
+        return campaignRepository.findAllByIsPublishedTrue();
+    }
+
 
     private Campaign getCampaignAndAuthorize(UUID campaignId, UUID companyId) {
         Campaign campaign = getCampaignById(campaignId);
@@ -99,14 +105,19 @@ public class CampaignServiceImpl implements CampaignService {
         if(request.getCategory() != null){
             campaign.setCategory(request.getCategory());
         }
-        if (campaign.getPublishedAt().isAfter(Instant.now()) && request.getPublishedAt() != null){
+        if(!campaign.isPublished() && request.isPublishNow()){
+            campaign.setPublished(true);
+            campaign.setPublishedAt(Instant.now());
+        }
+        if (request.getPublishedAt() != null && request.getPublishedAt().isAfter(Instant.now().plus(Period.ofDays(1)))){
+            campaign.setPublished(false);
             campaign.setPublishedAt(request.getPublishedAt());
         }
-        if(request.getExpiresAt() != null){
+        if(request.getExpiresAt() != null && request.getExpiresAt().isAfter(campaign.getPublishedAt())){
             campaign.setExpiresAt(request.getExpiresAt());
         }
-        if(request.getDiscount() != null){
-            campaign.setDiscount(request.getDiscount());
+        if(request.getDiscountCode() != null){
+            campaign.setDiscountCode(request.getDiscountCode());
         }
         campaign.setUpdatedAt(Instant.now());
     }

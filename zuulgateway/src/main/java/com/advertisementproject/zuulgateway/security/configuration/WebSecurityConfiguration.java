@@ -1,15 +1,11 @@
 package com.advertisementproject.zuulgateway.security.configuration;
 
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
-import com.advertisementproject.zuulgateway.db.models.types.Role;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
-import com.advertisementproject.zuulgateway.security.Utils.UserSecurity;
 import com.advertisementproject.zuulgateway.security.filters.JwtTokenValidationFilter;
 import com.advertisementproject.zuulgateway.security.filters.JwtUsernameAndPasswordAuthenticationFilter;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,15 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.UUID;
-
-import static com.advertisementproject.zuulgateway.db.models.types.Role.COMPANY;
-import static com.advertisementproject.zuulgateway.db.models.types.Role.CUSTOMER;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -45,22 +35,26 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers("/me")
-                    .hasAnyAuthority("COMPANY", "CUSTOMER")
+                .hasAnyAuthority("COMPANY", "CUSTOMER")
 
                 .antMatchers("/user/register/**")
-                    .anonymous()
+                .anonymous()
 
                 .antMatchers("/user/{id}")
-                    .access("@userSecurity.isSameIdAsHeader(#id) and hasAnyAuthority('CUSTOMER', 'COMPANY')")
+                .access("@userSecurity.isSameIdAsHeader(#id) and hasAnyAuthority('CUSTOMER', 'COMPANY')")
 
-                .antMatchers(HttpMethod.GET,"/campaign/**")
-                    .hasAnyAuthority("CUSTOMER", "COMPANY")
+                .antMatchers(HttpMethod.GET, "/campaign/all/published")
+                .hasAnyAuthority("CUSTOMER", "COMPANY")
 
                 .antMatchers(
                         "/campaign/all/company/{companyId}",
                         "/campaign/company/{companyId}",
                         "/campaign/{campaignId}/company/{companyId}")
-                    .access("@userSecurity.isSameIdAsHeader(#companyId) and hasAuthority('COMPANY')")
+                .access("@userSecurity.isSameIdAsHeader(#companyId) and hasAuthority('COMPANY')")
+
+                .antMatchers("/campaign/all",
+                        "/user/all")
+                .hasAuthority("ADMIN")
 
                 .anyRequest()
                 .authenticated()

@@ -22,14 +22,14 @@ public class UserController {
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Object>> getAllUsers(){
+        return ResponseEntity.ok(userService.findAllUsers());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(userService.getFullUserInfoById(id));
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<Object>> getAllUsers(){
-        return ResponseEntity.ok(userService.findAllUsers());
     }
 
     @DeleteMapping("/{id}")

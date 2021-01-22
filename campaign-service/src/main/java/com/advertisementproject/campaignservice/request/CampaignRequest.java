@@ -21,4 +21,5 @@ public class CampaignRequest {
     private Instant expiresAt;
     @NotNull
     private String discountCode;
+    private boolean publishNow;
 }

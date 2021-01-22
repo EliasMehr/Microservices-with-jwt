@@ -24,6 +24,12 @@ public class CampaignController {
         return ResponseEntity.ok(campaigns);
     }
 
+    @GetMapping("/all/published")
+    public ResponseEntity<List<Campaign>> getAllPublishedCampaigns(){
+        List<Campaign> campaigns = campaignService.getAllPublishedCampaigns();
+        return ResponseEntity.ok(campaigns);
+    }
+
     @GetMapping("/all/company/{companyId}")
     public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@PathVariable UUID companyId){
         List<Campaign> campaigns = campaignService.getAllCampaignsByCompanyId(companyId);
@@ -53,7 +59,7 @@ public class CampaignController {
     @PutMapping("/{campaignId}/company/{companyId}")
     public ResponseEntity<Campaign> updateCampaign(@PathVariable UUID campaignId,
                                                    @PathVariable UUID companyId,
-                                                   @Valid @RequestBody CampaignRequest campaignRequest){
+                                                   @RequestBody CampaignRequest campaignRequest){
 
         Campaign campaign = campaignService.updateCampaignById(campaignId, companyId, campaignRequest);
         return ResponseEntity.ok(campaign);

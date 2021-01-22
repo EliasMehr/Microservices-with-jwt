@@ -1,6 +1,7 @@
 package com.advertisementproject.campaignservice.db.model;
 
 import com.advertisementproject.campaignservice.request.CampaignRequest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class Campaign {
     private Currency currency;
 
     @NotNull
+    @JsonProperty(value = "isPercentage")
     private boolean isPercentage;
 
     private byte[] image;
@@ -64,6 +66,9 @@ public class Campaign {
     @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
     private Instant updatedAt;
 
+    @JsonProperty(value = "isPublished")
+    private boolean isPublished;
+
     @NotNull
     @Size(min = 2, max = 20, message = "Discount code must be between 2-20 characters long")
     private String discountCode;
@@ -72,7 +77,19 @@ public class Campaign {
     private UUID companyId; //TODO make sure that when a company user is deleted, the campaigns are also deleted or added to a legacy table
 
     public static Campaign toCampaign(UUID companyId, CampaignRequest request) {
-
+        Instant publishedAt;
+        boolean isPublished = false;
+        if(request.getPublishedAt() != null && request.getPublishedAt().isAfter(Instant.now())){
+            publishedAt = request.getPublishedAt();
+        }
+        else {
+            publishedAt = Instant.now();
+            isPublished = true;
+        }
+        Instant expiresAt = publishedAt.plus(Period.ofDays(60));
+        if(request.getExpiresAt() != null && request.getExpiresAt().isAfter(publishedAt)){
+            expiresAt = request.getExpiresAt();
+        }
         return Campaign.builder()
                 .id(UUID.randomUUID())
                 .title(request.getTitle())
@@ -83,8 +100,9 @@ public class Campaign {
                 .image(request.getImage())
                 .category(request.getCategory())
                 .createdAt(Instant.now())
-                .publishedAt(request.getPublishedAt() == null ? Instant.now() : request.getPublishedAt())
-                .expiresAt(request.getExpiresAt() == null ? Instant.now().plus(Period.ofDays(60)) : request.getExpiresAt())
+                .publishedAt(publishedAt)
+                .isPublished(isPublished)
+                .expiresAt(expiresAt)
                 .updatedAt(null)
                 .discountCode(request.getDiscountCode())
                 .companyId(companyId)
