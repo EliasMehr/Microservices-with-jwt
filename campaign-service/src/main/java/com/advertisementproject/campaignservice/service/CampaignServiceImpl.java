@@ -35,9 +35,8 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public Campaign getCampaignById(UUID campaignId) {
-        return campaignRepository.findById(campaignId)
-                .orElseThrow(() -> new CampaignNotFoundException("Campaign not found for id: " + campaignId));
+    public Campaign getCampaignById(UUID campaignId, UUID companyId) {
+        return getCampaignAndAuthorize(campaignId, companyId);
     }
 
     @Override
@@ -79,7 +78,7 @@ public class CampaignServiceImpl implements CampaignService {
 
 
     private Campaign getCampaignAndAuthorize(UUID campaignId, UUID companyId) {
-        Campaign campaign = getCampaignById(campaignId);
+        Campaign campaign = getCampaignById(campaignId, companyId);
         if(!campaign.getCompanyId().equals(companyId)){
             throw new UnauthorizedAccessException("Unauthorized access not allowed");
         }

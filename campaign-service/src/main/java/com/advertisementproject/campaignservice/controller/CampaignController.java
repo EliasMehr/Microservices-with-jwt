@@ -50,9 +50,9 @@ public class CampaignController {
         return ResponseEntity.ok(campaign);
     }
 
-    @GetMapping("/{campaignId}")
-    public ResponseEntity<Campaign> getCampaign(@PathVariable UUID campaignId){
-        Campaign campaign = campaignService.getCampaignById(campaignId);
+    @GetMapping("/{campaignId}/company/{companyId}")
+    public ResponseEntity<Campaign> getCampaign(@PathVariable UUID campaignId, @PathVariable UUID companyId){
+        Campaign campaign = campaignService.getCampaignById(campaignId, companyId);
         return ResponseEntity.ok(campaign);
     }
 

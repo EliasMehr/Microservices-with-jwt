@@ -52,9 +52,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/campaign/{campaignId}/company/{companyId}")
                 .access("@userSecurity.isSameIdAsHeader(#companyId) and hasAuthority('COMPANY')")
 
-                .antMatchers("/campaign/all",
-                        "/user/all")
-                .hasAuthority("ADMIN")
+                .antMatchers("**")
+                    .hasAuthority("ADMIN")
 
                 .anyRequest()
                 .authenticated()

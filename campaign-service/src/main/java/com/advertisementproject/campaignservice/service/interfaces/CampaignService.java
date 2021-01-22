@@ -12,7 +12,7 @@ public interface CampaignService {
     List<Campaign> getAllPublishedCampaigns();
     List<Campaign> getAllCampaignsByCompanyId(UUID companyId);
     void deleteAllCampaignsByCompanyId(UUID companyId);
-    Campaign getCampaignById(UUID campaignId);
+    Campaign getCampaignById(UUID campaignId, UUID companyId);
     Campaign createCampaign(UUID companyId, CampaignRequest campaignRequest);
     Campaign updateCampaignById(UUID campaignId, UUID companyId, CampaignRequest campaignRequest);
     void deleteCampaignById(UUID campaignId, UUID companyId);
