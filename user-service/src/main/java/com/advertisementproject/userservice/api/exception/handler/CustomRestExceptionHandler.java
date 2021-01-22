@@ -2,6 +2,8 @@ package com.advertisementproject.userservice.api.exception.handler;
 
 import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
+import com.advertisementproject.userservice.api.exception.PermissionsNotFoundException;
+import com.advertisementproject.userservice.api.exception.UserNotFoundException;
 import com.advertisementproject.userservice.api.response.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         for (ObjectError globalError : ex.getBindingResult().getGlobalErrors()) {
             errors.add(globalError.getObjectName() + ": " + globalError.getDefaultMessage());
         }
-        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST, errors);
+        return getAndLogApiError(ex.getMessage(), HttpStatus.BAD_REQUEST, errors);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         final String error = ex.getValue() + " value for " + ex.getPropertyName() + " should be of type " + ex.getRequiredType();
         List<String> errors = Collections.singletonList(error);
 
-        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST, errors);
+        return getAndLogApiError(ex.getMessage(), HttpStatus.BAD_REQUEST, errors);
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
@@ -62,50 +64,46 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             String violationPath = violation.getPropertyPath().toString();
             errors.add(violationPath.substring(violationPath.lastIndexOf('.') + 1) + ": " + violation.getMessage());
         }
-        return getAndLogApiError(HttpStatus.BAD_REQUEST, errors, "Field error(s) for request");
+        return getAndLogApiError("Field error(s) for request", HttpStatus.BAD_REQUEST, errors);
     }
 
     @ExceptionHandler({EmailAlreadyRegisteredException.class})
     public ResponseEntity<Object> handleConflictError(Exception ex) {
-        List<String> errors = Collections.singletonList("Could not register user: " + ex.getClass().getSimpleName());
-        logger.warn(Arrays.toString(ex.getStackTrace()));
-        return getAndLogApiError(ex, HttpStatus.CONFLICT, errors);
+        return getAndLogApiError(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler({IdentificationNumberException.class})
-    public ResponseEntity<Object> handleCustomBadRequestExceptions(Exception ex) {
-        List<String> errors = Collections.singletonList("Bad request syntax: " + ex.getClass().getSimpleName());
-        logger.warn(Arrays.toString(ex.getStackTrace()));
-        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST, errors);
+    public ResponseEntity<Object> handleCustomBadRequestException(Exception ex) {
+        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({UserNotFoundException.class, PermissionsNotFoundException.class})
+    public ResponseEntity<Object> handleNotFoundException(Exception ex) {
+        return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleInternalServerError(Exception ex) {
-        List<String> errors = Collections.singletonList("An internal error occured: " + ex.getClass().getSimpleName());
-        logger.warn(Arrays.toString(ex.getStackTrace()));
-        return getAndLogApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR, errors);
+        return getAndLogApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
-
-
-    private ResponseEntity<Object> getAndLogApiError(Exception ex, HttpStatus httpStatus, List<String> errors) {
+    private ResponseEntity<Object> getAndLogApiError(Exception ex, HttpStatus httpStatus) {
         ApiError apiError = ApiError.builder()
                 .status(httpStatus)
                 .message(ex.getMessage())
-                .timestamp(Instant.now().toString())
-                .errors(errors)
+                .timestamp(Instant.now())
                 .build();
 
         logger.warn(apiError.toString());
         return new ResponseEntity<>(apiError, httpStatus);
     }
 
-    private ResponseEntity<Object> getAndLogApiError(HttpStatus httpStatus, List<String> errors, String errorMessage) {
+    private ResponseEntity<Object> getAndLogApiError(String errorMessage, HttpStatus httpStatus, List<String> errors) {
         ApiError apiError = ApiError.builder()
                 .status(httpStatus)
                 .message(errorMessage)
-                .timestamp(Instant.now().toString())
+                .timestamp(Instant.now())
                 .errors(errors)
                 .build();
 

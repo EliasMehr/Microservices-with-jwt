@@ -17,6 +17,4 @@ public interface CampaignService {
     Campaign updateCampaignById(UUID campaignId, UUID companyId, CampaignRequest campaignRequest);
     void deleteCampaignById(UUID campaignId, UUID companyId);
 
-
-
 }
