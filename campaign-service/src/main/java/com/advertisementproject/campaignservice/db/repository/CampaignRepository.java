@@ -20,6 +20,11 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Campaign campaign SET campaign.isPublished = true WHERE campaign.publishedAt < ?1")
-    void publishScheduledCampaigns(Instant instant);
+    @Query("UPDATE Campaign campaign SET campaign.isPublished = true WHERE campaign.isPublished = false AND campaign.publishedAt < ?1")
+    int publishScheduledCampaigns(Instant instant);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Campaign campaign WHERE campaign.expiresAt < ?1")
+    int removeExpiredCampaigns(Instant instant);
 }
