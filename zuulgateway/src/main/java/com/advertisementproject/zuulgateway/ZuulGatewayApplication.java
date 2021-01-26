@@ -1,6 +1,7 @@
 package com.advertisementproject.zuulgateway;
 
-import com.advertisementproject.zuulgateway.ZuulFilter.SimpleFilter;
+import com.advertisementproject.zuulgateway.ZuulFilter.ZuulRequestFilter;
+import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -18,8 +19,8 @@ public class ZuulGatewayApplication {
     }
     
     @Bean
-    public SimpleFilter simpleFilter() {
-        return new SimpleFilter();
+    public ZuulRequestFilter simpleFilter() {
+        return new ZuulRequestFilter(new JwtUtils());
     }
 
 }

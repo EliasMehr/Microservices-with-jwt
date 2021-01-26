@@ -40,17 +40,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/register/**")
                 .anonymous()
 
-                .antMatchers("/user/{id}")
-                .access("@userSecurity.isSameIdAsHeader(#id) and hasAnyAuthority('CUSTOMER', 'COMPANY')")
+                .antMatchers("/user")
+                .hasAnyAuthority("CUSTOMER", "COMPANY")
 
                 .antMatchers(HttpMethod.GET, "/campaign/all/published")
                 .hasAnyAuthority("CUSTOMER", "COMPANY")
 
-                .antMatchers(
-                        "/campaign/all/company/{companyId}",
-                        "/campaign/company/{companyId}",
-                        "/campaign/{campaignId}/company/{companyId}")
-                .access("@userSecurity.isSameIdAsHeader(#companyId) and hasAuthority('COMPANY')")
+                .antMatchers("/campaign",
+                        "/campaign/{campaignId:^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$}")
+                .hasAuthority("COMPANY")
 
                 .antMatchers("**")
                     .hasAuthority("ADMIN")

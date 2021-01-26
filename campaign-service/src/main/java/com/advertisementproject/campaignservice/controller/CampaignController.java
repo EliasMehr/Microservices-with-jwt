@@ -5,6 +5,7 @@ import com.advertisementproject.campaignservice.exception.CampaignNotFoundExcept
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.advertisementproject.campaignservice.service.interfaces.CampaignService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class CampaignController {
@@ -30,43 +32,44 @@ public class CampaignController {
         return ResponseEntity.ok(campaigns);
     }
 
-    @GetMapping("/all/company/{companyId}")
-    public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@PathVariable UUID companyId){
+    @GetMapping
+    public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@RequestHeader("userId") UUID companyId){
         List<Campaign> campaigns = campaignService.getAllCampaignsByCompanyId(companyId);
         return ResponseEntity.ok(campaigns);
     }
 
-    @DeleteMapping("/all/company/{companyId}")
-    public ResponseEntity<String> deleteAllCampaignsByCompanyId(@PathVariable UUID companyId){
+    @DeleteMapping
+    public ResponseEntity<String> deleteAllCampaignsByCompanyId(@RequestHeader("userId") UUID companyId){
         campaignService.deleteAllCampaignsByCompanyId(companyId);
         return ResponseEntity.ok("All campaigns have been deleted for id: " + companyId);
     }
 
-    @PostMapping("/company/{companyId}")
-    public ResponseEntity<Campaign> createCampaign(@PathVariable UUID companyId,
-                                                   @Valid @RequestBody CampaignRequest campaignRequest) {
+    @PostMapping
+    public ResponseEntity<Campaign> createCampaign(@Valid @RequestBody CampaignRequest campaignRequest,
+                                                   @RequestHeader("userId") UUID companyId) {
 
         Campaign campaign = campaignService.createCampaign(companyId, campaignRequest);
         return ResponseEntity.ok(campaign);
     }
 
-    @GetMapping("/{campaignId}/company/{companyId}")
-    public ResponseEntity<Campaign> getCampaign(@PathVariable UUID campaignId, @PathVariable UUID companyId){
+    @GetMapping("/{campaignId}")
+    public ResponseEntity<Campaign> getCampaign(@PathVariable UUID campaignId,
+                                                @RequestHeader("userId") UUID companyId){
         Campaign campaign = campaignService.getCampaignById(campaignId, companyId);
         return ResponseEntity.ok(campaign);
     }
 
-    @PutMapping("/{campaignId}/company/{companyId}")
+    @PutMapping("/{campaignId}")
     public ResponseEntity<Campaign> updateCampaign(@PathVariable UUID campaignId,
-                                                   @PathVariable UUID companyId,
-                                                   @RequestBody CampaignRequest campaignRequest){
-
+                                                   @RequestBody CampaignRequest campaignRequest,
+                                                   @RequestHeader("userId") UUID companyId) {
         Campaign campaign = campaignService.updateCampaignById(campaignId, companyId, campaignRequest);
         return ResponseEntity.ok(campaign);
     }
 
-    @DeleteMapping("/{campaignId}/company/{companyId}")
-    public ResponseEntity<String> deleteCampaign(@PathVariable UUID campaignId, @PathVariable UUID companyId){
+    @DeleteMapping("/{campaignId}")
+    public ResponseEntity<String> deleteCampaign(@PathVariable UUID campaignId,
+                                                 @RequestHeader("userId") UUID companyId){
         campaignService.deleteCampaignById(campaignId, companyId);
         return ResponseEntity.ok("Campaign has been deleted for id: " + campaignId);
     }
