@@ -1,10 +1,8 @@
-package com.advertisementproject.userservice.api.exception.handler;
+package com.advertisementproject.campaignservice.exception.handler;
 
-import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
-import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
-import com.advertisementproject.userservice.api.exception.PermissionsNotFoundException;
-import com.advertisementproject.userservice.api.exception.UserNotFoundException;
-import com.advertisementproject.userservice.api.response.ApiError;
+import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
+import com.advertisementproject.campaignservice.exception.UnauthorizedAccessException;
+import com.advertisementproject.campaignservice.exception.response.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.time.Instant;
@@ -67,32 +64,33 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return getAndLogApiError("Field error(s) for request", HttpStatus.BAD_REQUEST, errors);
     }
 
-    @ExceptionHandler({EmailAlreadyRegisteredException.class})
-    public ResponseEntity<Object> handleConflictError(Exception ex) {
-        return getAndLogApiError(ex, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler({IdentificationNumberException.class})
-    public ResponseEntity<Object> handleCustomBadRequestException(Exception ex) {
-        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler({UserNotFoundException.class, PermissionsNotFoundException.class})
-    public ResponseEntity<Object> handleNotFoundException(Exception ex) {
+    @ExceptionHandler({CampaignNotFoundException.class})
+    public ResponseEntity<Object> handleNotFoundException(Exception ex){
         return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({UnauthorizedAccessException.class})
+    public ResponseEntity<Object> handleForbiddenAccessException(Exception ex){
+        return getAndLogApiError(ex, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<Object> handleBadRequest(Exception ex){
+        return getAndLogApiError(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleInternalServerError(Exception ex) {
-        return getAndLogApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        List<String> errors = Collections.singletonList("An internal error occured: " + ex.getClass().getSimpleName());
+        logger.warn(Arrays.toString(ex.getStackTrace()));
+        return getAndLogApiError(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, errors);
     }
-
 
     private ResponseEntity<Object> getAndLogApiError(Exception ex, HttpStatus httpStatus) {
         ApiError apiError = ApiError.builder()
                 .status(httpStatus)
                 .message(ex.getMessage())
-                .timestamp(Instant.now())
+                .timestamp(Instant.now().toString())
                 .build();
 
         logger.warn(apiError.toString());
@@ -103,7 +101,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = ApiError.builder()
                 .status(httpStatus)
                 .message(errorMessage)
-                .timestamp(Instant.now())
+                .timestamp(Instant.now().toString())
                 .errors(errors)
                 .build();
 

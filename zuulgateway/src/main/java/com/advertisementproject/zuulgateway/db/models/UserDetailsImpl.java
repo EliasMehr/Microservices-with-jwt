@@ -1,51 +1,38 @@
 package com.advertisementproject.zuulgateway.db.models;
 
-import com.advertisementproject.zuulgateway.db.models.types.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 
-@Entity
-@Table(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    @Id
-    private UUID id;
-    private String email;
-    private String hashedPassword;
-    private String phoneNumber;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    private String address;
-    private String city;
-    private String zipCode;
-    private boolean enabled;
+    private User user;
+    private boolean hasPermission;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.name());
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole().name());
         return Collections.singletonList(simpleGrantedAuthority);
     }
 
     @Override
     public String getPassword() {
-        return hashedPassword;
+        return user.getHashedPassword();
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return user.getEmail();
     }
 
     @Override
@@ -55,7 +42,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return hasPermission;
     }
 
     @Override
@@ -65,6 +52,8 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return user.isEnabled();
     }
+
+
 }
