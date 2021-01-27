@@ -59,7 +59,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(authResult.getName());
         String token = jwtUtils.createToken(userDetails);
 
-        AuthenticationResponse authResponse = new AuthenticationResponse(token);
+        AuthenticationResponse authResponse = new AuthenticationResponse(token, userDetails.getUser().getRole());
         sendResponse(response, OK.value(), authResponse);
     }
 
