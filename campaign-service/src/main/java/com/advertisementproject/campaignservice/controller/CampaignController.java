@@ -73,4 +73,11 @@ public class CampaignController {
         campaignService.deleteCampaignById(campaignId, companyId);
         return ResponseEntity.ok("Campaign has been deleted for id: " + campaignId);
     }
+
+
+    @GetMapping("/discount-code/{campaignId}")
+    public ResponseEntity<String> getDiscountCode(@PathVariable UUID campaignId){
+        String discountCode = campaignService.getDiscountCode(campaignId);
+        return ResponseEntity.ok(discountCode);
+    }
 }

@@ -48,6 +48,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/campaign/all/published")
                 .permitAll()
 
+                .antMatchers("/campaign/discount-code/{campaignId:^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$}")
+                    .hasAnyAuthority("CUSTOMER, COMPANY")
+
                 .antMatchers("/campaign",
                         "/campaign/{campaignId:^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$}")
                 .hasAuthority("COMPANY")

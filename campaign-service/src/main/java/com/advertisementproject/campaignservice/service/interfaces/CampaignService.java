@@ -17,5 +17,6 @@ public interface CampaignService {
     Campaign createCampaign(UUID companyId, CampaignRequest campaignRequest);
     Campaign updateCampaignById(UUID campaignId, UUID companyId, CampaignRequest campaignRequest);
     void deleteCampaignById(UUID campaignId, UUID companyId);
+    String getDiscountCode(UUID campaignId);
 
 }

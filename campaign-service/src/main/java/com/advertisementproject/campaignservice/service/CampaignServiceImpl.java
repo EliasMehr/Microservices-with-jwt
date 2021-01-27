@@ -66,6 +66,16 @@ public class CampaignServiceImpl implements CampaignService {
         campaignRepository.delete(campaign);
     }
 
+    @Override
+    public String getDiscountCode(UUID campaignId) {
+        Campaign campaign = campaignRepository.findById(campaignId)
+                .orElseThrow(() -> new CampaignNotFoundException("Campaign not found for id: " + campaignId));
+        if(!campaign.isPublished()){
+            throw new UnauthorizedAccessException("Access to discountCode for unpublished campaigns is not allowed");
+        }
+        return campaign.getDiscountCode();
+    }
+
 
     @Override
     public List<Campaign> getAllCampaigns() {
