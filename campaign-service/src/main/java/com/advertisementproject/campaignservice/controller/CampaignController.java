@@ -1,7 +1,6 @@
 package com.advertisementproject.campaignservice.controller;
 
 import com.advertisementproject.campaignservice.db.model.Campaign;
-import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.advertisementproject.campaignservice.service.interfaces.CampaignService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -27,8 +27,8 @@ public class CampaignController {
     }
 
     @GetMapping("/all/published")
-    public ResponseEntity<List<Campaign>> getAllPublishedCampaigns(){
-        List<Campaign> campaigns = campaignService.getAllPublishedCampaigns();
+    public ResponseEntity<List<Map<String, Object>>> getAllPublishedCampaigns(){
+        List<Map<String, Object>> campaigns = campaignService.getAllPublishedCampaigns();
         return ResponseEntity.ok(campaigns);
     }
 

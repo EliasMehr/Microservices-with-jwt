@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
@@ -44,7 +46,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority("CUSTOMER", "COMPANY")
 
                 .antMatchers(HttpMethod.GET, "/campaign/all/published")
-                .hasAnyAuthority("CUSTOMER", "COMPANY")
+                .permitAll()
 
                 .antMatchers("/campaign",
                         "/campaign/{campaignId:^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$}")
