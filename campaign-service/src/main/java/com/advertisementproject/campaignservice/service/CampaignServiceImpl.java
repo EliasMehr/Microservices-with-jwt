@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.Period;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -72,8 +73,8 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public List<Campaign> getAllPublishedCampaigns() {
-        return campaignRepository.findAllByIsPublishedTrue();
+    public List<Map<String, Object>> getAllPublishedCampaigns() {
+        return campaignRepository.campaignsWithCompanyName();
     }
 
 

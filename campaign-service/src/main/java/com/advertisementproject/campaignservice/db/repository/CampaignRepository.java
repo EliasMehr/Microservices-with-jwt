@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Repository
@@ -27,4 +28,12 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
     @Modifying
     @Query("DELETE FROM Campaign campaign WHERE campaign.expiresAt < ?1")
     int removeExpiredCampaigns(Instant instant);
+
+//    SELECT CAST(id as varchar), CAST(company_id as varchar), title, description, discount, currency, image, category, created_At, published_At, expires_At, updated_At
+//, discount_Code, is_Percentage, is_Published from Campaign INNER JOIN Company ON (Campaign.company_id = Company.user_id)
+    @Transactional
+    @Query(value = "SELECT  CAST(id as varchar), CAST(company_id as varchar), title, Campaign.description, discount, currency, image, category, created_At, published_At, expires_At, updated_At" +
+            ", discount_Code, is_Percentage, is_Published, Company.name as company_Name from Campaign INNER JOIN Company ON (Campaign.company_id = Company.user_id)" +
+            "WHERE campaign.is_Published = true", nativeQuery = true)
+    List<Map<String, Object>> campaignsWithCompanyName();
 }
