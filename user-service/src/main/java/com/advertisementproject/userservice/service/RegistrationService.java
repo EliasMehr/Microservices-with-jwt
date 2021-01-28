@@ -2,6 +2,8 @@ package com.advertisementproject.userservice.service;
 
 import com.advertisementproject.userservice.api.request.CompanyRegistrationRequest;
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
+import com.advertisementproject.userservice.api.response.CompanyUserResponse;
+import com.advertisementproject.userservice.api.response.CustomerUserResponse;
 import com.advertisementproject.userservice.db.models.Company;
 import com.advertisementproject.userservice.db.models.Customer;
 import com.advertisementproject.userservice.db.models.User;
@@ -27,7 +29,7 @@ public class RegistrationService {
     private final EmailService emailService;
 
     @Transactional
-    public User registerCustomer(CustomerRegistrationRequest registrationRequest) {
+    public CustomerUserResponse registerCustomer(CustomerRegistrationRequest registrationRequest) {
         userService.validateNotAlreadyRegistered(registrationRequest.getEmail());
 
         User user = User.toUser(registrationRequest);
@@ -38,17 +40,17 @@ public class RegistrationService {
         userRepository.save(user);
         customerRepository.save(customer);
 
-        String token = confirmationTokenService.generateAndSaveToken(user);
-        emailService.send(
-                user.getEmail(),
-                customer.getFirstName() + " " + customer.getLastName(),
-                token);
-
-        return user;
+//        String token = confirmationTokenService.generateAndSaveToken(user);
+//        emailService.send(
+//                user.getEmail(),
+//                customer.getFirstName() + " " + customer.getLastName(),
+//                token);
+//
+        return new CustomerUserResponse(user, customer);
     }
 
     @Transactional
-    public User registerCompany(CompanyRegistrationRequest registrationRequest) {
+    public CompanyUserResponse registerCompany(CompanyRegistrationRequest registrationRequest) {
         userService.validateNotAlreadyRegistered(registrationRequest.getEmail());
 
         User user = User.toUser(registrationRequest);
@@ -60,13 +62,13 @@ public class RegistrationService {
         userRepository.save(user);
         companyRepository.save(company);
 
-        String token = confirmationTokenService.generateAndSaveToken(user);
-        emailService.send(
-                user.getEmail(),
-                company.getName(),
-                token);
+//        String token = confirmationTokenService.generateAndSaveToken(user);
+//        emailService.send(
+//                user.getEmail(),
+//                company.getName(),
+//                token);
 
-        return user;
+        return new CompanyUserResponse(user, company);
     }
 
     @Transactional

@@ -2,7 +2,10 @@ package com.advertisementproject.userservice.api.controller;
 
 import com.advertisementproject.userservice.api.request.CompanyRegistrationRequest;
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
-import com.advertisementproject.userservice.db.models.User;
+import com.advertisementproject.userservice.api.response.CompanyUserResponse;
+import com.advertisementproject.userservice.api.response.CustomerUserResponse;
+import com.advertisementproject.userservice.messagebroker.dto.ConfirmationTokenMessage;
+import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.userservice.service.ConfirmationTokenService;
 import com.advertisementproject.userservice.service.RegistrationService;
 import com.advertisementproject.userservice.service.interfaces.PermissionsService;
@@ -24,19 +27,34 @@ public class RegistrationController {
     //TODO write lots of tests!
 
     private final RegistrationService registrationService;
+    private final MessagePublisher messagePublisher;
     private final ConfirmationTokenService confirmationTokenService;
     private final PermissionsService permissionsService;
 
     @PostMapping("customer")
-    public ResponseEntity<User> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
-        User user = registrationService.registerCustomer(registrationRequest);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<CustomerUserResponse> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
+        CustomerUserResponse customerUser = registrationService.registerCustomer(registrationRequest);
+
+        messagePublisher.sendMessage("confirmationToken",
+                new ConfirmationTokenMessage(
+                        customerUser.getUser().getId(),
+                        customerUser.getCustomer().getFirstName() + " " + customerUser.getCustomer().getLastName(),
+                        customerUser.getUser().getEmail()));
+
+        return ResponseEntity.ok(customerUser);
     }
 
     @PostMapping("company")
-    public ResponseEntity<User> registerCompany(@Valid @RequestBody CompanyRegistrationRequest registrationRequest) {
-        User user = registrationService.registerCompany(registrationRequest);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<CompanyUserResponse> registerCompany(@Valid @RequestBody CompanyRegistrationRequest registrationRequest) {
+        CompanyUserResponse companyUser = registrationService.registerCompany(registrationRequest);
+
+        messagePublisher.sendMessage("confirmationToken",
+                new ConfirmationTokenMessage(
+                        companyUser.getUser().getId(),
+                        companyUser.getCompany().getName(),
+                        companyUser.getUser().getEmail()));
+
+        return ResponseEntity.ok(companyUser);
     }
 
     @GetMapping("confirm/{token}")

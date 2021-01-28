@@ -28,6 +28,9 @@ zuul:
     user:
       url: http://${USER_SERVICE_HOST:localhost}:8081/
       sensitive-headers: Cookie,Set-Cookie
+    confirmation-token:
+      url: http://${CONFIRMATION_TOKEN_SERVICE_HOST:localhost}:8083/
+      sensitive-headers: Cookie,Set-Cookie
 
 # Eureka client
 eureka:

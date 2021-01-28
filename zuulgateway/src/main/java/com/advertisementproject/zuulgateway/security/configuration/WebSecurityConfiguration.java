@@ -37,16 +37,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers("/me")
-                .hasAnyAuthority("COMPANY", "CUSTOMER")
+                    .hasAnyAuthority("COMPANY", "CUSTOMER")
 
                 .antMatchers("/user/register/**")
-                .anonymous()
+                    .anonymous()
+
+                .antMatchers("/confirmation-token/**")
+                    .anonymous()
 
                 .antMatchers("/user")
-                .hasAnyAuthority("CUSTOMER", "COMPANY")
+                    .hasAnyAuthority("CUSTOMER", "COMPANY")
 
                 .antMatchers(HttpMethod.GET, "/campaign/all/published")
-                .permitAll()
+                    .permitAll()
 
                 .antMatchers("/campaign/discount-code/{campaignId:^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$}")
                     .hasAnyAuthority("CUSTOMER, COMPANY")
