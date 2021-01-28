@@ -1,4 +1,4 @@
-package com.advertisementproject.userservice.messagebroker.publisher;
+package com.advertisementproject.confirmationtokenservice.messagebroker.publisher;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +27,18 @@ public class MessagePublisher {
     }
 
     @Bean
-    public Queue confirmationTokenQueue() {
-        return new Queue("confirmationToken", false);
+    public Queue emailQueue() {
+        return new Queue("email", false);
     }
+
+    @Bean
+    public Queue enableUserQueue() {
+        return new Queue("enableUser", false);
+    }
+
+    @Bean
+    public Queue permissionsAddQueue() {
+        return new Queue("permissionsAdd", true);
+    }
+
 }

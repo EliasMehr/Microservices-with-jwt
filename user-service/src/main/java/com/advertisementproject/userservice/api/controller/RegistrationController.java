@@ -57,6 +57,7 @@ public class RegistrationController {
         return ResponseEntity.ok(companyUser);
     }
 
+    //TODO move to confirmation token service
     @GetMapping("confirm/{token}")
     public ResponseEntity<String> confirm(@PathVariable String token) {
         UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);

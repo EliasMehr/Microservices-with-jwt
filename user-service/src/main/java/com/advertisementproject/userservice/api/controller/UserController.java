@@ -1,6 +1,8 @@
 package com.advertisementproject.userservice.api.controller;
 
 import com.advertisementproject.userservice.api.request.UpdateUserRequest;
+import com.advertisementproject.userservice.messagebroker.dto.ConfirmationTokenMessage;
+import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

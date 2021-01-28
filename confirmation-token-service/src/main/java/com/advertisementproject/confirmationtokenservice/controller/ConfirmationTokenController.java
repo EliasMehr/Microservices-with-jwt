@@ -1,5 +1,6 @@
 package com.advertisementproject.confirmationtokenservice.controller;
 
+import com.advertisementproject.confirmationtokenservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.confirmationtokenservice.service.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,13 @@ import java.util.UUID;
 public class ConfirmationTokenController {
 
     private final ConfirmationTokenService confirmationTokenService;
+    private final MessagePublisher messagePublisher;
 
     @GetMapping("/{token}")
     public ResponseEntity<String> confirm(@PathVariable String token) {
         UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);
-//        registrationService.enableUser(userId);
-//        permissionsService.createPermissions(userId);
+        messagePublisher.sendMessage("enableUser", userId);
+        messagePublisher.sendMessage("permissionsAdd", userId);
         return ResponseEntity.ok("Your email has been confirmed");
     }
 }

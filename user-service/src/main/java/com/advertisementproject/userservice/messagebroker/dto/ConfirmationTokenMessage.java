@@ -3,12 +3,11 @@ package com.advertisementproject.userservice.messagebroker.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class ConfirmationTokenMessage implements Serializable {
+public class ConfirmationTokenMessage {
 
     private UUID userId;
     private String name;
