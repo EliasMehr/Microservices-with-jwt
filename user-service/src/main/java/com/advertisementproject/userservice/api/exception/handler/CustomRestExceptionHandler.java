@@ -4,7 +4,7 @@ import com.advertisementproject.userservice.api.exception.EmailAlreadyRegistered
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
 import com.advertisementproject.userservice.api.exception.PermissionsNotFoundException;
 import com.advertisementproject.userservice.api.exception.UserNotFoundException;
-import com.advertisementproject.userservice.api.response.ApiError;
+import com.advertisementproject.userservice.api.exception.response.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
@@ -24,7 +24,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
