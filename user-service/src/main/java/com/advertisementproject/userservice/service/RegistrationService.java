@@ -4,9 +4,9 @@ import com.advertisementproject.userservice.api.request.CompanyRegistrationReque
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
 import com.advertisementproject.userservice.api.response.CompanyUserResponse;
 import com.advertisementproject.userservice.api.response.CustomerUserResponse;
-import com.advertisementproject.userservice.db.models.Company;
-import com.advertisementproject.userservice.db.models.Customer;
-import com.advertisementproject.userservice.db.models.User;
+import com.advertisementproject.userservice.db.model.Company;
+import com.advertisementproject.userservice.db.model.Customer;
+import com.advertisementproject.userservice.db.model.User;
 import com.advertisementproject.userservice.db.repository.CompanyRepository;
 import com.advertisementproject.userservice.db.repository.CustomerRepository;
 import com.advertisementproject.userservice.db.repository.UserRepository;

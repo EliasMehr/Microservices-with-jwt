@@ -1,8 +1,8 @@
-package com.advertisementproject.userservice.db.models;
+package com.advertisementproject.userservice.db.model;
 
 import com.advertisementproject.userservice.api.request.CompanyRegistrationRequest;
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
-import com.advertisementproject.userservice.db.models.types.Role;
+import com.advertisementproject.userservice.db.model.types.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
-import static com.advertisementproject.userservice.db.models.types.Role.*;
+import static com.advertisementproject.userservice.db.model.types.Role.*;
 import static javax.persistence.EnumType.STRING;
 
 @AllArgsConstructor

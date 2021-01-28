@@ -1,13 +1,10 @@
 package com.advertisementproject.userservice.service;
 
-import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
-import com.advertisementproject.userservice.db.models.Company;
-import com.advertisementproject.userservice.db.models.Customer;
-import com.advertisementproject.userservice.db.models.User;
-import com.advertisementproject.userservice.db.models.types.Role;
+import com.advertisementproject.userservice.db.model.Company;
+import com.advertisementproject.userservice.db.model.Customer;
+import com.advertisementproject.userservice.db.model.User;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +13,6 @@ import javax.validation.Valid;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import static com.advertisementproject.userservice.db.models.types.Role.CUSTOMER;
 
 @Service
 @Validated

@@ -31,6 +31,7 @@ public class EmailService {
             helper.setFrom("campaignemailhandler@gmail.com");
             mailSender.send(mimeMessage);
             log.info("Sent confirmation link email to " + toEmail);
+
         } catch (MessagingException e) {
             log.warn("failed to send email", e);
             throw new IllegalStateException("failed to send email");

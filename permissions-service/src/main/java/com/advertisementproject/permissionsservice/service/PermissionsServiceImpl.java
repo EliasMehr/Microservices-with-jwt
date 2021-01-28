@@ -5,11 +5,13 @@ import com.advertisementproject.permissionsservice.db.repository.PermissionsRepo
 import com.advertisementproject.permissionsservice.exception.PermissionsNotFoundException;
 import com.advertisementproject.permissionsservice.service.interfaces.PermissionsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PermissionsServiceImpl implements PermissionsService {
@@ -19,7 +21,9 @@ public class PermissionsServiceImpl implements PermissionsService {
     @Override
     public Permissions createPermissions(UUID userId) {
         Permissions permissions = Permissions.toPermissions(userId);
-        return permissionsRepository.save(permissions);
+        permissionsRepository.save(permissions);
+        log.info("Permissions saved for user with id: " + userId);
+        return permissions;
     }
 
     @Override

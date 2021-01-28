@@ -1,4 +1,4 @@
-package com.advertisementproject.userservice.db.models.types;
+package com.advertisementproject.userservice.db.model.types;
 
 public enum CompanyType {
     RETAIL,

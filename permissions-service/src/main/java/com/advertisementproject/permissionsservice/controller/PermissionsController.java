@@ -1,12 +1,11 @@
-package com.advertisementproject.userservice.api.controller;
+package com.advertisementproject.permissionsservice.controller;
 
-import com.advertisementproject.userservice.api.request.UpdatePermissionsRequest;
-import com.advertisementproject.userservice.db.models.Permissions;
-import com.advertisementproject.userservice.service.interfaces.PermissionsService;
+import com.advertisementproject.permissionsservice.db.model.Permissions;
+import com.advertisementproject.permissionsservice.request.UpdatePermissionsRequest;
+import com.advertisementproject.permissionsservice.service.interfaces.PermissionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.UUID;
 

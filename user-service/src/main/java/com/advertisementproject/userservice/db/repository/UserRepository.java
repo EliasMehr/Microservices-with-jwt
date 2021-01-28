@@ -1,6 +1,6 @@
 package com.advertisementproject.userservice.db.repository;
 
-import com.advertisementproject.userservice.db.models.User;
+import com.advertisementproject.userservice.db.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

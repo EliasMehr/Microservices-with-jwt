@@ -37,5 +37,6 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(id, updateUserRequest));
     }
 
+    //TODO Add endpoint for retrieving user info needed, generating new token and resending confirmation email
 
 }

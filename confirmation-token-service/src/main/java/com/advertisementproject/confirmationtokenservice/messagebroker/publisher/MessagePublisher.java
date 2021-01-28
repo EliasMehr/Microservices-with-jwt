@@ -9,12 +9,19 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MessagePublisher {
 
     private final RabbitTemplate rabbitTemplate;
+
+    public void sendMessage(String queueName, UUID userId) {
+        log.info("[MESSAGE BROKER] Sending userId to " + queueName + ": " + userId);
+        rabbitTemplate.convertAndSend(queueName, userId);
+    }
 
     public void sendMessage(String queueName, Object message) {
         try {

@@ -26,7 +26,7 @@ public class MessageListener {
                     emailMessage.getEmail(), emailMessage.getName(), emailMessage.getToken());
 
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.warn("JsonProcessingException: " + e.getMessage());
         }
     }
 }

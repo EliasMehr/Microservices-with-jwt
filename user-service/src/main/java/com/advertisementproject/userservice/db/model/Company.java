@@ -1,7 +1,7 @@
-package com.advertisementproject.userservice.db.models;
+package com.advertisementproject.userservice.db.model;
 
 import com.advertisementproject.userservice.api.request.CompanyRegistrationRequest;
-import com.advertisementproject.userservice.db.models.types.CompanyType;
+import com.advertisementproject.userservice.db.model.types.CompanyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

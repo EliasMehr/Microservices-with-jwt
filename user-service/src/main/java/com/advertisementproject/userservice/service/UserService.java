@@ -5,10 +5,10 @@ import com.advertisementproject.userservice.api.exception.UserNotFoundException;
 import com.advertisementproject.userservice.api.request.UpdateUserRequest;
 import com.advertisementproject.userservice.api.response.CompanyUserResponse;
 import com.advertisementproject.userservice.api.response.CustomerUserResponse;
-import com.advertisementproject.userservice.db.models.Company;
-import com.advertisementproject.userservice.db.models.Customer;
-import com.advertisementproject.userservice.db.models.User;
-import com.advertisementproject.userservice.db.models.types.Role;
+import com.advertisementproject.userservice.db.model.Company;
+import com.advertisementproject.userservice.db.model.Customer;
+import com.advertisementproject.userservice.db.model.User;
+import com.advertisementproject.userservice.db.model.types.Role;
 import com.advertisementproject.userservice.db.repository.CompanyRepository;
 import com.advertisementproject.userservice.db.repository.CustomerRepository;
 import com.advertisementproject.userservice.db.repository.UserRepository;
@@ -176,10 +176,6 @@ public class UserService {
         if(updateUserRequest.getCompanyType() != null) {
             company.setCompanyType(updateUserRequest.getCompanyType());
         }
-    }
-
-    public boolean emailAlreadyExists(String email){
-        return userRepository.existsByEmail(email);
     }
 
     @Transactional

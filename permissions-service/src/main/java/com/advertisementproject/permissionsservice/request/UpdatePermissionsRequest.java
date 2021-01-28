@@ -1,4 +1,4 @@
-package com.advertisementproject.userservice.api.request;
+package com.advertisementproject.permissionsservice.request;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.advertisementproject.userservice.db.models;
+package com.advertisementproject.userservice.db.model;
 
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
 import lombok.AllArgsConstructor;
