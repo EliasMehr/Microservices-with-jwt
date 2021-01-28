@@ -13,6 +13,7 @@ import com.advertisementproject.userservice.db.repository.CompanyRepository;
 import com.advertisementproject.userservice.db.repository.CustomerRepository;
 import com.advertisementproject.userservice.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -174,13 +176,16 @@ public class UserService {
         if(updateUserRequest.getCompanyType() != null) {
             company.setCompanyType(updateUserRequest.getCompanyType());
         }
-
     }
-
-
-
 
     public boolean emailAlreadyExists(String email){
         return userRepository.existsByEmail(email);
     }
+
+    @Transactional
+    public void enableUser(UUID userId) {
+        userRepository.enableUser(userId);
+        log.info("User enabled with id: " + userId);
+    }
+
 }

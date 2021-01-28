@@ -1,4 +1,4 @@
-package com.advertisementproject.userservice.service;
+package com.advertisementproject.emailservice.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +18,9 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     @Async
-    public void send(String toEmail, String name, String token) {
-        String link = "http://localhost:8080/user/register/confirm/" + token;
-        String emailTemplate = buildEmail(name, link);
+    public void sendConfirmationLinkEmail(String toEmail, String name, String token) {
+        String link = "http://localhost:8080/confirmation-token/" + token;
+        String emailTemplate = buildEmailConfirmationLinkEmail(name, link);
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
@@ -30,13 +30,14 @@ public class EmailService {
             helper.setSubject("Confirm your email");
             helper.setFrom("campaignemailhandler@gmail.com");
             mailSender.send(mimeMessage);
+            log.info("Sent confirmation link email to " + toEmail);
         } catch (MessagingException e) {
             log.warn("failed to send email", e);
             throw new IllegalStateException("failed to send email");
         }
     }
 
-    public String buildEmail(String name, String link) {
+    public String buildEmailConfirmationLinkEmail(String name, String link) {
 
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +

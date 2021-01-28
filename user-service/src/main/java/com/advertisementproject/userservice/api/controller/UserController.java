@@ -1,8 +1,6 @@
 package com.advertisementproject.userservice.api.controller;
 
 import com.advertisementproject.userservice.api.request.UpdateUserRequest;
-import com.advertisementproject.userservice.messagebroker.dto.ConfirmationTokenMessage;
-import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +27,7 @@ public class UserController {
 
     @DeleteMapping
     public ResponseEntity<String> deleteUserById(@RequestHeader("userId") UUID id) {
+        //TODO make sure all permissions, tokens and campaigns are deleted for user as well (publish messages)!!!!!!
         userService.deleteUserById(id);
         return ResponseEntity.ok("User deleted");
     }
