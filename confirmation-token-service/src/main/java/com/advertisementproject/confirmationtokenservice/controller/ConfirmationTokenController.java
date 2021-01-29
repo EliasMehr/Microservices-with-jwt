@@ -20,8 +20,8 @@ public class ConfirmationTokenController {
     @GetMapping("/{token}")
     public ResponseEntity<String> confirm(@PathVariable String token) {
         UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);
-        messagePublisher.sendMessage("enableUser", userId);
-        messagePublisher.sendMessage("permissionsAdd", userId);
+        messagePublisher.sendUserIdMessage("enableUser", userId);
+        messagePublisher.sendUserIdMessage("permissionsAdd", userId);
         return ResponseEntity.ok("Your email has been confirmed");
     }
 }

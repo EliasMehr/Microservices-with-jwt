@@ -4,6 +4,7 @@ import com.advertisementproject.confirmationtokenservice.db.model.ConfirmationTo
 import com.advertisementproject.confirmationtokenservice.db.repository.ConfirmationTokenRepository;
 import com.advertisementproject.confirmationtokenservice.exception.ConfirmationTokenException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ConfirmationTokenService {
@@ -21,6 +22,7 @@ public class ConfirmationTokenService {
     public String generateAndSaveToken(UUID userId) {
         ConfirmationToken confirmationToken = ConfirmationToken.toConfirmationToken(userId);
         confirmationTokenRepository.save(confirmationToken);
+        log.info("New Confirmation token saved for userId: " + userId);
         return confirmationToken.getToken();
     }
 
@@ -34,6 +36,11 @@ public class ConfirmationTokenService {
         confirmationTokenRepository.updateConfirmedAt(confirmationToken.getToken(), LocalDateTime.now());
         return confirmationToken.getUserId();
 
+    }
+
+    public void deleteAllConfirmationTokensByUserId(UUID userId){
+        confirmationTokenRepository.deleteAllByUserId(userId);
+        log.info("Confirmation tokens deleted for userId: " + userId);
     }
 
     private ConfirmationToken getTokenFromDatabase(String token) {

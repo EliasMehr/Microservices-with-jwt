@@ -4,7 +4,7 @@ import com.advertisementproject.userservice.api.request.CompanyRegistrationReque
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
 import com.advertisementproject.userservice.api.response.CompanyUserResponse;
 import com.advertisementproject.userservice.api.response.CustomerUserResponse;
-import com.advertisementproject.userservice.messagebroker.dto.UserMessage;
+import com.advertisementproject.userservice.messagebroker.dto.EmailDetailsMessage;
 import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.userservice.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +31,9 @@ public class RegistrationController {
     public ResponseEntity<CustomerUserResponse> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
         CustomerUserResponse customerUser = registrationService.registerCustomer(registrationRequest);
 
-        messagePublisher.sendMessage("confirmationToken",
-                new UserMessage(
-                        customerUser.getUser().getId(),
+        messagePublisher.sendUserIdMessage("confirmationToken", customerUser.getUser().getId());
+        messagePublisher.sendEmailDetailsMessage(
+                new EmailDetailsMessage(
                         customerUser.getCustomer().getFirstName() + " " + customerUser.getCustomer().getLastName(),
                         customerUser.getUser().getEmail()));
 
@@ -44,9 +44,9 @@ public class RegistrationController {
     public ResponseEntity<CompanyUserResponse> registerCompany(@Valid @RequestBody CompanyRegistrationRequest registrationRequest) {
         CompanyUserResponse companyUser = registrationService.registerCompany(registrationRequest);
 
-        messagePublisher.sendMessage("confirmationToken",
-                new UserMessage(
-                        companyUser.getUser().getId(),
+        messagePublisher.sendUserIdMessage("confirmationToken", companyUser.getUser().getId());
+        messagePublisher.sendEmailDetailsMessage(
+                new EmailDetailsMessage(
                         companyUser.getCompany().getName(),
                         companyUser.getUser().getEmail()));
 

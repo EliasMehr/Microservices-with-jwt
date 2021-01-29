@@ -1,14 +1,13 @@
 package com.advertisementproject.confirmationtokenservice.messagebroker.listener;
 
-import com.advertisementproject.confirmationtokenservice.messagebroker.dto.UserMessage;
 import com.advertisementproject.confirmationtokenservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.confirmationtokenservice.service.ConfirmationTokenService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -19,18 +18,15 @@ public class MessageListener {
     private final MessagePublisher messagePublisher;
 
     @RabbitListener(queues = "confirmationToken")
-    public void confirmationTokenlistener(String messageObject){
-        try {
-            UserMessage userMessage = new ObjectMapper().readValue(messageObject, UserMessage.class);
-            log.info("[MESSAGE BROKER] Received message: " + userMessage);
+    public void userIdListener(UUID userId){
+            log.info("[MESSAGE BROKER] Received userId: " + userId);
+            String token = confirmationTokenService.generateAndSaveToken(userId);
+            messagePublisher.sendEmailTokenMessage(token);
+    }
 
-            String token = confirmationTokenService.generateAndSaveToken(userMessage.getUserId());
-            userMessage.setToken(token);
-
-            messagePublisher.sendMessage("email", userMessage);
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    @RabbitListener(queues = "confirmationTokenDelete")
+    public void confirmationTokenDeleteListener(UUID userId){
+        log.info("[MESSAGE BROKER] Received delete message for userId: " + userId);
+        confirmationTokenService.deleteAllConfirmationTokensByUserId(userId);
     }
 }

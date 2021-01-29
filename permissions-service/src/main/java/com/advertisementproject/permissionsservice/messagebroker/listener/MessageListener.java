@@ -20,4 +20,10 @@ public class MessageListener {
         log.info("[MESSAGE BROKER] Received permissionsAdd message for id: " + userId);
         permissionsService.createPermissions(userId);
     }
+
+    @RabbitListener(queues = "permissionsDelete")
+    public void permissionsDeleteListener(UUID userId){
+        log.info("[MESSAGE BROKER] Received permissionsDelete message for id: " + userId);
+        permissionsService.removePermissions(userId);
+    }
 }

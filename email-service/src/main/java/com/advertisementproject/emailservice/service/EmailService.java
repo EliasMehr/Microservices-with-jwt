@@ -1,6 +1,8 @@
 package com.advertisementproject.emailservice.service;
 
+import com.advertisementproject.emailservice.messagebroker.dto.EmailDetailsMessage;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,13 +13,40 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @Async
+    private String token;
+    private EmailDetailsMessage emailDetailsMessage;
+
+    public void saveDetailsOrSendEmailIfReady(EmailDetailsMessage emailDetails){
+        if(token != null){
+            sendConfirmationLinkEmail(emailDetails.getEmail(), emailDetails.getName(), token);
+            resetEmailVariables();
+        }
+        else {
+            this.emailDetailsMessage = emailDetails;
+        }
+    }
+
+    private void resetEmailVariables() {
+        token = null;
+        emailDetailsMessage = null;
+    }
+
+    public void saveTokenOrSendEmailIfReady(String token){
+        if(emailDetailsMessage != null){
+            sendConfirmationLinkEmail(emailDetailsMessage.getEmail(), emailDetailsMessage.getName(), token);
+            resetEmailVariables();
+        }
+        else {
+            this.token = token;
+        }
+    }
+
     public void sendConfirmationLinkEmail(String toEmail, String name, String token) {
         String link = "http://localhost:8080/confirmation-token/" + token;
         String emailTemplate = buildEmailConfirmationLinkEmail(name, link);

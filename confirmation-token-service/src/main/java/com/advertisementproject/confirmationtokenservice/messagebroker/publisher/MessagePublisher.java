@@ -18,29 +18,25 @@ public class MessagePublisher {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(String queueName, UUID userId) {
+    public void sendUserIdMessage(String queueName, UUID userId) {
         log.info("[MESSAGE BROKER] Sending userId to " + queueName + ": " + userId);
         rabbitTemplate.convertAndSend(queueName, userId);
     }
 
-    public void sendMessage(String queueName, Object message) {
-        try {
-            String messageString = new ObjectMapper().writeValueAsString(message);
-            log.info("[MESSAGE BROKER] Sending message to " + queueName + ": " + messageString);
-            rabbitTemplate.convertAndSend(queueName, messageString);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Bean
-    public Queue emailQueue() {
-        return new Queue("email", false);
+    public void sendEmailTokenMessage(String token) {
+        String queueName = "emailToken";
+        log.info("[MESSAGE BROKER] Sending token to " + queueName + ": " + token);
+        rabbitTemplate.convertAndSend(queueName, token);
     }
 
     @Bean
     public Queue enableUserQueue() {
         return new Queue("enableUser", false);
+    }
+
+    @Bean
+    public Queue emailTokenQueue() {
+        return new Queue("emailToken", false);
     }
 
     @Bean
