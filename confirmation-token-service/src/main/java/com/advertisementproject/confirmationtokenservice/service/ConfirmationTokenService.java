@@ -31,7 +31,7 @@ public class ConfirmationTokenService {
     public UUID confirmTokenAndGetUserId(String token) {
 
         ConfirmationToken confirmationToken = getTokenFromDatabase(token);
-        validateTokenNotConfirmed(confirmationToken);
+        validateNoTokenConfirmedForUserId(confirmationToken.getUserId());
         validateTokenNotExpired(confirmationToken);
         confirmationTokenRepository.updateConfirmedAt(confirmationToken.getToken(), LocalDateTime.now());
         return confirmationToken.getUserId();
@@ -49,8 +49,8 @@ public class ConfirmationTokenService {
     }
 
 
-    private void validateTokenNotConfirmed(ConfirmationToken confirmationToken) {
-        if (confirmationToken.getConfirmedAt() != null) {
+    private void validateNoTokenConfirmedForUserId(UUID userId) {
+        if (!confirmationTokenRepository.findConfirmationTokenByConfirmedAtNotNullAndUserId(userId).isEmpty()) {
             throw new ConfirmationTokenException("Email is already confirmed", HttpStatus.CONFLICT);
         }
     }

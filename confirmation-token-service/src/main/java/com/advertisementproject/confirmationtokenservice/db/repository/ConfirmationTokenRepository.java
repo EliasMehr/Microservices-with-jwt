@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import java.util.UUID;
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, UUID> {
 
     Optional<ConfirmationToken> findByToken(String token);
+
+    List<ConfirmationToken> findConfirmationTokenByConfirmedAtNotNullAndUserId(UUID userId);
 
     @Transactional
     @Modifying
