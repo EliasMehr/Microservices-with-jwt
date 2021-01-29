@@ -9,12 +9,10 @@ import com.advertisementproject.userservice.messagebroker.publisher.MessagePubli
 import com.advertisementproject.userservice.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/register/")
@@ -51,5 +49,13 @@ public class RegistrationController {
                         companyUser.getUser().getEmail()));
 
         return ResponseEntity.ok(companyUser);
+    }
+
+    @GetMapping("resend-email/{email}")
+    public ResponseEntity<String> resendEmail(@PathVariable String email){
+        EmailDetailsMessage emailDetails = registrationService.getEmailDetails(email);
+        messagePublisher.sendUserIdMessage("confirmationToken", emailDetails.getUserId());
+        messagePublisher.sendEmailDetailsMessage(emailDetails);
+        return ResponseEntity.ok("New confirmation email has been sent");
     }
 }

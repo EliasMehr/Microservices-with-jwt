@@ -32,12 +32,6 @@ public class UserService {
     private final CustomerRepository customerRepository;
     private final ValidationService validationService;
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new UserNotFoundException("User not found for email : " + email)
-        );
-    }
-
     public List<Object> findAllUsers() {
 
         List<User> userList = userRepository.findAll();
@@ -55,13 +49,28 @@ public class UserService {
 
     public Object getFullUserInfoById(UUID id) {
         User user = findUserById(id);
-        if(user.getRole().equals(Role.CUSTOMER)) {
-            return new CustomerUserResponse(user, findCustomerById(user.getId()));
-        }
-        else {
-            return new CompanyUserResponse(user, findCompanyById(user.getId()));
-        }
+        return getCustomerOrCompanyUser(user);
     }
+
+    public Object getFullUserInfoByEmail(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found for email: " + email));
+        return getCustomerOrCompanyUser(user);
+    }
+
+    public CustomerUserResponse saveCustomerUser(User user, Customer customer){
+        userRepository.save(user);
+        customerRepository.save(customer);
+        return new CustomerUserResponse(user, customer);
+    }
+
+    public CompanyUserResponse saveCompanyUser(User user, Company company){
+        userRepository.save(user);
+        companyRepository.save(company);
+        return new CompanyUserResponse(user, company);
+    }
+
+
 
     public void validateNotAlreadyRegistered(String email) {
         if (userRepository.findByEmail(email).isPresent()) {
@@ -127,6 +136,13 @@ public class UserService {
 
     }
 
+    private Object getCustomerOrCompanyUser(User user) {
+        if (user.getRole().equals(Role.CUSTOMER)) {
+            return new CustomerUserResponse(user, findCustomerById(user.getId()));
+        } else {
+            return new CompanyUserResponse(user, findCompanyById(user.getId()));
+        }
+    }
 
     private void updateUserFields(UpdateUserRequest updateUserRequest, User user) {
 

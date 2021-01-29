@@ -7,21 +7,17 @@ import com.advertisementproject.userservice.api.response.CustomerUserResponse;
 import com.advertisementproject.userservice.db.model.Company;
 import com.advertisementproject.userservice.db.model.Customer;
 import com.advertisementproject.userservice.db.model.User;
-import com.advertisementproject.userservice.db.repository.CompanyRepository;
-import com.advertisementproject.userservice.db.repository.CustomerRepository;
-import com.advertisementproject.userservice.db.repository.UserRepository;
+import com.advertisementproject.userservice.messagebroker.dto.EmailDetailsMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
 
-    private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
-    private final CompanyRepository companyRepository;
     private final UserService userService;
     private final ValidationService validationService;
 
@@ -35,10 +31,8 @@ public class RegistrationService {
 
         Customer customer = Customer.toCustomer(user.getId(), registrationRequest);
         validationService.validateCustomer(customer);
-        userRepository.save(user);
-        customerRepository.save(customer);
 
-        return new CustomerUserResponse(user, customer);
+        return userService.saveCustomerUser(user, customer);
     }
 
     @Transactional
@@ -51,10 +45,26 @@ public class RegistrationService {
         Company company = Company.toCompany(user.getId(), registrationRequest);
         validationService.validateCompany(company);
 
-        userRepository.save(user);
-        companyRepository.save(company);
+        return userService.saveCompanyUser(user, company);
+    }
 
-        return new CompanyUserResponse(user, company);
+    public EmailDetailsMessage getEmailDetails(String email){
+        Object userInfo = userService.getFullUserInfoByEmail(email);
+        UUID userId;
+        String name;
+        if(userInfo instanceof CustomerUserResponse){
+            CustomerUserResponse customerUser = (CustomerUserResponse) userInfo;
+            userId = customerUser.getUser().getId();
+            name = customerUser.getCustomer().getFirstName() + " " + customerUser.getCustomer().getLastName();
+        }
+        else if(userInfo instanceof CompanyUserResponse){
+            CompanyUserResponse companyUser = (CompanyUserResponse) userInfo;
+            userId = companyUser.getUser().getId();
+            name = companyUser.getCompany().getName();
+        }
+        else throw new IllegalStateException("Invalid user type");
+
+        return new EmailDetailsMessage(userId, name, email);
     }
 
 }
