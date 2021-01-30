@@ -1,5 +1,6 @@
 package com.advertisementproject.confirmationtokenservice.messagebroker.publisher;
 
+import com.advertisementproject.confirmationtokenservice.messagebroker.dto.TokenMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,15 @@ public class MessagePublisher {
         rabbitTemplate.convertAndSend(queueName, userId);
     }
 
-    public void sendEmailTokenMessage(String token) {
+    public void sendTokenMessage(TokenMessage tokenMessage) {
         String queueName = "emailToken";
-        log.info("[MESSAGE BROKER] Sending token to " + queueName + ": " + token);
-        rabbitTemplate.convertAndSend(queueName, token);
+        try {
+            String messageString = new ObjectMapper().writeValueAsString(tokenMessage);
+            log.info("[MESSAGE BROKER] Sending token to " + queueName + ": " + messageString);
+            rabbitTemplate.convertAndSend(queueName, messageString);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Bean

@@ -32,6 +32,7 @@ public class RegistrationController {
         messagePublisher.sendUserIdMessage("confirmationToken", customerUser.getUser().getId());
         messagePublisher.sendEmailDetailsMessage(
                 new EmailDetailsMessage(
+                        customerUser.getUser().getId(),
                         customerUser.getCustomer().getFirstName() + " " + customerUser.getCustomer().getLastName(),
                         customerUser.getUser().getEmail()));
 
@@ -45,6 +46,7 @@ public class RegistrationController {
         messagePublisher.sendUserIdMessage("confirmationToken", companyUser.getUser().getId());
         messagePublisher.sendEmailDetailsMessage(
                 new EmailDetailsMessage(
+                        companyUser.getUser().getId(),
                         companyUser.getCompany().getName(),
                         companyUser.getUser().getEmail()));
 

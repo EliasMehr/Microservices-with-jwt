@@ -1,5 +1,6 @@
 package com.advertisementproject.confirmationtokenservice.messagebroker.listener;
 
+import com.advertisementproject.confirmationtokenservice.messagebroker.dto.TokenMessage;
 import com.advertisementproject.confirmationtokenservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.confirmationtokenservice.service.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class MessageListener {
     public void userIdListener(UUID userId){
             log.info("[MESSAGE BROKER] Received userId: " + userId);
             String token = confirmationTokenService.generateAndSaveToken(userId);
-            messagePublisher.sendEmailTokenMessage(token);
+            messagePublisher.sendTokenMessage(new TokenMessage(userId, token));
     }
 
     @RabbitListener(queues = "confirmationTokenDelete")

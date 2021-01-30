@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class EmailDetailsMessage {
+public class TokenMessage {
+
     private UUID userId;
-    private String name;
-    private String email;
+    private String token;
 }
