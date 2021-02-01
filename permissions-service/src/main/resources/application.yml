@@ -3,6 +3,13 @@ spring:
   application:
     name: permissions-service
 
+  # RabbitMQ Message Broker
+  rabbitmq:
+    addresses: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
   # Database configuration
   jpa:
     hibernate:
