@@ -1,8 +1,7 @@
 package com.advertisementproject.zuulgateway.api.response;
 
-import com.advertisementproject.zuulgateway.db.models.types.Role;
+import com.advertisementproject.zuulgateway.db.model.types.Role;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.security.Utils;
 
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.security.model.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;

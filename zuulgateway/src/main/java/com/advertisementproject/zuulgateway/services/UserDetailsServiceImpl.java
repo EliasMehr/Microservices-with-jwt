@@ -1,8 +1,8 @@
 package com.advertisementproject.zuulgateway.services;
 
-import com.advertisementproject.zuulgateway.db.models.Permissions;
-import com.advertisementproject.zuulgateway.db.models.User;
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.db.model.Permissions;
+import com.advertisementproject.zuulgateway.db.model.User;
+import com.advertisementproject.zuulgateway.security.model.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.db.repositories.PermissionsRepository;
 import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

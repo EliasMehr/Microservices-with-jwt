@@ -1,9 +1,8 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.security.model.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
-import com.netflix.zuul.context.RequestContext;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;

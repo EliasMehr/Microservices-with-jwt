@@ -1,6 +1,5 @@
 package com.advertisementproject.zuulgateway.api;
 
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;

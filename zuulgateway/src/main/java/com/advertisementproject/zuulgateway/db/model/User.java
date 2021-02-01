@@ -1,6 +1,6 @@
-package com.advertisementproject.zuulgateway.db.models;
+package com.advertisementproject.zuulgateway.db.model;
 
-import com.advertisementproject.zuulgateway.db.models.types.Role;
+import com.advertisementproject.zuulgateway.db.model.types.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
