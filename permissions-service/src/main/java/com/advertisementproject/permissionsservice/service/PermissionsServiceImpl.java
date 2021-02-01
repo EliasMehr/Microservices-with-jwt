@@ -21,12 +21,11 @@ public class PermissionsServiceImpl implements PermissionsService {
     private final MessagePublisher messagePublisher;
 
     @Override
-    public Permissions createPermissions(UUID userId) {
+    public void createPermissions(UUID userId) {
         Permissions permissions = Permissions.toPermissions(userId);
         permissionsRepository.save(permissions);
         messagePublisher.sendPermissionsMessage(permissions);
         log.info("Permissions saved for user with id: " + userId);
-        return permissions;
     }
 
     @Override

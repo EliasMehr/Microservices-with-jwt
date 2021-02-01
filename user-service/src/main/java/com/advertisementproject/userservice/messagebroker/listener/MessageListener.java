@@ -1,6 +1,6 @@
 package com.advertisementproject.userservice.messagebroker.listener;
 
-import com.advertisementproject.userservice.service.UserService;
+import com.advertisementproject.userservice.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

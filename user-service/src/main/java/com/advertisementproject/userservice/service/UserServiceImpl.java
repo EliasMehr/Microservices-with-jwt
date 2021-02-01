@@ -13,6 +13,8 @@ import com.advertisementproject.userservice.db.repository.CompanyRepository;
 import com.advertisementproject.userservice.db.repository.CustomerRepository;
 import com.advertisementproject.userservice.db.repository.UserRepository;
 import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
+import com.advertisementproject.userservice.service.interfaces.UserService;
+import com.advertisementproject.userservice.service.interfaces.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,7 +28,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
@@ -34,6 +36,7 @@ public class UserService {
     private final ValidationService validationService;
     private final MessagePublisher messagePublisher;
 
+    @Override
     public List<Object> findAllUsers() {
 
         List<User> userList = userRepository.findAll();
@@ -41,25 +44,27 @@ public class UserService {
         for (User user : userList) {
             if(user.getRole().equals(Role.CUSTOMER)) {
                 extendedUserList.add(new CustomerUserResponse(user, findCustomerById(user.getId())));
-            }
-            else {
+            } else {
                 extendedUserList.add(new CompanyUserResponse(user, findCompanyById(user.getId())));
             }
         }
         return extendedUserList;
     }
 
+    @Override
     public Object getFullUserInfoById(UUID id) {
         User user = findUserById(id);
         return getCustomerOrCompanyUser(user);
     }
 
+    @Override
     public Object getFullUserInfoByEmail(String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found for email: " + email));
         return getCustomerOrCompanyUser(user);
     }
 
+    @Override
     public CustomerUserResponse saveCustomerUser(User user, Customer customer){
         userRepository.save(user);
         messagePublisher.sendUserMessage(user);
@@ -68,6 +73,7 @@ public class UserService {
         return new CustomerUserResponse(user, customer);
     }
 
+    @Override
     public CompanyUserResponse saveCompanyUser(User user, Company company){
         userRepository.save(user);
         messagePublisher.sendUserMessage(user);
@@ -79,44 +85,49 @@ public class UserService {
     }
 
 
-
+    @Override
     public void validateNotAlreadyRegistered(String email) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new EmailAlreadyRegisteredException("Email is already registered for email: " + email);
         }
     }
 
+    @Override
     public User findUserById(UUID id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User not found for id: " + id)
         );
     }
 
+    @Override
     public Customer findCustomerById(UUID id) {
         return customerRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("Customer not found for id: " + id)
         );
     }
+
+    @Override
     public Company findCompanyById(UUID id) {
         return companyRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("Company not found for id: " + id)
         );
     }
 
+    @Override
     @Transactional
     public void deleteUserById(UUID id) {
 
         User user = findUserById(id);
         if(user.getRole().equals(Role.CUSTOMER)) {
             customerRepository.deleteById(user.getId());
-        }
-        else {
+        } else {
             companyRepository.deleteById(user.getId());
         }
         userRepository.deleteById(id);
         messagePublisher.sendUserDeleteMessage(id);
     }
 
+    @Override
     @Transactional
     public Object updateUser(UUID id, UpdateUserRequest updateUserRequest) {
 
@@ -136,9 +147,7 @@ public class UserService {
             customerRepository.save(customer);
 
             return new CustomerUserResponse(user, customer);
-        }
-
-        else {
+        } else {
             Company company = findCompanyById(user.getId());
             updateCompanyFields(updateUserRequest, company);
             validationService.validateCompany(company);
@@ -212,6 +221,7 @@ public class UserService {
         }
     }
 
+    @Override
     @Transactional
     public void enableUser(UUID userId) {
         userRepository.enableUser(userId);

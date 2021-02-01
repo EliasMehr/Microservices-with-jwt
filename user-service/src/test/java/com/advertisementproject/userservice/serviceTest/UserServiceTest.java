@@ -1,9 +1,6 @@
 package com.advertisementproject.userservice.serviceTest;
 
-import com.advertisementproject.userservice.api.exception.UserNotFoundException;
 import com.advertisementproject.userservice.db.repository.UserRepository;
-import com.advertisementproject.userservice.service.UserService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,6 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.UUID;
 
 
 @ActiveProfiles("test")

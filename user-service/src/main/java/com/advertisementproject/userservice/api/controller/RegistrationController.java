@@ -6,7 +6,7 @@ import com.advertisementproject.userservice.api.response.CompanyUserResponse;
 import com.advertisementproject.userservice.api.response.CustomerUserResponse;
 import com.advertisementproject.userservice.messagebroker.dto.EmailDetailsMessage;
 import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
-import com.advertisementproject.userservice.service.RegistrationService;
+import com.advertisementproject.userservice.service.interfaces.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

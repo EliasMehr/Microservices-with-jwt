@@ -1,7 +1,7 @@
 package com.advertisementproject.userservice.api.controller;
 
 import com.advertisementproject.userservice.api.request.UpdateUserRequest;
-import com.advertisementproject.userservice.service.UserService;
+import com.advertisementproject.userservice.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,5 @@ public class UserController {
     public ResponseEntity<Object> updateUserById(@RequestHeader("userId") UUID id, @RequestBody UpdateUserRequest updateUserRequest) {
         return ResponseEntity.ok(userService.updateUser(id, updateUserRequest));
     }
-
-    //TODO Add endpoint for retrieving user info needed, generating new token and resending confirmation email
 
 }

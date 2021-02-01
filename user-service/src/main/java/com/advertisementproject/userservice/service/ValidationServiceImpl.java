@@ -4,6 +4,7 @@ import com.advertisementproject.userservice.api.exception.IdentificationNumberEx
 import com.advertisementproject.userservice.db.entity.Company;
 import com.advertisementproject.userservice.db.entity.Customer;
 import com.advertisementproject.userservice.db.entity.User;
+import com.advertisementproject.userservice.service.interfaces.ValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -17,16 +18,19 @@ import java.text.SimpleDateFormat;
 @Service
 @Validated
 @AllArgsConstructor
-public class ValidationService {
+public class ValidationServiceImpl implements ValidationService {
 
+    @Override
     public void validateUser(@Valid @RequestBody User user) {}
 
+    @Override
     public void validateCustomer(@Valid @RequestBody Customer customer){
         if(!isValidPersonalIdNumber(customer.getPersonalIdNumber())){
             throw new IdentificationNumberException("Invalid personal ID number");
         }
     }
 
+    @Override
     public void validateCompany(@Valid @RequestBody Company company){
         if(!isValidOrganizationNumber(company.getOrganizationNumber())){
             throw new IdentificationNumberException("Invalid organization number");

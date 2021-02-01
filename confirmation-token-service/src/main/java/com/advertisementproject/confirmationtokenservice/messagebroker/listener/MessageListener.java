@@ -2,7 +2,7 @@ package com.advertisementproject.confirmationtokenservice.messagebroker.listener
 
 import com.advertisementproject.confirmationtokenservice.messagebroker.dto.TokenMessage;
 import com.advertisementproject.confirmationtokenservice.messagebroker.publisher.MessagePublisher;
-import com.advertisementproject.confirmationtokenservice.service.ConfirmationTokenService;
+import com.advertisementproject.confirmationtokenservice.service.interfaces.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

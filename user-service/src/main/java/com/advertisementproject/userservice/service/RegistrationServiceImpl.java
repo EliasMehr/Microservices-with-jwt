@@ -8,6 +8,9 @@ import com.advertisementproject.userservice.db.entity.Company;
 import com.advertisementproject.userservice.db.entity.Customer;
 import com.advertisementproject.userservice.db.entity.User;
 import com.advertisementproject.userservice.messagebroker.dto.EmailDetailsMessage;
+import com.advertisementproject.userservice.service.interfaces.RegistrationService;
+import com.advertisementproject.userservice.service.interfaces.UserService;
+import com.advertisementproject.userservice.service.interfaces.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +19,13 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RegistrationService {
+public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserService userService;
     private final ValidationService validationService;
 
 
+    @Override
     @Transactional
     public CustomerUserResponse registerCustomer(CustomerRegistrationRequest registrationRequest) {
         userService.validateNotAlreadyRegistered(registrationRequest.getEmail());
@@ -35,6 +39,7 @@ public class RegistrationService {
         return userService.saveCustomerUser(user, customer);
     }
 
+    @Override
     @Transactional
     public CompanyUserResponse registerCompany(CompanyRegistrationRequest registrationRequest) {
         userService.validateNotAlreadyRegistered(registrationRequest.getEmail());
@@ -48,6 +53,7 @@ public class RegistrationService {
         return userService.saveCompanyUser(user, company);
     }
 
+    @Override
     public EmailDetailsMessage getEmailDetails(String email){
         Object userInfo = userService.getFullUserInfoByEmail(email);
         UUID userId;
