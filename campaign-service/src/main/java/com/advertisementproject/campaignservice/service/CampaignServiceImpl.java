@@ -1,8 +1,9 @@
 package com.advertisementproject.campaignservice.service;
 
 import com.advertisementproject.campaignservice.db.entity.Campaign;
+import com.advertisementproject.campaignservice.db.entity.Company;
 import com.advertisementproject.campaignservice.db.repository.CampaignRepository;
-import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
+import com.advertisementproject.campaignservice.exception.EntityNotFoundException;
 import com.advertisementproject.campaignservice.exception.UnauthorizedAccessException;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.advertisementproject.campaignservice.service.interfaces.CampaignService;
@@ -14,7 +15,6 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.Period;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -26,13 +26,13 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public List<Campaign> getAllCampaignsByCompanyId(UUID companyId) {
-        return campaignRepository.findAllByCompanyId(companyId);
+        return campaignRepository.findAllByCompanyUserId(companyId);
     }
 
     @Override
     @Transactional
     public void deleteAllCampaignsByCompanyId(UUID companyId) {
-        campaignRepository.deleteByCompanyId(companyId);
+        campaignRepository.deleteByCompanyUserId(companyId);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public Campaign createCampaign(UUID companyId, CampaignRequest campaignRequest) {
-        Campaign campaign = Campaign.toCampaign(companyId, campaignRequest);
+    public Campaign createCampaign(Company company, CampaignRequest campaignRequest) {
+        Campaign campaign = Campaign.toCampaign(company, campaignRequest);
         validationService.validateCampaign(campaign);
         campaignRepository.save(campaign);
 
@@ -69,7 +69,7 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public String getDiscountCode(UUID campaignId) {
         Campaign campaign = campaignRepository.findById(campaignId)
-                .orElseThrow(() -> new CampaignNotFoundException("Campaign not found for id: " + campaignId));
+                .orElseThrow(() -> new EntityNotFoundException("Campaign not found for id: " + campaignId));
         if(!campaign.isPublished()){
             throw new UnauthorizedAccessException("Access to discountCode for unpublished campaigns is not allowed");
         }
@@ -83,15 +83,15 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public List<Map<String, Object>> getAllPublishedCampaigns() {
-        return campaignRepository.campaignsWithCompanyName();
+    public List<Campaign> getAllPublishedCampaigns() {
+        return campaignRepository.findAllByIsPublishedTrue();
     }
 
 
     private Campaign getCampaignAndAuthorize(UUID campaignId, UUID companyId) {
         Campaign campaign = campaignRepository.findById(campaignId)
-                .orElseThrow(() -> new CampaignNotFoundException("Campaign not found for id: " + campaignId));
-        if(!campaign.getCompanyId().equals(companyId)){
+                .orElseThrow(() -> new EntityNotFoundException("Campaign not found for id: " + campaignId));
+        if(!campaign.getCompany().getUserId().equals(companyId)){
             throw new UnauthorizedAccessException("Unauthorized access not allowed");
         }
         return campaign;

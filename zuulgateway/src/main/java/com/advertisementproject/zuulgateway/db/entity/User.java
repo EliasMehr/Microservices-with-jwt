@@ -1,7 +1,6 @@
 package com.advertisementproject.zuulgateway.db.entity;
 
 import com.advertisementproject.zuulgateway.db.entity.types.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +13,6 @@ public class User {
     @Id
     private UUID id;
     private String email;
-    @JsonIgnore
     private String hashedPassword;
     private String phoneNumber;
     @Enumerated(EnumType.STRING)

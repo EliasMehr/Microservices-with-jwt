@@ -47,7 +47,7 @@ public class MessagePublisher {
 
     @Bean
     public Queue permissionsAddQueue() {
-        return new Queue("permissionsAdd", true);
+        return new Queue("permissionsAdd", false);
     }
 
 }

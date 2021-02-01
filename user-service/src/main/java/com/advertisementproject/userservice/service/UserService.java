@@ -12,6 +12,7 @@ import com.advertisementproject.userservice.db.entity.types.Role;
 import com.advertisementproject.userservice.db.repository.CompanyRepository;
 import com.advertisementproject.userservice.db.repository.CustomerRepository;
 import com.advertisementproject.userservice.db.repository.UserRepository;
+import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +32,7 @@ public class UserService {
     private final CompanyRepository companyRepository;
     private final CustomerRepository customerRepository;
     private final ValidationService validationService;
+    private final MessagePublisher messagePublisher;
 
     public List<Object> findAllUsers() {
 
@@ -60,13 +62,19 @@ public class UserService {
 
     public CustomerUserResponse saveCustomerUser(User user, Customer customer){
         userRepository.save(user);
+        messagePublisher.sendUserMessage(user);
+
         customerRepository.save(customer);
         return new CustomerUserResponse(user, customer);
     }
 
     public CompanyUserResponse saveCompanyUser(User user, Company company){
         userRepository.save(user);
+        messagePublisher.sendUserMessage(user);
+
         companyRepository.save(company);
+        messagePublisher.sendCompanyMessage(company);
+
         return new CompanyUserResponse(user, company);
     }
 
@@ -106,7 +114,7 @@ public class UserService {
             companyRepository.deleteById(user.getId());
         }
         userRepository.deleteById(id);
-
+        messagePublisher.sendUserDeleteMessage(id);
     }
 
     @Transactional
@@ -116,12 +124,17 @@ public class UserService {
         updateUserFields(updateUserRequest, user);
         validationService.validateUser(user);
 
+
         if (user.getRole().equals(Role.CUSTOMER)) {
             Customer customer = findCustomerById(user.getId());
             updateCustomerFields(updateUserRequest, customer);
             validationService.validateCustomer(customer);
+
             userRepository.save(user);
+            messagePublisher.sendUserMessage(user);
+
             customerRepository.save(customer);
+
             return new CustomerUserResponse(user, customer);
         }
 
@@ -129,8 +142,13 @@ public class UserService {
             Company company = findCompanyById(user.getId());
             updateCompanyFields(updateUserRequest, company);
             validationService.validateCompany(company);
+
             userRepository.save(user);
+            messagePublisher.sendUserMessage(user);
+
             companyRepository.save(company);
+            messagePublisher.sendCompanyMessage(company);
+
             return new CompanyUserResponse(user, company);
         }
 
@@ -197,6 +215,9 @@ public class UserService {
     @Transactional
     public void enableUser(UUID userId) {
         userRepository.enableUser(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found for id: " + userId));
+        messagePublisher.sendUserMessage(user);
         log.info("User enabled with id: " + userId);
     }
 

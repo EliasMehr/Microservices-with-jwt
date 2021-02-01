@@ -3,6 +3,7 @@ package com.advertisementproject.permissionsservice.service;
 import com.advertisementproject.permissionsservice.db.entity.Permissions;
 import com.advertisementproject.permissionsservice.db.repository.PermissionsRepository;
 import com.advertisementproject.permissionsservice.exception.PermissionsNotFoundException;
+import com.advertisementproject.permissionsservice.messagebroker.publisher.MessagePublisher;
 import com.advertisementproject.permissionsservice.service.interfaces.PermissionsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +18,13 @@ import java.util.UUID;
 public class PermissionsServiceImpl implements PermissionsService {
 
     private final PermissionsRepository permissionsRepository;
+    private final MessagePublisher messagePublisher;
 
     @Override
     public Permissions createPermissions(UUID userId) {
         Permissions permissions = Permissions.toPermissions(userId);
         permissionsRepository.save(permissions);
+        messagePublisher.sendPermissionsMessage(permissions);
         log.info("Permissions saved for user with id: " + userId);
         return permissions;
     }
@@ -34,7 +37,10 @@ public class PermissionsServiceImpl implements PermissionsService {
         }
         permissions.setHasPermission(hasPermissions);
         permissions.setUpdatedAt(Instant.now());
-        return permissionsRepository.save(permissions);
+
+        permissionsRepository.save(permissions);
+        messagePublisher.sendPermissionsMessage(permissions);
+        return permissions;
     }
 
     @Override
@@ -46,5 +52,6 @@ public class PermissionsServiceImpl implements PermissionsService {
     @Override
     public void removePermissions(UUID userId) {
         permissionsRepository.deleteById(userId);
+        messagePublisher.sendPermissionsDeleteMessage(userId);
     }
 }

@@ -10,7 +10,7 @@ public class MessageBrokerConfig {
     @Bean
     public Declarables userDeleteFanoutBinding() {
         Queue queue = new Queue("confirmationTokenDelete", false);
-        FanoutExchange fanoutExchange = new FanoutExchange("fanout.user.delete");
+        FanoutExchange fanoutExchange = new FanoutExchange("user.delete");
 
         return new Declarables(
                 queue,

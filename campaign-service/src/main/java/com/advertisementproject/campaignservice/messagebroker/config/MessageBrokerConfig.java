@@ -7,14 +7,35 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MessageBrokerConfig {
 
+    //User delete RabbitMQ config
     @Bean
-    public Declarables userDeleteFanoutBinding() {
-        Queue queue = new Queue("campaignsDelete", false);
-        FanoutExchange fanoutExchange = new FanoutExchange("fanout.user.delete");
+    public Queue deleteQueue(){
+        return new Queue("campaignsUserDelete", false);
+    }
 
-        return new Declarables(
-                queue,
-                fanoutExchange,
-                BindingBuilder.bind(queue).to(fanoutExchange));
+    @Bean
+    public FanoutExchange userDeleteExchange(){
+        return new FanoutExchange("user.delete");
+    }
+
+    @Bean
+    public Binding userDeleteBinding() {
+        return BindingBuilder.bind(deleteQueue()).to(userDeleteExchange());
+    }
+
+    //company save/update RabbitMQ config
+    @Bean
+    public Queue companyQueue(){
+        return new Queue("campaignsCompany", false);
+    }
+
+    @Bean
+    public FanoutExchange companyExchange(){
+        return new FanoutExchange("company");
+    }
+
+    @Bean
+    public Binding userAddBinding() {
+        return BindingBuilder.bind(companyQueue()).to(companyExchange());
     }
 }
