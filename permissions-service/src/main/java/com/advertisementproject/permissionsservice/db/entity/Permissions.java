@@ -1,4 +1,4 @@
-package com.advertisementproject.permissionsservice.db.model;
+package com.advertisementproject.permissionsservice.db.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

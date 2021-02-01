@@ -1,6 +1,6 @@
 package com.advertisementproject.campaignservice.db.repository;
 
-import com.advertisementproject.campaignservice.db.model.Campaign;
+import com.advertisementproject.campaignservice.db.entity.Campaign;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

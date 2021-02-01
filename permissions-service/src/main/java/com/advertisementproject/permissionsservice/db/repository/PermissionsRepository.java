@@ -1,6 +1,6 @@
 package com.advertisementproject.permissionsservice.db.repository;
 
-import com.advertisementproject.permissionsservice.db.model.Permissions;
+import com.advertisementproject.permissionsservice.db.entity.Permissions;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

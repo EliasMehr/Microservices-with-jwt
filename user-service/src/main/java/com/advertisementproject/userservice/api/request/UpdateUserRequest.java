@@ -1,6 +1,6 @@
 package com.advertisementproject.userservice.api.request;
 
-import com.advertisementproject.userservice.db.model.types.CompanyType;
+import com.advertisementproject.userservice.db.entity.types.CompanyType;
 import lombok.Data;
 
 @Data

@@ -1,4 +1,4 @@
-package com.advertisementproject.campaignservice.db.model;
+package com.advertisementproject.campaignservice.db.entity;
 
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;

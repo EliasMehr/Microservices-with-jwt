@@ -1,6 +1,6 @@
 package com.advertisementproject.permissionsservice.controller;
 
-import com.advertisementproject.permissionsservice.db.model.Permissions;
+import com.advertisementproject.permissionsservice.db.entity.Permissions;
 import com.advertisementproject.permissionsservice.request.UpdatePermissionsRequest;
 import com.advertisementproject.permissionsservice.service.interfaces.PermissionsService;
 import lombok.RequiredArgsConstructor;

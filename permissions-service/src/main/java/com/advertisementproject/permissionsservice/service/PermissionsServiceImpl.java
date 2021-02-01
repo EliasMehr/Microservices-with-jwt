@@ -1,6 +1,6 @@
 package com.advertisementproject.permissionsservice.service;
 
-import com.advertisementproject.permissionsservice.db.model.Permissions;
+import com.advertisementproject.permissionsservice.db.entity.Permissions;
 import com.advertisementproject.permissionsservice.db.repository.PermissionsRepository;
 import com.advertisementproject.permissionsservice.exception.PermissionsNotFoundException;
 import com.advertisementproject.permissionsservice.service.interfaces.PermissionsService;

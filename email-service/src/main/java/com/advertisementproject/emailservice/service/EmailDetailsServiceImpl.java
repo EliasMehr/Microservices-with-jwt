@@ -1,11 +1,10 @@
 package com.advertisementproject.emailservice.service;
 
-import com.advertisementproject.emailservice.db.model.EmailDetails;
+import com.advertisementproject.emailservice.db.entity.EmailDetails;
 import com.advertisementproject.emailservice.db.repository.EmailDetailsRepository;
 import com.advertisementproject.emailservice.messagebroker.dto.EmailDetailsMessage;
 import com.advertisementproject.emailservice.messagebroker.dto.TokenMessage;
 import com.advertisementproject.emailservice.service.interfaces.EmailDetailsService;
-import com.advertisementproject.emailservice.service.interfaces.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

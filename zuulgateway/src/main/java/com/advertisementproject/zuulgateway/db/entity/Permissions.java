@@ -1,4 +1,4 @@
-package com.advertisementproject.zuulgateway.db.model;
+package com.advertisementproject.zuulgateway.db.entity;
 
 import lombok.Data;
 import javax.persistence.Entity;

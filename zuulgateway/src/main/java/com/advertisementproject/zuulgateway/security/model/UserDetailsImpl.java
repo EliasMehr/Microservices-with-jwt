@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.security.model;
 
-import com.advertisementproject.zuulgateway.db.model.User;
+import com.advertisementproject.zuulgateway.db.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

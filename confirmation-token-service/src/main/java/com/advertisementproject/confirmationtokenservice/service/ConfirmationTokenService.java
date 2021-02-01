@@ -1,6 +1,6 @@
 package com.advertisementproject.confirmationtokenservice.service;
 
-import com.advertisementproject.confirmationtokenservice.db.model.ConfirmationToken;
+import com.advertisementproject.confirmationtokenservice.db.entity.ConfirmationToken;
 import com.advertisementproject.confirmationtokenservice.db.repository.ConfirmationTokenRepository;
 import com.advertisementproject.confirmationtokenservice.exception.ConfirmationTokenException;
 import lombok.AllArgsConstructor;

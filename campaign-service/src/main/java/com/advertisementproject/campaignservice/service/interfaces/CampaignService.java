@@ -1,6 +1,6 @@
 package com.advertisementproject.campaignservice.service.interfaces;
 
-import com.advertisementproject.campaignservice.db.model.Campaign;
+import com.advertisementproject.campaignservice.db.entity.Campaign;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.advertisementproject.campaignservice.service;
 
-import com.advertisementproject.campaignservice.db.model.Campaign;
+import com.advertisementproject.campaignservice.db.entity.Campaign;
 import com.advertisementproject.campaignservice.db.repository.CampaignRepository;
 import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
 import com.advertisementproject.campaignservice.exception.UnauthorizedAccessException;

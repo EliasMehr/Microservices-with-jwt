@@ -4,9 +4,9 @@ import com.advertisementproject.userservice.api.request.CompanyRegistrationReque
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
 import com.advertisementproject.userservice.api.response.CompanyUserResponse;
 import com.advertisementproject.userservice.api.response.CustomerUserResponse;
-import com.advertisementproject.userservice.db.model.Company;
-import com.advertisementproject.userservice.db.model.Customer;
-import com.advertisementproject.userservice.db.model.User;
+import com.advertisementproject.userservice.db.entity.Company;
+import com.advertisementproject.userservice.db.entity.Customer;
+import com.advertisementproject.userservice.db.entity.User;
 import com.advertisementproject.userservice.messagebroker.dto.EmailDetailsMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

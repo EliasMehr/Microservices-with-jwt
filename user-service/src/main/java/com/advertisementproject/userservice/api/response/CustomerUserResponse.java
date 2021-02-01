@@ -1,7 +1,7 @@
 package com.advertisementproject.userservice.api.response;
 
-import com.advertisementproject.userservice.db.model.Customer;
-import com.advertisementproject.userservice.db.model.User;
+import com.advertisementproject.userservice.db.entity.Customer;
+import com.advertisementproject.userservice.db.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.advertisementproject.emailservice.db.model;
+package com.advertisementproject.emailservice.db.entity;
 
 import com.advertisementproject.emailservice.messagebroker.dto.EmailDetailsMessage;
 import com.advertisementproject.emailservice.messagebroker.dto.TokenMessage;

@@ -1,6 +1,6 @@
 package com.advertisementproject.emailservice.db.repository;
 
-import com.advertisementproject.emailservice.db.model.EmailDetails;
+import com.advertisementproject.emailservice.db.entity.EmailDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

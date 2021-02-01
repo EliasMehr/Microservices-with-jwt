@@ -1,6 +1,6 @@
 package com.advertisementproject.permissionsservice.service.interfaces;
 
-import com.advertisementproject.permissionsservice.db.model.Permissions;
+import com.advertisementproject.permissionsservice.db.entity.Permissions;
 
 import java.util.UUID;
 

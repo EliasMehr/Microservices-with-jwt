@@ -1,9 +1,9 @@
 package com.advertisementproject.userservice.service;
 
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
-import com.advertisementproject.userservice.db.model.Company;
-import com.advertisementproject.userservice.db.model.Customer;
-import com.advertisementproject.userservice.db.model.User;
+import com.advertisementproject.userservice.db.entity.Company;
+import com.advertisementproject.userservice.db.entity.Customer;
+import com.advertisementproject.userservice.db.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
