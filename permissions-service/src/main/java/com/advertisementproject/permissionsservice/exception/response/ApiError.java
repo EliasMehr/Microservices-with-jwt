@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 
+/**
+ * Response object for reporting exceptions in a nicer format, containing information about the error that occurred
+ */
 @AllArgsConstructor
 @Getter
 @Builder

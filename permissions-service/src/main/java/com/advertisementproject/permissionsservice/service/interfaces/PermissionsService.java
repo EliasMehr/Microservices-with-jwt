@@ -4,6 +4,10 @@ import com.advertisementproject.permissionsservice.db.entity.Permissions;
 
 import java.util.UUID;
 
+/**
+ * Interface for permissions service. A permissions service should be able to perform CRUD based database operations
+ * for permissions objects.
+ */
 public interface PermissionsService {
 
     void createPermissions(UUID userId);
