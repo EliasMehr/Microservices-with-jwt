@@ -5,7 +5,7 @@ spring:
 
   # RabbitMQ Message Broker
   rabbitmq:
-    addresses: ${RABBITMQ_HOST:localhost}
+    host: ${RABBITMQ_HOST:localhost}
     port: 5672
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}

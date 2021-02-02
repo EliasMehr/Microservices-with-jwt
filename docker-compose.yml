@@ -10,8 +10,13 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     ports:
-      - "5672:5672"
+      - "5672"
       - "15672:15672"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
 
   eureka-server:
     build: ./eureka-server
@@ -22,6 +27,8 @@ services:
       - 8761:8761
     depends_on:
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   zuul-gateway:
     build: ./zuulgateway
@@ -45,6 +52,8 @@ services:
     depends_on:
       - eureka-server
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   user-service:
     build: ./user-service
@@ -61,6 +70,8 @@ services:
     depends_on:
       - eureka-server
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   campaign-service:
     build: ./campaign-service
@@ -77,6 +88,8 @@ services:
     depends_on:
       - eureka-server
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   email-service:
     build: ./email-service
@@ -93,6 +106,8 @@ services:
     depends_on:
       - eureka-server
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   confirmation-token-service:
     build: ./confirmation-token-service
@@ -109,6 +124,8 @@ services:
     depends_on:
       - eureka-server
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   permissions-service:
     build: ./permissions-service
@@ -125,14 +142,16 @@ services:
     depends_on:
       - eureka-server
       - rabbitmq
+      - matrix-postgres
+    restart: on-failure
 
   #Postgres configuration
   matrix-postgres:
     image: "postgres:13.0-alpine"
     container_name: matrix-postgres
     volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - matrix-data:/var/lib/postgresql/data
-      - .:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -158,5 +177,5 @@ services:
 
 #Volumes for DB data
 volumes:
-  matrix-data:
   pgadmin-data:
+  matrix-data:
