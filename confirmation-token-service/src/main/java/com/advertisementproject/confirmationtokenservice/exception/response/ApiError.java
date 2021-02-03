@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 
+/**
+ * Api Error report object that shows an error report to the client.
+ */
 @AllArgsConstructor
 @Getter
 @Builder

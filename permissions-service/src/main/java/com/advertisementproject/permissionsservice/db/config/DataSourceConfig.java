@@ -15,6 +15,10 @@ public class DataSourceConfig {
     private final String PASSWORD = System.getenv("POSTGRES_PASSWORD");
     private final String URL = "jdbc:postgresql://" + System.getenv("POSTGRES_HOST") + ":5432/" + System.getenv("POSTGRES_DB");
 
+    /**
+     * HikariDataSource configuration bean
+     * @return a configured hikari data source for connecting to a database
+     */
     @Bean
     public HikariDataSource hikariDataSource() {
         return DataSourceBuilder.create()

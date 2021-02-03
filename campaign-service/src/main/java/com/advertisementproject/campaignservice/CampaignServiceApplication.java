@@ -11,6 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * endpoints with limited information that are open to CUSTOMER users or even the public.
  * There are scheduled jobs to automatically publish campaigns that are set to be published as well as to remove
  * expired campaigns from the database.
+ *
  * Registers with Eureka via @EnableDiscoveryClient. All controller access rights are defined by the Zuul Gateway
  * application.
  *
