@@ -15,6 +15,7 @@ import java.util.UUID;
  * Normally permissions are granted by this application after the Confirmation Token service application confirms a
  * user's email. This controller mainly lets administrators change a user's permissions in case for example a person's
  * account has been stolen or as part of lockdown for suspicious activity on the account.
+ * Zuul Gateway application is responsible for restricting access to ADMIN users only.
  */
 @RestController
 @RequiredArgsConstructor
