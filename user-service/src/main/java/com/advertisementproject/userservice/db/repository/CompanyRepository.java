@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/**
+ * Standard JPA Repository for doing CRUD operations for companies in the database
+ */
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, UUID> {
 }

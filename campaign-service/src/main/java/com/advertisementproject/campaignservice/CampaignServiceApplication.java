@@ -21,6 +21,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class CampaignServiceApplication {
 
+    /**
+     * Runs the application
+     * @param args optional command line arguments that are currently not implemented
+     */
     public static void main(String[] args) {
         SpringApplication.run(CampaignServiceApplication.class, args);
     }

@@ -4,6 +4,9 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * Request object with information required to register a customer user
+ */
 @Data
 public class CustomerRegistrationRequest {
     @NotNull

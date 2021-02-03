@@ -14,6 +14,10 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 public class ZuulGatewayApplication {
 
+    /**
+     * Runs the application
+     * @param args optional command line arguments that are currently not implemented
+     */
     public static void main(String[] args) {
         SpringApplication.run(ZuulGatewayApplication.class, args);
     }

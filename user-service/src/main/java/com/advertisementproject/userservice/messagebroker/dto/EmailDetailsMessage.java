@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.UUID;
 
+/**
+ * Data transfer object including information needed for Email Service application to send a confirmation link message.
+ */
 @Data
 @AllArgsConstructor
 public class EmailDetailsMessage {
