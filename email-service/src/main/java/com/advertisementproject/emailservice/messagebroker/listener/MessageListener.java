@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * MessageListener is a service that listens for messages from other microservices via RabbitMQ and then performs
+ * appropriate actions for the messages received. When a message is sent to the listed queue, the message is received,
+ * logged and handled in the listener method with the help of EmailDetailsService. If all information has been received,
+ * EmailService sends out a confirmation link email and then deletes the database row for that user id.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,6 +28,14 @@ public class MessageListener {
     private final EmailDetailsService emailDetailsService;
     private final EmailService emailService;
 
+    /**
+     * Listens on the queue "emailDetails" which is preconfigured by User Service application that is responsible for
+     * publishing a email details message once a user is created. Email details are saved to the database once received,
+     * either as a new entry or added to the same user id if token already has been added for that user id.
+     * If all information has been received, EmailService sends out a confirmation link email and then deletes the
+     * database row for that user id.
+     * @param messageObject JSON string including an EmailDetailsMessage object from User Service application
+     */
     @RabbitListener(queues = "emailDetails")
     public void emailDetailsListener(String messageObject){
         try {
@@ -35,6 +49,14 @@ public class MessageListener {
         }
     }
 
+    /**
+     * Listens on the queue "emailToken" which is preconfigured by Confirmation Token Service application that is
+     * responsible for publishing a token message once a confirmation token is created. Token is saved to the database
+     * once received, either as a new entry or added to the same user id if other email details already has been added
+     * for that user id. If all information has been received, EmailService sends out a confirmation link email and then
+     * deletes the database row for that user id.
+     * @param messageObject JSON string including a TokenMessage object from Confirmation Token Service application
+     */
     @RabbitListener(queues = "emailToken")
     public void emailTokenListener(String messageObject){
         try {
@@ -48,6 +70,11 @@ public class MessageListener {
         }
     }
 
+    /**
+     * Helper method to send an email if all the required information is available for a user id and in that case also
+     * delete email details object for that user id once the email has been sent.
+     * @param userId the user id for which get email details and send email if all the information is present
+     */
     private void sendEmailAndDeletePostIfCompleteInformation(UUID userId) {
         EmailDetails emailDetails = emailDetailsService.getCompleteDetailsOrNull(userId);
         if(emailDetails != null){
