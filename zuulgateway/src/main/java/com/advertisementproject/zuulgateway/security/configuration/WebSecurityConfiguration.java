@@ -17,8 +17,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
+/**
+ * Web security configuration for the entire project. CSRF is disabled and cors is activated. Requests can be set as
+ * open to the public, only available for non logged in users or requires authorization for one or more specific role(s).
+ * If an authorized endpoint is desired, the user must login via "/login" endpoint, which is handled by
+ * JwtUsernameAndPasswordAuthenticationFilter. Upon successful login, the user can set the jwt token from the response
+ * in the header of the request to the authentication locked endpoint. Then JwtTokenValidationFilter makes sure that the
+ * id from the jwt token in the header matches a valid user that is enabled, has permissions and the correct role.
+ *
+ * Session management is stateless.
+ */
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
@@ -75,18 +83,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
+    /**
+     * Configuration for using a custom user details service
+     * @param auth authentication manager builder for which to set a custom user details service
+     * @throws Exception if an exception occurs
+     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
+    /**
+     * CorsConfigurationSource configuration bean
+     * @return CorsConfigurationSource that accepts any URL source and applies default permit values
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-
-
-
 }

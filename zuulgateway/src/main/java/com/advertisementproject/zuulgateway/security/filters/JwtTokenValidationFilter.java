@@ -20,10 +20,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
-import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toErrorResponse;
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendErrorResponse;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+/**
+ * A once per request filter that verifies that the user id from the jwt token in the Authorization header is a valid
+ * user that is enabled, has permissions and allows the ant matchers in WebSecurityConfiguration to verify the user's
+ * role. Creates a UsernamePasswordAuthenticationToken that is set in the SecurityContextHolder with details from the
+ * request. Sends error response if something fails authentication via ServletResponseUtility.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtTokenValidationFilter extends OncePerRequestFilter {
@@ -31,6 +36,17 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
 
+    /**
+     * Runs the filter, verifying that the user id from the jwt token in the Authorization header is a valid
+     * user that is enabled, has permissions and allows the ant matchers in WebSecurityConfiguration to verify the user's
+     * role. Creates a UsernamePasswordAuthenticationToken that is set in the SecurityContextHolder with details from the
+     * request. Sends error response if something fails authentication via ServletResponseUtility.
+     * @param request the request to be filtered
+     * @param response the response to be sent
+     * @param filterChain the chain of filters to be continued
+     * @throws ServletException if an servlet related exception occurs
+     * @throws IOException if data reading/writing fails
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -56,7 +72,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } catch (JwtException | UsernameNotFoundException e) {
-            sendErrorResponse(response, toErrorResponse(e.getMessage(), SC_UNAUTHORIZED));
+            sendErrorResponse(response, e.getMessage(), SC_UNAUTHORIZED);
             return;
         }
 

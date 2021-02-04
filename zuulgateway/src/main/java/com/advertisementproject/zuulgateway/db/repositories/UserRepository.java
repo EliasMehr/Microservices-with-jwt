@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Standard JPA Repository for getting and modifying users in the database. Includes option to find a user by email.
+ */
 @Repository
-@Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByEmail(String email);
 }

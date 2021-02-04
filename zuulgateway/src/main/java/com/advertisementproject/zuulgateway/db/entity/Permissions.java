@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Permissions are kept up-to-date by receiving messages from Permissions Service application and then updating the
+ * table accordingly whenever a permissions object is created, updated or deleted. Permissions includes which user id,
+ * whether permissions are granted and timestamps for creation and latest update.
+ */
 @Data
 @Entity
 public class Permissions {
