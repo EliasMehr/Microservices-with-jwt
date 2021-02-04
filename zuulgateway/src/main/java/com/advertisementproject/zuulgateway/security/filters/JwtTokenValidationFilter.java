@@ -1,9 +1,8 @@
 package com.advertisementproject.zuulgateway.security.filters;
 
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.security.model.UserDetailsImpl;
 import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
-import com.netflix.zuul.context.RequestContext;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -19,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.toErrorResponse;
 import static com.advertisementproject.zuulgateway.security.Utils.ServletResponseUtility.sendErrorResponse;
@@ -47,7 +47,7 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
         try {
             String userId = jwtUtils.extractSubject(token);
-            UserDetailsImpl userDetails = userDetailsService.loadUserById(userId);
+            UserDetailsImpl userDetails = userDetailsService.loadUserById(UUID.fromString(userId));
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(
                     userDetails,

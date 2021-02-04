@@ -1,6 +1,6 @@
 package com.advertisementproject.userservice.api.request;
 
-import com.advertisementproject.userservice.db.models.types.CompanyType;
+import com.advertisementproject.userservice.db.entity.types.CompanyType;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

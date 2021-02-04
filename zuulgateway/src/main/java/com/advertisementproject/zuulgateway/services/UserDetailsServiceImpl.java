@@ -1,10 +1,10 @@
 package com.advertisementproject.zuulgateway.services;
 
-import com.advertisementproject.zuulgateway.db.models.Permissions;
-import com.advertisementproject.zuulgateway.db.models.User;
-import com.advertisementproject.zuulgateway.db.models.UserDetailsImpl;
-import com.advertisementproject.zuulgateway.db.repositories.PermissionsRepository;
-import com.advertisementproject.zuulgateway.db.repositories.UserRepository;
+import com.advertisementproject.zuulgateway.db.entity.Permissions;
+import com.advertisementproject.zuulgateway.db.entity.User;
+import com.advertisementproject.zuulgateway.security.model.UserDetailsImpl;
+import com.advertisementproject.zuulgateway.services.interfaces.PermissionsService;
+import com.advertisementproject.zuulgateway.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,26 +16,23 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
-    private final PermissionsRepository permissionsRepository;
+    private final UserService userService;
+    private final PermissionsService permissionsService;
 
     @Override
     public UserDetailsImpl loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userService.getUserByEmail(email);
         Permissions permissions = getPermissions(user.getId());
         return new UserDetailsImpl(user, permissions.isHasPermission());
     }
 
-    public UserDetailsImpl loadUserById(String id) throws UsernameNotFoundException {
-        User user = userRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public UserDetailsImpl loadUserById(UUID userId) throws UsernameNotFoundException {
+        User user = userService.getUserById(userId);
         Permissions permissions = getPermissions(user.getId());
         return new UserDetailsImpl(user, permissions.isHasPermission());
     }
 
-    private Permissions getPermissions(UUID userId){
-        return permissionsRepository.findById(userId)
-                .orElseThrow(()-> new IllegalStateException("Permissions not found for userId: " + userId));
+    private Permissions getPermissions(UUID userId) {
+        return permissionsService.getPermissionsById(userId);
     }
 }

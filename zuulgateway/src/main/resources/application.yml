@@ -3,10 +3,17 @@ spring:
   application:
     name: gateway
 
+# RabbitMQ Message Broker
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
 # Database configuration
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -27,6 +34,12 @@ zuul:
       sensitive-headers: Cookie,Set-Cookie
     user:
       url: http://${USER_SERVICE_HOST:localhost}:8081/
+      sensitive-headers: Cookie,Set-Cookie
+    confirmation-token:
+      url: http://${CONFIRMATION_TOKEN_SERVICE_HOST:localhost}:8083/
+      sensitive-headers: Cookie,Set-Cookie
+    permissions:
+      url: http://${PERMISSIONS_SERVICE_HOST:localhost}:8085/
       sensitive-headers: Cookie,Set-Cookie
 
 # Eureka client

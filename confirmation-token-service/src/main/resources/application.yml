@@ -1,0 +1,32 @@
+# Application name configuration for Eureka
+spring:
+  application:
+    name: confirmation-token-service
+
+  # RabbitMQ Message Broker
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+  # Database configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jooq:
+    sql-dialect: Postgres
+
+# Application server port
+server:
+  port: 8083
+  error:
+    include-message: always
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/

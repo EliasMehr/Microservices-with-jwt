@@ -2,9 +2,9 @@ package com.advertisementproject.userservice.api.exception.handler;
 
 import com.advertisementproject.userservice.api.exception.EmailAlreadyRegisteredException;
 import com.advertisementproject.userservice.api.exception.IdentificationNumberException;
-import com.advertisementproject.userservice.api.exception.PermissionsNotFoundException;
 import com.advertisementproject.userservice.api.exception.UserNotFoundException;
-import com.advertisementproject.userservice.api.response.ApiError;
+import com.advertisementproject.userservice.api.exception.response.ApiError;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
@@ -24,14 +24,12 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @RestControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     @NonNull
@@ -48,7 +46,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.info(ex.getClass().getName());
+        log.info(ex.getClass().getName());
         //
         final String error = ex.getValue() + " value for " + ex.getPropertyName() + " should be of type " + ex.getRequiredType();
         List<String> errors = Collections.singletonList(error);
@@ -72,14 +70,14 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return getAndLogApiError(ex, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler({UserNotFoundException.class})
+    public ResponseEntity<Object> handleNotFoundException(Exception ex) {
+        return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler({IdentificationNumberException.class})
     public ResponseEntity<Object> handleCustomBadRequestException(Exception ex) {
         return getAndLogApiError(ex, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler({UserNotFoundException.class, PermissionsNotFoundException.class})
-    public ResponseEntity<Object> handleNotFoundException(Exception ex) {
-        return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({Exception.class})
@@ -95,7 +93,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 .timestamp(Instant.now())
                 .build();
 
-        logger.warn(apiError.toString());
+        log.warn(apiError.toString());
         return new ResponseEntity<>(apiError, httpStatus);
     }
 
@@ -107,7 +105,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 .errors(errors)
                 .build();
 
-        logger.warn(apiError.toString());
+        log.warn(apiError.toString());
         return new ResponseEntity<>(apiError, httpStatus);
     }
 }

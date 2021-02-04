@@ -1,11 +1,15 @@
 package com.advertisementproject.campaignservice.controller;
 
-import com.advertisementproject.campaignservice.db.model.Campaign;
-import com.advertisementproject.campaignservice.exception.CampaignNotFoundException;
+import com.advertisementproject.campaignservice.db.entity.Campaign;
+import com.advertisementproject.campaignservice.db.entity.Company;
+import com.advertisementproject.campaignservice.db.entity.view.View;
 import com.advertisementproject.campaignservice.request.CampaignRequest;
 import com.advertisementproject.campaignservice.service.interfaces.CampaignService;
+import com.advertisementproject.campaignservice.service.interfaces.CompanyService;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,7 @@ import java.util.UUID;
 public class CampaignController {
 
     private final CampaignService campaignService;
+    private final CompanyService companyService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Campaign>> getAllCampaigns(){
@@ -27,15 +32,21 @@ public class CampaignController {
     }
 
     @GetMapping("/all/published")
-    public ResponseEntity<List<Campaign>> getAllPublishedCampaigns(){
+    @JsonView(value = {View.publicInfo.class})
+    public ResponseEntity<List<Campaign>> getAllPublishedCampaigns() {
         List<Campaign> campaigns = campaignService.getAllPublishedCampaigns();
         return ResponseEntity.ok(campaigns);
     }
 
     @GetMapping
     public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@RequestHeader("userId") UUID companyId){
+        HttpHeaders customResponseHeader = new HttpHeaders();
         List<Campaign> campaigns = campaignService.getAllCampaignsByCompanyId(companyId);
-        return ResponseEntity.ok(campaigns);
+        customResponseHeader.set("X-Total-Count", String.valueOf(campaigns.size()));
+        customResponseHeader.set("Access-Control-Expose-Headers", "Content-Range");
+        return ResponseEntity.ok()
+                .headers(customResponseHeader)
+                .body(campaigns);
     }
 
     @DeleteMapping
@@ -47,8 +58,8 @@ public class CampaignController {
     @PostMapping
     public ResponseEntity<Campaign> createCampaign(@Valid @RequestBody CampaignRequest campaignRequest,
                                                    @RequestHeader("userId") UUID companyId) {
-
-        Campaign campaign = campaignService.createCampaign(companyId, campaignRequest);
+        Company company = companyService.getCompanyById(companyId);
+        Campaign campaign = campaignService.createCampaign(company, campaignRequest);
         return ResponseEntity.ok(campaign);
     }
 
@@ -72,5 +83,12 @@ public class CampaignController {
                                                  @RequestHeader("userId") UUID companyId){
         campaignService.deleteCampaignById(campaignId, companyId);
         return ResponseEntity.ok("Campaign has been deleted for id: " + campaignId);
+    }
+
+
+    @GetMapping("/discount-code/{campaignId}")
+    public ResponseEntity<String> getDiscountCode(@PathVariable UUID campaignId){
+        String discountCode = campaignService.getDiscountCode(campaignId);
+        return ResponseEntity.ok(discountCode);
     }
 }

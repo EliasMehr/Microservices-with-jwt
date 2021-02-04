@@ -2,18 +2,16 @@ package com.advertisementproject.userservice.api.controller;
 
 import com.advertisementproject.userservice.api.request.CompanyRegistrationRequest;
 import com.advertisementproject.userservice.api.request.CustomerRegistrationRequest;
-import com.advertisementproject.userservice.db.models.User;
-import com.advertisementproject.userservice.service.ConfirmationTokenService;
-import com.advertisementproject.userservice.service.RegistrationService;
-import com.advertisementproject.userservice.service.interfaces.PermissionsService;
+import com.advertisementproject.userservice.api.response.CompanyUserResponse;
+import com.advertisementproject.userservice.api.response.CustomerUserResponse;
+import com.advertisementproject.userservice.messagebroker.dto.EmailDetailsMessage;
+import com.advertisementproject.userservice.messagebroker.publisher.MessagePublisher;
+import com.advertisementproject.userservice.service.interfaces.RegistrationService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/register/")
@@ -24,26 +22,41 @@ public class RegistrationController {
     //TODO write lots of tests!
 
     private final RegistrationService registrationService;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final PermissionsService permissionsService;
+    private final MessagePublisher messagePublisher;
 
     @PostMapping("customer")
-    public ResponseEntity<User> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
-        User user = registrationService.registerCustomer(registrationRequest);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<CustomerUserResponse> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
+        CustomerUserResponse customerUser = registrationService.registerCustomer(registrationRequest);
+
+        messagePublisher.sendUserIdMessage("confirmationToken", customerUser.getUser().getId());
+        messagePublisher.sendEmailDetailsMessage(
+                new EmailDetailsMessage(
+                        customerUser.getUser().getId(),
+                        customerUser.getCustomer().getFirstName() + " " + customerUser.getCustomer().getLastName(),
+                        customerUser.getUser().getEmail()));
+
+        return ResponseEntity.ok(customerUser);
     }
 
     @PostMapping("company")
-    public ResponseEntity<User> registerCompany(@Valid @RequestBody CompanyRegistrationRequest registrationRequest) {
-        User user = registrationService.registerCompany(registrationRequest);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<CompanyUserResponse> registerCompany(@Valid @RequestBody CompanyRegistrationRequest registrationRequest) {
+        CompanyUserResponse companyUser = registrationService.registerCompany(registrationRequest);
+
+        messagePublisher.sendUserIdMessage("confirmationToken", companyUser.getUser().getId());
+        messagePublisher.sendEmailDetailsMessage(
+                new EmailDetailsMessage(
+                        companyUser.getUser().getId(),
+                        companyUser.getCompany().getName(),
+                        companyUser.getUser().getEmail()));
+
+        return ResponseEntity.ok(companyUser);
     }
 
-    @GetMapping("confirm/{token}")
-    public ResponseEntity<String> confirm(@PathVariable String token) {
-        UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);
-        registrationService.enableUser(userId);
-        permissionsService.createPermissions(userId);
-        return ResponseEntity.ok("Your email has been confirmed");
+    @GetMapping("resend-email/{email}")
+    public ResponseEntity<String> resendEmail(@PathVariable String email){
+        EmailDetailsMessage emailDetails = registrationService.getEmailDetails(email);
+        messagePublisher.sendUserIdMessage("confirmationToken", emailDetails.getUserId());
+        messagePublisher.sendEmailDetailsMessage(emailDetails);
+        return ResponseEntity.ok("New confirmation email has been sent");
     }
 }

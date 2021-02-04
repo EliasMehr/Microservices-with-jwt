@@ -1,0 +1,18 @@
+${AnsiBackground.BLACK}${AnsiColor.MAGENTA}
+EEEEEEEEEEEEEEEEEEEEEE                                                        kkkkkkkk                                   SSSSSSSSSSSSSSS
+E::::::::::::::::::::E                                                        k::::::k                                 SS:::::::::::::::S
+E::::::::::::::::::::E                                                        k::::::k                                S:::::SSSSSS::::::S
+EE::::::EEEEEEEEE::::E                                                        k::::::k                                S:::::S     SSSSSSS
+  E:::::E       EEEEEEuuuuuu    uuuuuu rrrrr   rrrrrrrrr       eeeeeeeeeeee    k:::::k    kkkkkkkaaaaaaaaaaaaa        S:::::S                eeeeeeeeeeee    rrrrr   rrrrrrrrrvvvvvvv           vvvvvvv eeeeeeeeeeee    rrrrr   rrrrrrrrr
+  E:::::E             u::::u    u::::u r::::rrr:::::::::r    ee::::::::::::ee  k:::::k   k:::::k a::::::::::::a       S:::::S              ee::::::::::::ee  r::::rrr:::::::::rv:::::v         v:::::vee::::::::::::ee  r::::rrr:::::::::r
+  E::::::EEEEEEEEEE   u::::u    u::::u r:::::::::::::::::r  e::::::eeeee:::::eek:::::k  k:::::k  aaaaaaaaa:::::a       S::::SSSS          e::::::eeeee:::::eer:::::::::::::::::rv:::::v       v:::::ve::::::eeeee:::::eer:::::::::::::::::r
+  E:::::::::::::::E   u::::u    u::::u rr::::::rrrrr::::::re::::::e     e:::::ek:::::k k:::::k            a::::a        SS::::::SSSSS    e::::::e     e:::::err::::::rrrrr::::::rv:::::v     v:::::ve::::::e     e:::::err::::::rrrrr::::::r
+  E:::::::::::::::E   u::::u    u::::u  r:::::r     r:::::re:::::::eeeee::::::ek::::::k:::::k      aaaaaaa:::::a          SSS::::::::SS  e:::::::eeeee::::::e r:::::r     r:::::r v:::::v   v:::::v e:::::::eeeee::::::e r:::::r     r:::::r
+  E::::::EEEEEEEEEE   u::::u    u::::u  r:::::r     rrrrrrre:::::::::::::::::e k:::::::::::k     aa::::::::::::a             SSSSSS::::S e:::::::::::::::::e  r:::::r     rrrrrrr  v:::::v v:::::v  e:::::::::::::::::e  r:::::r     rrrrrrr
+  E:::::E             u::::u    u::::u  r:::::r            e::::::eeeeeeeeeee  k:::::::::::k    a::::aaaa::::::a                  S:::::Se::::::eeeeeeeeeee   r:::::r               v:::::v:::::v   e::::::eeeeeeeeeee   r:::::r
+  E:::::E       EEEEEEu:::::uuuu:::::u  r:::::r            e:::::::e           k::::::k:::::k  a::::a    a:::::a                  S:::::Se:::::::e            r:::::r                v:::::::::v    e:::::::e            r:::::r
+EE::::::EEEEEEEE:::::Eu:::::::::::::::uur:::::r            e::::::::e         k::::::k k:::::k a::::a    a:::::a      SSSSSSS     S:::::Se::::::::e           r:::::r                 v:::::::v     e::::::::e           r:::::r
+E::::::::::::::::::::E u:::::::::::::::ur:::::r             e::::::::eeeeeeee k::::::k  k:::::ka:::::aaaa::::::a      S::::::SSSSSS:::::S e::::::::eeeeeeee   r:::::r                  v:::::v       e::::::::eeeeeeee   r:::::r
+E::::::::::::::::::::E  uu::::::::uu:::ur:::::r              ee:::::::::::::e k::::::k   k:::::ka::::::::::aa:::a     S:::::::::::::::SS   ee:::::::::::::e   r:::::r                   v:::v         ee:::::::::::::e   r:::::r
+EEEEEEEEEEEEEEEEEEEEEE    uuuuuuuu  uuuurrrrrrr                eeeeeeeeeeeeee kkkkkkkk    kkkkkkkaaaaaaaaaa  aaaa      SSSSSSSSSSSSSSS       eeeeeeeeeeeeee   rrrrrrr                    vvv            eeeeeeeeeeeeee   rrrrrrr
+${AnsiStyle.NORMAL}

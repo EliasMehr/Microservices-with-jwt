@@ -1,6 +1,6 @@
 package com.advertisementproject.userservice.db.repository;
 
-import com.advertisementproject.userservice.db.models.Customer;
+import com.advertisementproject.userservice.db.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

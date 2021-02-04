@@ -1,6 +1,6 @@
 package com.advertisementproject.zuulgateway.db.repositories;
 
-import com.advertisementproject.zuulgateway.db.models.Permissions;
+import com.advertisementproject.zuulgateway.db.entity.Permissions;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
