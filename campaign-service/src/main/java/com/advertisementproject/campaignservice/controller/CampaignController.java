@@ -9,6 +9,7 @@ import com.advertisementproject.campaignservice.service.interfaces.CompanyServic
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +40,13 @@ public class CampaignController {
 
     @GetMapping
     public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@RequestHeader("userId") UUID companyId){
+        HttpHeaders customResponseHeader = new HttpHeaders();
         List<Campaign> campaigns = campaignService.getAllCampaignsByCompanyId(companyId);
-        return ResponseEntity.ok(campaigns);
+        customResponseHeader.set("X-Total-Count", String.valueOf(campaigns.size()));
+        customResponseHeader.set("Access-Control-Expose-Headers", "Content-Range");
+        return ResponseEntity.ok()
+                .headers(customResponseHeader)
+                .body(campaigns);
     }
 
     @DeleteMapping

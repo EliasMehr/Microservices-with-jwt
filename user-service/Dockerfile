@@ -1,4 +1,12 @@
-FROM maven:3.6.3-openjdk-15-slim
-COPY . /usr/src/user-service
-WORKDIR /usr/src/user-service
-CMD ["mvn","spring-boot:run"]
+FROM maven:3.6.3-openjdk-15-slim as jreBuilder
+
+RUN mkdir /usr/src/project      
+COPY . /usr/src/project
+WORKDIR /usr/src/project
+RUN mvn clean package -DskipTests
+
+FROM adoptopenjdk/openjdk15:x86_64-alpine-jre-15.0.2_7
+RUN mkdir /project
+COPY --from=jreBuilder /usr/src/project/target/user-service-0.0.1-SNAPSHOT.jar /project/
+WORKDIR /project
+CMD java -jar user-service-0.0.1-SNAPSHOT.jar
