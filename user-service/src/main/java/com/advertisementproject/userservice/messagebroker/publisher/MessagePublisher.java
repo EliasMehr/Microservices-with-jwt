@@ -73,7 +73,7 @@ public class MessagePublisher {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        log.info("[MESSAGE BROKER] Sending company info to exchange " + exchangeName + ": " + companyString);
+        log.info("[MESSAGE BROKER] Sending user info to exchange " + exchangeName + ": " + companyString);
         rabbitTemplate.convertAndSend(exchangeName, "", companyString);
     }
 
