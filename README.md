@@ -94,3 +94,6 @@ Email Service awaits name and email from User Service as well as a token from Co
 
 ## Permissions Service
 When a user has confirmed their email, Permissions Service is notified and will create a permissions object for that user id. Zuul Gateway is informed so it may track permissions.
+
+## Additional Information
+For more information, see the java docs for each service.
