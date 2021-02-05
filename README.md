@@ -1,4 +1,4 @@
-# Microservice graduation project
+# Microservices graduation project
 ## Developers: Jessie Eurenius, Daniel Hughes, Elias Mehr
 
 To download this project and make it runnable, you'll need to clone the repository from the root folder
@@ -67,3 +67,5 @@ Then you can run the following in your terminal to verify that the variable has 
 ```
 echo $VARIABLE-NAME
 ```
+
+# Project Overview
