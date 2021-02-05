@@ -8,10 +8,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
+/**
+ * Validation Service implementation that validates entities
+ */
 @Service
 @Validated
 public class ValidationServiceImpl implements ValidationService {
 
+    /**
+     * Validates that all the campaign fields are valid according to their validation annotations
+     * @param campaign the campaign to be validated
+     */
     @Override
     public void validateCampaign(@Valid @RequestBody Campaign campaign) {
     }

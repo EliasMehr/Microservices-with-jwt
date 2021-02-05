@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
+/**
+ * Registration Service implementation that registers customer users or company users, as well as retrieves email
+ * details. This service enables registration controller to function.
+ */
 @Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
@@ -24,7 +28,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserService userService;
     private final ValidationService validationService;
 
-
+    /**
+     * Registers a customer user using the information supplied in the registration request. The user and customer object
+     * are validated before saved in the database.
+     * @param registrationRequest request object with all information needed to register a customer user.
+     * @return the newly registered customer user
+     */
     @Override
     @Transactional
     public CustomerUserResponse registerCustomer(CustomerRegistrationRequest registrationRequest) {
@@ -39,6 +48,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         return userService.saveCustomerUser(user, customer);
     }
 
+    /**
+     * Registers a company user using the information supplied in the registration request. The user and company object
+     * are validated before saved in the database.
+     * @param registrationRequest request object with all information needed to register a company user.
+     * @return the newly registered company user
+     */
     @Override
     @Transactional
     public CompanyUserResponse registerCompany(CompanyRegistrationRequest registrationRequest) {
@@ -53,6 +68,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         return userService.saveCompanyUser(user, company);
     }
 
+    /**
+     * Retrieves email details for a customer/company user with the supplied email
+     * @param email the email for which to retrieve email details
+     * @return email details for the supplied email
+     */
     @Override
     public EmailDetailsMessage getEmailDetails(String email){
         Object userInfo = userService.getFullUserInfoByEmail(email);

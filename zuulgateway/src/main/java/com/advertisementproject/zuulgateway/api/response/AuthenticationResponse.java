@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * Response after a successful login, including the user's role and a jwt token that should be attached as a bearer
+ * token in the header for any request which requires authorization.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

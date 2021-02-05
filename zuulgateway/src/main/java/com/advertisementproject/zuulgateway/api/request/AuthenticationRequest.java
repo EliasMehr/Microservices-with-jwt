@@ -8,6 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 
+/**
+ * Request for logging in as a user including username (email) and password
+ */
 @NoArgsConstructor
 @Getter
 @Setter

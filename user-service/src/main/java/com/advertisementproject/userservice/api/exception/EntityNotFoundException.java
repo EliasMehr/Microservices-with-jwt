@@ -1,7 +1,7 @@
-package com.advertisementproject.campaignservice.exception;
+package com.advertisementproject.userservice.api.exception;
 
 /**
- * Custom RuntimeException for when an entity is not found in the database
+ * Custom RuntimeException for when a user is not found in the database
  */
 public class EntityNotFoundException extends RuntimeException {
 
@@ -12,5 +12,4 @@ public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {
         super(message);
     }
-
 }

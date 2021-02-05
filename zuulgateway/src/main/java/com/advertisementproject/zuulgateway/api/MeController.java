@@ -5,16 +5,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for a user to view the their logged in security status from the security context holder
+ */
 @RequiredArgsConstructor
 @RestController
-public class UserController {
+public class MeController {
 
-    /*
-        This UserController manages Authentication for login and also the registration flow.
-        All Requests should be handled with POJO's to ensure data-hiding and to not expose sensitive
-        data concerning a user. All POJO's should have constrains
+
+    /**
+     * Lets a logged in user see the security principal that they are logged in with. Includes user information.
+     * @return principal from the security context holder
      */
-
     @GetMapping("/me")
     public ResponseEntity<?> me() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
