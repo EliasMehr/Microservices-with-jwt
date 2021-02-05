@@ -4,6 +4,7 @@ import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.filters.JwtTokenValidationFilter;
 import com.advertisementproject.zuulgateway.security.filters.JwtUsernameAndPasswordAuthenticationFilter;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
+import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -95,12 +96,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
      * CorsConfigurationSource configuration bean
-     * @return CorsConfigurationSource that accepts any URL source and applies default permit values
+     * @return CorsConfigurationSource that accepts any URL source and applies permit values
      */
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("*"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type", "X-Total-Count", "Content-Range"));
+        configuration.setExposedHeaders(ImmutableList.of("Content-Range", "X-Total-Count"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

@@ -22,6 +22,15 @@ public class MessageBrokerConfig {
 
     /**
      * Direct messaging queue configuration bean
+     * @return direct messaging queue to inform User Service that it should enable a user.
+     */
+    @Bean
+    public Queue enableUserQueue() {
+        return new Queue("enableUser", false);
+    }
+
+    /**
+     * Direct messaging queue configuration bean
      * @return direct messaging queue to supply Email Service application with email details for sending a confirmation
      * link email to a specific user.
      */

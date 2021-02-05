@@ -9,6 +9,7 @@ import com.advertisementproject.campaignservice.service.interfaces.CompanyServic
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,12 +54,18 @@ public class CampaignController {
     /**
      * Endpoint for getting all campaigns for the currently logged in company.
      * @param companyId the id for the currently logged in company user, provided by Zuul Gateway in the header.
-     * @return Response entity with a list of all campaigns for the logged in company in the database.
+     * @return Response entity with a list of all campaigns and custom response headers for the logged in company in the database.
+     *
      */
     @GetMapping
     public ResponseEntity<List<Campaign>> getCampaignsByCompanyId(@RequestHeader("userId") UUID companyId){
+        HttpHeaders customResponseHeader = new HttpHeaders();
         List<Campaign> campaigns = campaignService.getAllCampaignsByCompanyId(companyId);
-        return ResponseEntity.ok(campaigns);
+        customResponseHeader.set("X-Total-Count", String.valueOf(campaigns.size()));
+        customResponseHeader.set("Access-Control-Expose-Headers", "Content-Range");
+        return ResponseEntity.ok()
+                .headers(customResponseHeader)
+                .body(campaigns);
     }
 
     /**
