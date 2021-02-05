@@ -5,8 +5,6 @@ import com.advertisementproject.userservice.api.request.CustomerRegistrationRequ
 import com.advertisementproject.userservice.db.entity.types.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -15,9 +13,14 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
-import static com.advertisementproject.userservice.db.entity.types.Role.*;
+import static com.advertisementproject.userservice.db.entity.types.Role.COMPANY;
+import static com.advertisementproject.userservice.db.entity.types.Role.CUSTOMER;
 import static javax.persistence.EnumType.STRING;
 
+/**
+ * User entity with core account information about a user. Raw password is transient and ignored for JSON which means
+ * that it can be validated along with the rest of the fields but won't show up as JSON or be saved in the database.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,8 +29,6 @@ import static javax.persistence.EnumType.STRING;
 @Table(name = "users")
 @Entity
 public class User {
-
-    private static final Logger logger = LoggerFactory.getLogger(User.class);
 
     @Id
     private UUID id;
@@ -72,6 +73,12 @@ public class User {
 
     private boolean enabled = false;
 
+    /**
+     * Builder method for constructing a user from relevant fields in a supplied CustomerRegistrationRequest for a
+     * supplied user id.
+     * @param request request including all the relevant fields needed to make a user entity
+     * @return a new user object based on the supplied user id and request object fields
+     */
     public static User toUser(CustomerRegistrationRequest request) {
         return builder()
                 .id(UUID.randomUUID())
@@ -87,6 +94,12 @@ public class User {
                 .build();
     }
 
+    /**
+     * Builder method for constructing a user from relevant fields in a supplied CompanyRegistrationRequest for a
+     * supplied user id.
+     * @param request request including all the relevant fields needed to make a user entity
+     * @return a new user object based on the supplied user id and request object fields
+     */
     public static User toUser(CompanyRegistrationRequest request) {
         return builder()
                 .id(UUID.randomUUID())
@@ -101,5 +114,4 @@ public class User {
                 .enabled(false)
                 .build();
     }
-
 }

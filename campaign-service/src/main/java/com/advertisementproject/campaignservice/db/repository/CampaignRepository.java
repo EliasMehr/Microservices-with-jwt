@@ -12,29 +12,51 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Repository for managing the campaign table in the database. Includes some custom methods beyond typical CRUD.
+ */
 @Repository
 public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
 
+    /**
+     * Retrieve all campaigns from the database for a specific company id
+     * @param companyId the company id to retrieve campaigns from
+     * @return list of campaigns with the supplied company id
+     */
     List<Campaign> findAllByCompanyUserId(UUID companyId);
+
+    /**
+     * Deletes all campaigns with the supplied company id
+     * @param companyId the company id for which to delete campaigns
+     */
     void deleteByCompanyUserId(UUID companyId);
 
+    /**
+     * Retrieve all campaigns that are published, in other words where isPublished == true
+     * @return list of all published campaigns
+     */
     List<Campaign> findAllByIsPublishedTrue();
 
+    /**
+     * Sets isPublished = true for campaigns that have a publishedAt timestamp in the past and that are not already set
+     * to published. This is run as a scheduled job in ScheduledJobsService.
+     * @param instant a timestamp for which to compare the publishedAt timestamp. Normally set to Instant.now()
+     * @return the number of campaigns that were set to published
+     */
     @Transactional
     @Modifying
     @Query("UPDATE Campaign campaign SET campaign.isPublished = true WHERE campaign.isPublished = false AND campaign.publishedAt < ?1")
     int publishScheduledCampaigns(Instant instant);
 
+    /**
+     * Removes all campaigns that have a expiredAt timestamp in the past. This is run as a scheduled job in
+     * ScheduledJobsService.
+     * @param instant a timestamp for which to compare the expiredAt timestamp. Normally set to Instant.now()
+     * @return the number of expired campaigns that were removed
+     */
     @Transactional
     @Modifying
     @Query("DELETE FROM Campaign campaign WHERE campaign.expiresAt < ?1")
     int removeExpiredCampaigns(Instant instant);
 
-////    SELECT CAST(id as varchar), CAST(company_id as varchar), title, description, discount, currency, image, category, created_At, published_At, expires_At, updated_At
-////, discount_Code, is_Percentage, is_Published from Campaign INNER JOIN Company ON (Campaign.company_id = Company.user_id)
-//    @Transactional
-//    @Query(value = "SELECT  CAST(id as varchar), CAST(company_id as varchar), title, Campaign.description, discount, currency, image, category, created_At, published_At, expires_At, updated_At" +
-//            ", is_Percentage, is_Published, Company.name as company_Name from Campaign INNER JOIN Company ON (Campaign.company_id = Company.user_id)" +
-//            "WHERE campaign.is_Published = true", nativeQuery = true)
-//    List<Map<String, Object>> campaignsWithCompanyName();
 }

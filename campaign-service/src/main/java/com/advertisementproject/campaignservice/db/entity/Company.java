@@ -12,6 +12,13 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+/**
+ * Company contains information about the company that created the campaign and each campaign must be tied to a company.
+ * If a company is removed then all related campaigns are also removed. The User Service is responsible for informing
+ * this application of any changes to the company database so that this application also may keep an up to date copy.
+ *
+ * @JsonView restricts the information in a JSON response to only the annotated fields if a view is set in the controller.
+ */
 @Data
 @Entity
 public class Company {

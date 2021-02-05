@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+/**
+ * Api Error report object that shows an error report to the client. Only includes errors in JSON if not null.
+ */
 @AllArgsConstructor
 @Getter
 @Builder

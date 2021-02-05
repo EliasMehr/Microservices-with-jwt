@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Entity including a confirmation token, a user id and timestamp information related to the token
+ */
 @Entity
 @Getter
 @Builder
@@ -32,6 +35,11 @@ public class ConfirmationToken {
 
     private UUID userId;
 
+    /**
+     * Builder method for constructing a confirmation token object using a supplied user id.
+     * @param userId the user id for which to create a token.
+     * @return a token object for the supplied user id.
+     */
     public static ConfirmationToken toConfirmationToken(UUID userId){
         return ConfirmationToken.builder()
                 .id(UUID.randomUUID())

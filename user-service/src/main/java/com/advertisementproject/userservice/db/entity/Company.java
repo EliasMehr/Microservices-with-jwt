@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
+/**
+ * Company entity for company users with information about the company the user has
+ */
 @Data
 @Entity
 @AllArgsConstructor
@@ -34,6 +37,13 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
 
+    /**
+     * Builder method for constructing a company from relevant fields in a supplied CompanyRegistrationRequest for a
+     * supplied user id
+     * @param userId the user id for which to create a company entity
+     * @param request request including all the relevant fields needed to make a company entity
+     * @return a new company object based on the supplied user id and request object fields
+     */
     public static Company toCompany(UUID userId, CompanyRegistrationRequest request){
         return Company.builder()
                 .userId(userId)

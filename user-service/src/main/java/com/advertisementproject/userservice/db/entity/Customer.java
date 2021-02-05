@@ -12,6 +12,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
+/**
+ * Customer entity for customer users with personal information about the user
+ */
 @Data
 @Entity
 @AllArgsConstructor
@@ -31,6 +34,13 @@ public class Customer {
     @NotNull(message = "Personal ID number must not be null")
     private String personalIdNumber;
 
+    /**
+     * Builder method for constructing a customer from relevant fields in a supplied CustomerRegistrationRequest for a
+     * supplied user id
+     * @param userId the user id for which to create a customer entity
+     * @param request request including all the relevant fields needed to make a customer entity
+     * @return a new customer object based on the supplied user id and request object fields
+     */
     public static Customer toCustomer(UUID userId, CustomerRegistrationRequest request){
         return Customer.builder()
                 .userId(userId)

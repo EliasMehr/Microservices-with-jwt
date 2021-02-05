@@ -4,11 +4,10 @@ import com.advertisementproject.zuulgateway.security.Utils.JwtUtils;
 import com.advertisementproject.zuulgateway.security.filters.JwtTokenValidationFilter;
 import com.advertisementproject.zuulgateway.security.filters.JwtUsernameAndPasswordAuthenticationFilter;
 import com.advertisementproject.zuulgateway.services.UserDetailsServiceImpl;
+import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,11 +17,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
-import java.util.Collections;
-
+/**
+ * Web security configuration for the entire project. CSRF is disabled and cors is activated. Requests can be set as
+ * open to the public, only available for non logged in users or requires authorization for one or more specific role(s).
+ * If an authorized endpoint is desired, the user must login via "/login" endpoint, which is handled by
+ * JwtUsernameAndPasswordAuthenticationFilter. Upon successful login, the user can set the jwt token from the response
+ * in the header of the request to the authentication locked endpoint. Then JwtTokenValidationFilter makes sure that the
+ * id from the jwt token in the header matches a valid user that is enabled, has permissions and the correct role.
+ *
+ * Session management is stateless.
+ */
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
@@ -79,28 +84,32 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList("*"));
-        config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
-    }
-
+    /**
+     * Configuration for using a custom user details service
+     * @param auth authentication manager builder for which to set a custom user details service
+     * @throws Exception if an exception occurs
+     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
-
-
-
-
+    /**
+     * CorsConfigurationSource configuration bean
+     * @return CorsConfigurationSource that accepts any URL source and applies permit values
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("*"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type", "X-Total-Count", "Content-Range"));
+        configuration.setExposedHeaders(ImmutableList.of("Content-Range", "X-Total-Count"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 }

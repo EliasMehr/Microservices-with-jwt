@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Service implementation for managing email details in the database
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,10 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
 
     private final EmailDetailsRepository emailDetailsRepository;
 
+    /**
+     * Saves email details from an email details message to the database for the user id in the message
+     * @param emailDetailsMessage email details (except token) to be saved/added to the database for that user id
+     */
     @Override
     public void saveDetails(EmailDetailsMessage emailDetailsMessage){
         Optional<EmailDetails> emailDetailsOptional = emailDetailsRepository.findById(emailDetailsMessage.getUserId());
@@ -35,6 +42,10 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
         log.info("Saved name and email for userId: " + emailDetailsMessage.getUserId());
     }
 
+    /**
+     * Saves token from a token message to the database for the user id in the message
+     * @param tokenMessage message with token and a user id for which the token should be saved in the database
+     */
     @Override
     public void saveToken(TokenMessage tokenMessage){
         Optional<EmailDetails> emailDetailsOptional = emailDetailsRepository.findById(tokenMessage.getUserId());
@@ -50,6 +61,11 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
         log.info("Saved token for userId: " + tokenMessage.getUserId());
     }
 
+    /**
+     * Retrieves full email details including token for a user id if all the information is present, otherwise null.
+     * @param userId the user id for which to retrieve full email details
+     * @return email details including all the information if available, otherwise null.
+     */
     @Override
     public EmailDetails getCompleteDetailsOrNull(UUID userId) {
         Optional<EmailDetails> emailDetailsOptional = emailDetailsRepository.findById(userId);
@@ -62,15 +78,13 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
         return null;
     }
 
+    /**
+     * Deletes the supplied email details from the database
+     * @param emailDetails the email details object to delete from the database
+     */
     @Override
     public void deleteEmailDetails(EmailDetails emailDetails) {
         emailDetailsRepository.delete(emailDetails);
         log.info("Deleted email details for userId: " + emailDetails.getUserId());
     }
-
-//    private void sendEmailAndDeleteDatabasePost(EmailDetails emailDetails) {
-//        emailService.sendConfirmationLinkEmail(emailDetails.getEmail(), emailDetails.getName(), emailDetails.getToken());
-//        emailDetailsRepository.deleteById(emailDetails.getUserId());
-//        log.info("Deleted emailDetails for userId: " + emailDetails.getUserId());
-//    }
 }
