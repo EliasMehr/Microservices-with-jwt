@@ -35,7 +35,6 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <PrivateRoute path="/company" component={Company} roles={[user.role]}/>
-        
       </Switch>
       <Copyright/>
 
