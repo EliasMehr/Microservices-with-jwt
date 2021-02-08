@@ -23,6 +23,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class CampaignController {
 

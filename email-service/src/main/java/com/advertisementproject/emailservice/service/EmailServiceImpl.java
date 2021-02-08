@@ -32,7 +32,7 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     public void sendConfirmationLinkEmail(String toEmail, String name, String token) {
-        String link = "http://localhost:8080/confirmation-token/" + token;
+        String link = "http://localhost:8080/confirmation-token/confirm/" + token;
         String emailTemplate = buildEmailConfirmationLinkEmail(name, link);
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();

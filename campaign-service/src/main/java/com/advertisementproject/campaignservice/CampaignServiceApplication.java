@@ -20,7 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableSwagger2
 public class CampaignServiceApplication {
 
     /**

@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * to inform them that a user has been registered.
  */
 @RestController
-@RequestMapping("/register/")
+@RequestMapping("/api/register/")
 @RequiredArgsConstructor
 public class RegistrationController {
 

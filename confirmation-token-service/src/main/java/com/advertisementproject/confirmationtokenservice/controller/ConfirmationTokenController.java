@@ -25,7 +25,7 @@ public class ConfirmationTokenController {
      * @param token the token to be confirmed.
      * @return a message that the email address has been confirmed.
      */
-    @GetMapping("/{token}")
+    @GetMapping("/confirm/{token}")
     public ResponseEntity<String> confirm(@PathVariable String token) {
         UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);
         messagePublisher.sendUserIdMessage("enableUser", userId);
