@@ -18,8 +18,7 @@ import StandardImage from '../../../resources/campaignMicro.png'
 const useStyles = makeStyles({
     root: {
         textAlign: 'center',
-        maxHeight: 500,
-        height: 350
+        minHeight: 400
     },
     image: {
         height:140,
@@ -27,6 +26,9 @@ const useStyles = makeStyles({
     buttons: {
         justifyContent: 'center',
     },
+    description: {
+        minHeight: 80
+    }
   });
 
   
@@ -92,16 +94,27 @@ const CampaignCard = props => {
                         {props.campaign.description  ? 
                          props.campaign.description.length > 20 ? (
                          <>
+                            <div className={classes.description}>
                             <Typography align='center' variant='h6'>Description</Typography>
                             <Typography align='center'>{props.campaign.description.substring(0, 20)}</Typography>
                             <Collapse in={collapseShow}>{props.campaign.description.substring(20)}</Collapse>
                             <Link href="#" onClick={handleCollapse}>Read more...</Link>
-                            </>)  : (
+                            </div>
+                            </>)  
+                            : (
                                 <>
+                                <div className={classes.description}>
                                 <Typography align='center' variant='h6'>Description</Typography>
                                 <Typography align='center'>{props.campaign.description}</Typography>
+                                </div>
                                 </>
-                            ) : '' }
+                            ) : 
+                                <>
+                                <div className={classes.description}>
+
+                                </div>
+                                </>
+                            }
 
 
                        
