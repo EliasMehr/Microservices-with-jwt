@@ -7,11 +7,12 @@ import {
     DeleteButton,
     DateTimeInput,
     SelectInput,
+    BooleanInput
 } from 'react-admin';
 import { Typography, Box, Button} from '@material-ui/core';
 import CreateCampaignCard from './createCampaignCard.component'
 
-const CreateForm = (props) => {
+const EditForm = (props) => {
 
     
     const [campaign, setCampaign] = useState({
@@ -26,9 +27,14 @@ const CreateForm = (props) => {
         discountCode: ''
       });
 
+      useEffect(() => {
+          setCampaign(props.record)
+          console.log("New State", campaign)
+          console.log("Old state", props.record)
+      }, [])
+
       const handleChange = (prop) => (e) => {
         setCampaign({ ...campaign, [prop]: e.target.value})
-           
       }
 
 
@@ -111,11 +117,10 @@ const CreateForm = (props) => {
                             </Box>
                             <Box mt="1em" />
 
-                            <Typography variant="h6" gutterBottom>Publish Info, Leave empty if you wanna publish now</Typography>
                             <Box display="flex">
                                 <Box flex={1} mr="0.5em">
                                     <DateTimeInput 
-                                    source="publishAt"  
+                                    source="publishedAt"  
                                     fullWidth 
                                     value={campaign.publishedAt}
                                     onChange={handleChange('publishedAt')}
@@ -128,6 +133,14 @@ const CreateForm = (props) => {
                                     value={campaign.expiresAt}
                                     onChange={handleChange('expiresAt')}
                                     />
+                                </Box>
+                            </Box>
+                            <Box display="flex">
+                                <Box flex={2} ml="0.5em">
+                                    <BooleanInput source="isPercentage" />
+                                </Box>
+                                <Box flex={2} ml="0.5em">
+                                    <BooleanInput source="isPublished" />
                                 </Box>
                             </Box>
                         </Box>
@@ -154,5 +167,4 @@ const CreateForm = (props) => {
     />
     )
 }
-
-export default CreateForm;
+export default EditForm;

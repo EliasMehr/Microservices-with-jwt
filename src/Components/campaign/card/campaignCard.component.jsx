@@ -18,6 +18,8 @@ import StandardImage from '../../../resources/campaignMicro.png'
 const useStyles = makeStyles({
     root: {
         textAlign: 'center',
+        maxHeight: 500,
+        height: 350
     },
     image: {
         height:140,

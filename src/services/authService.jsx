@@ -18,27 +18,27 @@ const authService = {
 }
 
 function registerCompany(companyUser) {
-        console.log(companyUser.email.email);
+        console.log(companyUser.email);
         return axios.post("http://localhost:8080/user/register/company", {
              name: companyUser.name,
-             email: companyUser.email.email,
-             password: companyUser.password.password,
+             email: companyUser.email,
+             password: companyUser.password,
              address: companyUser.address,
              city: companyUser.city,
              zipCode: companyUser.zipCode,
              phoneNumber: companyUser.phoneNumber,
              organizationNumber: companyUser.organizationNumber,
-             companyType: companyUser.companyType.companyType
+             companyType: companyUser.companyType
         });
     }
 
 function registerCustomer(customerUser) {
-        console.log(customerUser.email.email);
+        console.log(customerUser.email);
         return axios.post("http://localhost:8080/user/register/customer", {
              firstName: customerUser.firstName,
              lastName: customerUser.lastName,
-             email: customerUser.email.email,
-             password: customerUser.password.password,
+             email: customerUser.email,
+             password: customerUser.password,
              address: customerUser.address,
              city: customerUser.city,
              zipCode: customerUser.zipCode,

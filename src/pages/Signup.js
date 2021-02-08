@@ -60,28 +60,14 @@ export default function SignUp() {
   const [value, setSelectedValue] = useState('');
   const [loading, setLoading] = useState(false);
 
-
-  const [companyType, setCompanyType] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [companyUser, setCompanyUser] = useState({
+  const [user, setUser] = useState({
     name: '',
-    email: email.value,
-    password: password.value,
-    address: '',
-    city: '',
-    zipCode: '',
-    phoneNumber: '',
     organizationNumber: '',
-    companyType: companyType.value
-  });
-
-  const [customerUser, setCustomerUser] = useState({
+    companyType: '',
     firstName: '',
     lastName: '',
-    email: {email},
-    password: {password},
+    email: '',
+    password: '',
     address: '',
     city: '',
     zipCode: '',
@@ -89,12 +75,9 @@ export default function SignUp() {
     personalIdNumber: ''
   });
 
-  const handleCustomerChange = (prop) => (e) => {
-    setCustomerUser({ ...customerUser, [prop]: e.target.value})
-  }
 
-  const handleCompanyChange = (prop) => (e) => {
-    setCompanyUser({ ...companyUser, [prop]: e.target.value})
+  const handleUserChange = (prop) => (e) => {
+    setUser({ ...user, [prop]: e.target.value})
   }
 
 
@@ -103,29 +86,11 @@ export default function SignUp() {
     console.log(event.target.value);
   };
 
-  const handleUserEmail = (e) => {
-    setEmail(e.target.value);
-    customerUser.email = {email};
-    companyUser.email = {email};
-  }
-
-  const handleUserPassword = (e) => {
-    setPassword(e.target.value);
-    customerUser.password = {password};
-    companyUser.password = {password};
-  }
-
-  const handleCompanyType = (e) => {
-    setCompanyType(e.target.value);
-    companyUser.companyType = {companyType};
-
-  }
-
   const attemptRegisterUser = (e) => {
     e.preventDefault();
     setLoading(true);
     if(value === "customer") {
-      authService.registerCustomer(customerUser).then(res => {
+      authService.registerCustomer(user).then(res => {
         if(res.status === 200) {
           setLoading(false);
           console.log("WE MADE IT?");
@@ -142,7 +107,7 @@ export default function SignUp() {
       
     }
     else if(value === "company") {
-      authService.registerCompany(companyUser).then(res => {
+      authService.registerCompany(user).then(res => {
         if(res.status === 200) {
           setLoading(false);
           console.log("COMPANY MADE IT?");
@@ -184,8 +149,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                value={email}
-                onChange={handleUserEmail}
+                value={user.email}
+                onChange={handleUserChange('email')}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -197,8 +162,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                value={password}
-                onChange={handleUserPassword}
+                value={user.password}
+                onChange={handleUserChange('password')}
                 name="password"
                 label="Password"
                 type="password"
@@ -215,7 +180,7 @@ export default function SignUp() {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            {console.log(companyUser)}
+            {console.log(user)}
             {value === "customer" ? 
             <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -223,8 +188,8 @@ export default function SignUp() {
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
-                value={customerUser.firstName}
-                onChange={handleCustomerChange('firstName')}
+                value={user.firstName}
+                onChange={handleUserChange('firstName')}
                 required
                 fullWidth
                 id="firstName"
@@ -237,8 +202,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                value={customerUser.lastName}
-                onChange={handleCustomerChange('lastName')}
+                value={user.lastName}
+                onChange={handleUserChange('lastName')}
                 id="lastName"
                 label="Last Name"
                 name="lastName"
@@ -251,8 +216,8 @@ export default function SignUp() {
                 name="phoneNr"
                 variant="outlined"
                 required
-                value={customerUser.phoneNumber}
-                onChange={handleCustomerChange('phoneNumber')}
+                value={user.phoneNumber}
+                onChange={handleUserChange('phoneNumber')}
                 fullWidth
                 id="phoneNr"
                 label="Phone Number"
@@ -263,8 +228,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                value={customerUser.personalIdNumber}
-                onChange={handleCustomerChange('personalIdNumber')}
+                value={user.personalIdNumber}
+                onChange={handleUserChange('personalIdNumber')}
                 id="personalID"
                 label="Personal ID"
                 name="personalID"
@@ -276,8 +241,8 @@ export default function SignUp() {
                 autoComplete="street"
                 name="street"
                 variant="outlined"
-                value={customerUser.address}
-                onChange={handleCustomerChange('address')}
+                value={user.address}
+                onChange={handleUserChange('address')}
                 required
                 fullWidth
                 id="street"
@@ -289,8 +254,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                value={customerUser.city}
-                onChange={handleCustomerChange('city')}
+                value={user.city}
+                onChange={handleUserChange('city')}
                 id="city"
                 label="City"
                 name="city"
@@ -302,8 +267,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                value={customerUser.zipCode}
-                onChange={handleCustomerChange('zipCode')}
+                value={user.zipCode}
+                onChange={handleUserChange('zipCode')}
                 id="zipCode"
                 label="Zip Code"
                 name="zipCode"
@@ -322,8 +287,8 @@ export default function SignUp() {
             autoComplete="companyName"
             name="companyName"
             variant="outlined"
-            value={companyUser.name}
-            onChange={handleCompanyChange('name')}
+            value={user.name}
+            onChange={handleUserChange('name')}
             required
             fullWidth
             id="companyName"
@@ -337,8 +302,8 @@ export default function SignUp() {
             name="phoneNr"
             variant="outlined"
             required
-            value={companyUser.phoneNumber}
-            onChange={handleCompanyChange('phoneNumber')}
+            value={user.phoneNumber}
+            onChange={handleUserChange('phoneNumber')}
             fullWidth
             id="phoneNr"
             label="Phone Number"
@@ -349,8 +314,8 @@ export default function SignUp() {
             variant="outlined"
             required
             fullWidth
-            value={companyUser.organizationNumber}
-            onChange={handleCompanyChange('organizationNumber')}
+            value={user.organizationNumber}
+            onChange={handleUserChange('organizationNumber')}
             id="organizationNr"
             label="Organization Numer"
             name="organizationNr"
@@ -362,8 +327,8 @@ export default function SignUp() {
             variant="outlined"
             required
             fullWidth
-            value={companyUser.city}
-            onChange={handleCompanyChange('city')}
+            value={user.city}
+            onChange={handleUserChange('city')}
             id="city"
             label="City"
             name="city"
@@ -376,8 +341,8 @@ export default function SignUp() {
             name="street"
             variant="outlined"
             required
-            value={companyUser.address}
-            onChange={handleCompanyChange('address')}
+            value={user.address}
+            onChange={handleUserChange('address')}
             fullWidth
             id="street"
             label="Street"
@@ -388,8 +353,8 @@ export default function SignUp() {
             variant="outlined"
             required
             fullWidth
-            value={companyUser.zipCode}
-            onChange={handleCompanyChange('zipCode')}
+            value={user.zipCode}
+            onChange={handleUserChange('zipCode')}
             id="zipCode"
             label="Zip Code"
             name="zipCode"
@@ -407,8 +372,8 @@ export default function SignUp() {
                   open={open}
                   onClose={() => setOpen(false)}
                   onOpen={() => setOpen(true)}
-                  value={companyType}
-                  onChange={handleCompanyType}>
+                  value={user.companyType}
+                  onChange={handleUserChange('companyType')}>
   
                   <MenuItem value={"RETAIL"}>Retail</MenuItem>
                   <MenuItem value={"TELECOM"}>Telecom</MenuItem>
