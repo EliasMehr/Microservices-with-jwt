@@ -10,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * Service implementation for managing email details in the database
@@ -30,17 +32,11 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
     @Override
     @Transactional
     public void saveDetails(EmailDetailsMessage emailDetailsMessage){
-        if(emailDetailsRepository.existsById(emailDetailsMessage.getUserId())){
-            emailDetailsRepository.updateEmailSetNameAndEmail(
-                    emailDetailsMessage.getName(),
-                    emailDetailsMessage.getEmail(),
-                    emailDetailsMessage.getUserId());
-        }
-        else {
-            emailDetailsRepository.save(new EmailDetails(emailDetailsMessage));
-            log.info("Saved NEW EMAILDETAILS for userId: " + emailDetailsMessage.getUserId());
-
-        }
+        emailDetailsRepository.findById(emailDetailsMessage.getUserId())
+                .ifPresentOrElse(emailDetails -> {
+                    emailDetails.setEmail(emailDetailsMessage.getEmail());
+                    emailDetails.setName(emailDetailsMessage.getName());
+                }, () -> emailDetailsRepository.save(new EmailDetails(emailDetailsMessage)));
         log.info("Saved name and email for userId: " + emailDetailsMessage.getUserId());
     }
 
@@ -51,16 +47,10 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
     @Override
     @Transactional
     public void saveToken(TokenMessage tokenMessage){
-        if (emailDetailsRepository.existsById(tokenMessage.getUserId())){
-            emailDetailsRepository.updateEmailSetToken(
-                    tokenMessage.getToken(),
-                    tokenMessage.getUserId());
-        }
-        else {
-            emailDetailsRepository.save(new EmailDetails(tokenMessage));
-            log.info("Saved NEW TOKEN for userId: " + tokenMessage.getUserId());
-
-        }
+        emailDetailsRepository.findById(tokenMessage.getUserId())
+                .ifPresentOrElse(emailDetails ->
+                        emailDetails.setToken(tokenMessage.getToken()),
+                        () -> emailDetailsRepository.save(new EmailDetails(tokenMessage)));
         log.info("Saved token for userId: " + tokenMessage.getUserId());
     }
 
@@ -78,6 +68,7 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
                 return emailDetails;
             }
         }
+
         return null;
     }
 

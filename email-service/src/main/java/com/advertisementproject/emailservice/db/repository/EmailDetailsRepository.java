@@ -14,11 +14,5 @@ import java.util.UUID;
 @Repository
 public interface EmailDetailsRepository extends JpaRepository<EmailDetails, UUID> {
 
-    @Modifying
-    @Query("UPDATE EmailDetails e SET e.email = ?1, e.name = ?2 WHERE e.userId = ?3")
-    void updateEmailSetNameAndEmail(String name, String email, UUID userId);
 
-    @Modifying
-    @Query("UPDATE EmailDetails e SET e.token = ?1 WHERE e.userId = ?2")
-    void updateEmailSetToken(String token, UUID userId);
 }
