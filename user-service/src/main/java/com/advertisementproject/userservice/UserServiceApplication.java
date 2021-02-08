@@ -3,6 +3,7 @@ package com.advertisementproject.userservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * User Service Application registers and manages users. Each user may have a role as a CUSTOMER, COMPANY or ADMIN.
@@ -21,6 +22,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableSwagger2
 public class UserServiceApplication {
 
     /**

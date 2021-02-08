@@ -3,6 +3,7 @@ package com.advertisementproject.permissionsservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Permissions Service Application is a microservice for managing user permissions and informing other microservices
@@ -16,6 +17,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableSwagger2
 public class PermissionsServiceApplication {
 
     /**

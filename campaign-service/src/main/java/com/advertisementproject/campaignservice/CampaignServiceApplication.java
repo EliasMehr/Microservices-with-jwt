@@ -3,6 +3,7 @@ package com.advertisementproject.campaignservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Campaign Service Application manages campaigns and gets updates from the User Service Application about companies.
@@ -19,6 +20,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableSwagger2
 public class CampaignServiceApplication {
 
     /**
