@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
@@ -8,11 +8,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CampaignModal from '../modal/campaignModal.component';
-import CampaignApi from '../../../api/CampaignApi';
+import { useHistory } from 'react-router-dom';
+import Collapse from '@material-ui/core/Collapse';
+import Link from '@material-ui/core/Link';
+import campaignService from '../../../services/campaignService';
+import StandardImage from '../../../resources/campaignMicro.png'
 
 
 const useStyles = makeStyles({
-
+    root: {
+        textAlign: 'center',
+    },
     image: {
         height:140,
     },
@@ -24,23 +30,33 @@ const useStyles = makeStyles({
   
 const CampaignCard = props => {
     const [campaignModalShow, setCampaignModalShow] = useState(false);
-    // const [campaignObject, setCampaignObject] = useState({});
+    const [collapseShow, setCollapseShow] = useState(false);
+    const [discountCode, setDiscountCode] = useState("");
+    let history = useHistory();
+
     const classes = useStyles();
-    const standardImg = "https://images.theconversation.com/files/350865/original/file-20200803-24-50u91u.jpg?ixlib=rb-1.1.0&rect=37%2C29%2C4955%2C3293&q=45&auto=format&w=926&fit=clip";
 
     const handleClose = () => {
         setCampaignModalShow(false);
     }
 
     const handleOpen = () => {
-        // CampaignApi.getOneCampaign(props.campaign.id).then(res => {
-        //     setCampaignObject(res);
-        //     setCampaignModalShow(true);
-        // });
-        setCampaignModalShow(true);
-        console.log("SETTING STATE")
+        
+        campaignService.getDiscountCode(props.campaign.id).then(res => {
+            if(!res) {
+                return history.push('/login');
+            }
+            setDiscountCode(res);
+            setCampaignModalShow(true);
+        });
+        // setCampaignModalShow(true);
     }
 
+    const handleCollapse = (e) => {
+        e.preventDefault();
+        collapseShow ? setCollapseShow(false) : setCollapseShow(true);
+
+    }
    return (
        <>
         <Grid item xs={12} sm={3}>
@@ -49,7 +65,7 @@ const CampaignCard = props => {
                     className={classes.image}
                     component="img"
                     alt="company image"
-                    image={props.campaign.image === null ? standardImg : props.campaign.image}
+                    image={props.campaign.image ? props.campaign.image : StandardImage}
                     title="company imageurur"
                     />
                 <CardContent>
@@ -57,9 +73,8 @@ const CampaignCard = props => {
                         align='center'
                         variant='h6'
                         >
-                         TODO NAME?   
-                        {props.campaign.name}            
-                    </Typography>
+                        {props.campaign.company_name}  
+                     </Typography>
                     <Typography 
                         align='center'
                         variant='h4'
@@ -70,14 +85,24 @@ const CampaignCard = props => {
                         align='center'
                         >
                         {props.campaign.discount}
-                        {props.campaign.isPercentage === true ? ' % Discount' : props.campaign.currency + ' Discount'}            
+                        {props.campaign.isPercentage ? ' % Discount' : ' SEK Discount'}            
                     </Typography>
-                    <Typography 
-                        align='center'
-                        >
-                        Description???
-                        {props.campaign.description}
-                    </Typography>
+                        {props.campaign.description  ? 
+                         props.campaign.description.length > 20 ? (
+                         <>
+                            <Typography align='center' variant='h6'>Description</Typography>
+                            <Typography align='center'>{props.campaign.description.substring(0, 20)}</Typography>
+                            <Collapse in={collapseShow}>{props.campaign.description.substring(20)}</Collapse>
+                            <Link href="#" onClick={handleCollapse}>Read more...</Link>
+                            </>)  : (
+                                <>
+                                <Typography align='center' variant='h6'>Description</Typography>
+                                <Typography align='center'>{props.campaign.description}</Typography>
+                                </>
+                            ) : '' }
+
+
+                       
                 </CardContent>
                 <CardActions className={classes.buttons}>
                     <Button variant="contained" color="primary" onClick={handleOpen}>
@@ -87,7 +112,7 @@ const CampaignCard = props => {
             </Card>
         </Grid>
 
-        <CampaignModal show={campaignModalShow} onHide={handleClose} campaign={props.campaign}/>
+        <CampaignModal show={campaignModalShow} onHide={handleClose} campaign={props.campaign} discountCode={discountCode}/>
         </>
     )
 }

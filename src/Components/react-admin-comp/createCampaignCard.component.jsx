@@ -1,5 +1,4 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-
+import StandardImage from '../../resources/campaignMicro.png';
 
 const DarkerDisabledTextField = withStyles({
     root: {
@@ -27,7 +26,6 @@ const useStyles = makeStyles({
     },
     image: {
         height:140,
-        opacity:0.8
     },
     buttons: {
         justifyContent: 'center',
@@ -40,43 +38,23 @@ const useStyles = makeStyles({
         marginTop: 10,
         marginBottom: 10
     },
-    // companyName: {
-    //     transform: 'Translate(-50%, -50%)',
-    //     textAlign: 'center',
-    //     top: 130,
-    //     left: '50%',
-    //     fontWeight: 'bold',
-    //     position: 'absolute'
-    // },
-    dialog: {
-    
-    }
 
 });
 
 
-const CampaignModal = props => {
+const CreateCampaignCard = props => {
     const classes = useStyles();
-    const standardImg = "https://images.theconversation.com/files/350865/original/file-20200803-24-50u91u.jpg?ixlib=rb-1.1.0&rect=37%2C29%2C4955%2C3293&q=45&auto=format&w=926&fit=clip";
 
-    const handleRedirect = () => {
-        navigator.clipboard.writeText(props.discountCode);
-        props.onHide();
-    }
-
-    const handleClose = () => {
-        props.onHide();
-    }
 
     return (
         <>
-        <Dialog onClose={handleClose} aria-labelledby="dialog-title" open={props.show} className={classes.dialog}> 
             <Card className={classes.root}>
+                {console.log(StandardImage)}
                 <CardMedia
                     className={classes.image}
                     component="img"
                     alt="company image"
-                    image={props.campaign.image === null ? standardImg : props.campaign.image}
+                    src={props.image ? props.image : StandardImage}
                     title="company imageurur"
                     />
                 <CardContent className={classes.cardContent}>
@@ -86,28 +64,27 @@ const CampaignModal = props => {
                         fontWeight='bold'
                         className={classes.companyName}                   
                         >
-                        {props.campaign.company_name}            
+                        Company Name            
                     </Typography>
                     <Typography 
                         align='center'
                         variant='h4'
                         className={classes.textInModal}
                         >
-                        {props.campaign.title}            
+                        {props.title ? props.title : "Example Title"}            
                     </Typography>
                     <Typography 
                         align='center'
                         className={classes.textInModal}
                         >
-                        {props.campaign.discount}
-                        {props.campaign.isPercentage === true ? ' % Discount' : props.campaign.currency + ' Discount'}            
+                        {props.discount ? props.discount : "Discount amount"}
+                        {props.isPercentage ? ' % Discount' : ' SEK Discount'}
                     </Typography>
                     <Typography 
                         className={classes.textInModal}
                         align='center'
                         >
-                        Description???
-                        {props.campaign.description}
+                        {props.description ? props.description : 'Description here..'}
                     </Typography>
                         <div className={classes.discountCode}>
                         <DarkerDisabledTextField
@@ -122,22 +99,22 @@ const CampaignModal = props => {
                             ),
                         }}
                         disabled
-                        value={props.discountCode}
+                        value={props.discountCode ? props.discountCode : 'Discount Code'}
                         variant='outlined'
                     />
                     </div>
                 </CardContent>
                 <CardActions className={classes.buttons}>
-                    <Button variant="contained" color="primary" onClick={handleRedirect}>
+                    <Button variant="contained" color="primary">
                          Copy discount & Close
                     </Button>
                 </CardActions>
             </Card>
-        </Dialog>
+        
 
 
         </>
     )
 }
 
-export default CampaignModal;
+export default CreateCampaignCard;

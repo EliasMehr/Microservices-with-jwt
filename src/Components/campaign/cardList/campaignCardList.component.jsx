@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         direction:'row',
         justify:'center',
         alignItems:'center',
-        wrap: 'wrap'
+        spacing: 8
     },
   });
 
@@ -23,10 +23,9 @@ const CampaignList = ({campaigns}) => {
     return (
         <Grid container 
             className={classes.gridContainer}
-            spacing='3'
-            wrap
+            wrap='wrap'
+            spacing={3}
             >
-
            {campaigns.map(campaign => (
                <CampaignCard key={campaign.id} campaign={campaign}/>
            ))}

@@ -1,17 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import CampaignApi from '../api/CampaignApi';
 import CampaignList from '../Components/campaign/cardList/campaignCardList.component'
 import HeaderImage from '../Components/header/header.component'
-import Container from '@material-ui/core/Container'
+import campaignService from '../services/campaignService';
 
-const useStyles = makeStyles({
-   
-  });
-  
+
 
 export default function Home  () { 
-    const classes = useStyles();
     const [campaigns, setCampaigns] = useState([]);
 
     const didRun = useRef(false);
@@ -24,8 +18,7 @@ export default function Home  () {
         }
         
         didRun.current = true;
-        CampaignApi.getAllPublishedCampaigns().then(campaigns => {
-            console.log(campaigns);
+        campaignService.getAllPublishedCampaigns().then(campaigns => {
             setCampaigns(campaigns);
             })
     }, [] )
@@ -34,7 +27,7 @@ export default function Home  () {
 
     return (
         <>
-         <HeaderImage/>
+         <HeaderImage headerText="Special deals, just for you (and everyone else)"/>
          <CampaignList campaigns={campaigns}/>
         </>
 ) }

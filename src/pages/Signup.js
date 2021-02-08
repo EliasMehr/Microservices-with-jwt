@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,8 +16,13 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import {Link as RouterLink} from 'react-router-dom';
-// import CustomerForm from '../Components/form/customerform';
+import {Link as RouterLink, useHistory} from 'react-router-dom';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
+import { InputLabel, Select } from '@material-ui/core'
+import MenuItem from '@material-ui/core/MenuItem';
+import authService from '../services/authService';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,205 +43,126 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
-const CompanyForm =  () => (
-  <Grid container spacing={2}>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        autoComplete="companyName"
-        name="companyName"
-        variant="outlined"
-        required
-        fullWidth
-        id="companyName"
-        label="Company Name"
-        autoFocus
-      />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        autoComplete="websiteUrl"
-        name="websiteUrl"
-        variant="outlined"
-        required
-        fullWidth
-        id="websiteUrl"
-        label="Website URL"
-      />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        autoComplete="phoneNr"
-        name="phoneNr"
-        variant="outlined"
-        required
-        fullWidth
-        id="phoneNr"
-        label="Phone Number"
-      />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="organizationNr"
-        label="Organization Numer"
-        name="organizationNr"
-        autoComplete="organizationNr"
-      />
-    </Grid>
-    <Grid item xs={12} sm={8}>
-      <TextField
-        autoComplete="street"
-        name="street"
-        variant="outlined"
-        required
-        fullWidth
-        id="street"
-        label="Street"
-      />
-    </Grid>
-    <Grid item xs={12} sm={4}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="streetNr"
-        label="Street Nr"
-        name="streetNr"
-        autoComplete="streetNr"
-      />
-    </Grid>
-    <Grid item xs={12} sm={8}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="city"
-        label="City"
-        name="city"
-        autoComplete="city"
-      />
-    </Grid>
-    <Grid item xs={12} sm={4}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="zipCode"
-        label="Zip Code"
-        name="zipCode"
-        autoComplete="zipCode"
-      />
-    </Grid>
-  </Grid>
-)
 
-const CustomerForm = () =>  (
-  <Grid container spacing={2}>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        autoComplete="fname"
-        name="firstName"
-        variant="outlined"
-        required
-        fullWidth
-        id="firstName"
-        label="First Name"
-        autoFocus
-      />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="lastName"
-        label="Last Name"
-        name="lastName"
-        autoComplete="lname"
-      />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        autoComplete="phoneNr"
-        name="phoneNr"
-        variant="outlined"
-        required
-        fullWidth
-        id="phoneNr"
-        label="Phone Number"
-      />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="personalID"
-        label="Personal ID"
-        name="personalID"
-        autoComplete="personalID"
-      />
-    </Grid>
-    <Grid item xs={12} sm={8}>
-      <TextField
-        autoComplete="street"
-        name="street"
-        variant="outlined"
-        required
-        fullWidth
-        id="street"
-        label="Street"
-      />
-    </Grid>
-    <Grid item xs={12} sm={4}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="streetNr"
-        label="Street Nr"
-        name="streetNr"
-        autoComplete="streetNr"
-      />
-    </Grid>
-    <Grid item xs={12} sm={8}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="city"
-        label="City"
-        name="city"
-        autoComplete="city"
-      />
-    </Grid>
-    <Grid item xs={12} sm={4}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="zipCode"
-        label="Zip Code"
-        name="zipCode"
-        autoComplete="zipCode"
-      />
-    </Grid>
-  </Grid>
-)
+
+
 
 export default function SignUp() {
+  const classes = useStyles();
+  let history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [value, setSelectedValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const [value, setSelectedValue] = React.useState('');
+
+  const [companyType, setCompanyType] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [companyUser, setCompanyUser] = useState({
+    name: '',
+    email: email.value,
+    password: password.value,
+    address: '',
+    city: '',
+    zipCode: '',
+    phoneNumber: '',
+    organizationNumber: '',
+    companyType: companyType.value
+  });
+
+  const [customerUser, setCustomerUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: {email},
+    password: {password},
+    address: '',
+    city: '',
+    zipCode: '',
+    phoneNumber: '',
+    personalIdNumber: ''
+  });
+
+  const handleCustomerChange = (prop) => (e) => {
+    setCustomerUser({ ...customerUser, [prop]: e.target.value})
+  }
+
+  const handleCompanyChange = (prop) => (e) => {
+    setCompanyUser({ ...companyUser, [prop]: e.target.value})
+  }
+
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
     console.log(event.target.value);
   };
-  const classes = useStyles();
+
+  const handleUserEmail = (e) => {
+    setEmail(e.target.value);
+    customerUser.email = {email};
+    companyUser.email = {email};
+  }
+
+  const handleUserPassword = (e) => {
+    setPassword(e.target.value);
+    customerUser.password = {password};
+    companyUser.password = {password};
+  }
+
+  const handleCompanyType = (e) => {
+    setCompanyType(e.target.value);
+    companyUser.companyType = {companyType};
+
+  }
+
+  const attemptRegisterUser = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if(value === "customer") {
+      authService.registerCustomer(customerUser).then(res => {
+        if(res.status === 200) {
+          setLoading(false);
+          console.log("WE MADE IT?");
+          history.push('/verify/email');
+        }
+        else {
+          console.log("TODO HANDLE ERRORS?");
+          setLoading(false);
+        }
+      }).catch(err => {
+        console.log(err)
+        setLoading(false);
+      })
+      
+    }
+    else if(value === "company") {
+      authService.registerCompany(companyUser).then(res => {
+        if(res.status === 200) {
+          setLoading(false);
+          console.log("COMPANY MADE IT?");
+          history.push("/verify/email");
+        }
+        else {
+          setLoading(false);
+          console.log("TODO HANDLE ERRORS")
+        }
+      }).catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+    }
+    else {
+      console.log("NO USER SELECTED");
+      setLoading(false);
+    }
+  }
+
 
   
 
@@ -258,6 +184,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                value={email}
+                onChange={handleUserEmail}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -269,6 +197,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                value={password}
+                onChange={handleUserPassword}
                 name="password"
                 label="Password"
                 type="password"
@@ -285,8 +215,216 @@ export default function SignUp() {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            {value === "customer" ? <CustomerForm/> : null}
-            {value === "company" ? <CompanyForm/> : null}
+            {console.log(companyUser)}
+            {value === "customer" ? 
+            <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                value={customerUser.firstName}
+                onChange={handleCustomerChange('firstName')}
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                value={customerUser.lastName}
+                onChange={handleCustomerChange('lastName')}
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="phoneNr"
+                name="phoneNr"
+                variant="outlined"
+                required
+                value={customerUser.phoneNumber}
+                onChange={handleCustomerChange('phoneNumber')}
+                fullWidth
+                id="phoneNr"
+                label="Phone Number"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                value={customerUser.personalIdNumber}
+                onChange={handleCustomerChange('personalIdNumber')}
+                id="personalID"
+                label="Personal ID"
+                name="personalID"
+                autoComplete="personalID"
+              />
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <TextField
+                autoComplete="street"
+                name="street"
+                variant="outlined"
+                value={customerUser.address}
+                onChange={handleCustomerChange('address')}
+                required
+                fullWidth
+                id="street"
+                label="Street"
+              />
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                value={customerUser.city}
+                onChange={handleCustomerChange('city')}
+                id="city"
+                label="City"
+                name="city"
+                autoComplete="city"
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                value={customerUser.zipCode}
+                onChange={handleCustomerChange('zipCode')}
+                id="zipCode"
+                label="Zip Code"
+                name="zipCode"
+                autoComplete="zipCode"
+              />
+            </Grid>
+          </Grid>
+            : null}
+
+            {value === "company" ? 
+            
+            (
+              <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            autoComplete="companyName"
+            name="companyName"
+            variant="outlined"
+            value={companyUser.name}
+            onChange={handleCompanyChange('name')}
+            required
+            fullWidth
+            id="companyName"
+            label="Company Name"
+            autoFocus
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            autoComplete="phoneNr"
+            name="phoneNr"
+            variant="outlined"
+            required
+            value={companyUser.phoneNumber}
+            onChange={handleCompanyChange('phoneNumber')}
+            fullWidth
+            id="phoneNr"
+            label="Phone Number"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            value={companyUser.organizationNumber}
+            onChange={handleCompanyChange('organizationNumber')}
+            id="organizationNr"
+            label="Organization Numer"
+            name="organizationNr"
+            autoComplete="organizationNr"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            value={companyUser.city}
+            onChange={handleCompanyChange('city')}
+            id="city"
+            label="City"
+            name="city"
+            autoComplete="city"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            autoComplete="street"
+            name="street"
+            variant="outlined"
+            required
+            value={companyUser.address}
+            onChange={handleCompanyChange('address')}
+            fullWidth
+            id="street"
+            label="Street"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            value={companyUser.zipCode}
+            onChange={handleCompanyChange('zipCode')}
+            id="zipCode"
+            label="Zip Code"
+            name="zipCode"
+            autoComplete="zipCode"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+           <TextareaAutosize aria-label="minimum height" rowsMin={5} placeholder="Company description"/>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+           <FormControl className={classes.formControl}>
+               <InputLabel id="select-label">Company Type</InputLabel>
+               <Select
+                  labelId="select-label"
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  onOpen={() => setOpen(true)}
+                  value={companyType}
+                  onChange={handleCompanyType}>
+  
+                  <MenuItem value={"RETAIL"}>Retail</MenuItem>
+                  <MenuItem value={"TELECOM"}>Telecom</MenuItem>
+                  <MenuItem value={"HEALTH"}>Health</MenuItem>
+                  <MenuItem value={"RESTAURANT"}>Restaurant</MenuItem>
+                  <MenuItem value={"TRANSPORTATION"}>Transportation</MenuItem>
+                  <MenuItem value={"SOFTWARE"}>Software</MenuItem>
+                  <MenuItem value={"OTHER"}>Other</MenuItem>
+  
+  
+                  </Select>
+              </FormControl>
+            </Grid>
+        </Grid>
+            )
+            : null}
 
             <Grid item xs={12}>
               <FormControlLabel
@@ -296,15 +434,20 @@ export default function SignUp() {
             </Grid>
             
           </Grid>
+          {!loading ? (
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={attemptRegisterUser}
           >
             Sign Up
           </Button>
+          ): 
+          <CircularProgress/>
+          }
           <Grid container justify="flex-end">
             <Grid item>
               <Link component={RouterLink} to={'/login'} href="#" variant="body2">

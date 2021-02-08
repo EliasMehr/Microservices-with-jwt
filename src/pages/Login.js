@@ -12,8 +12,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import AuthApi from '../api/AuthApi';
-import {Link as RouterLink} from 'react-router-dom';
+import authService from '../services/authService';
+import {Link as RouterLink, useHistory} from 'react-router-dom';
+import {UserContext} from "../context/UserContext";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -42,14 +45,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const [, userDispatch] = React.useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const attemptLogin = (e) => {
     e.preventDefault();
-    console.log("clicked login");
-    console.log(username + " " + password);
-    AuthApi.login(username, password);
+    setLoading(true);
+    authService.login(username, password).then(data => {
+        userDispatch({type: "LOGIN", payload: data})
+        history.push('/')
+        setLoading(false);
+    }).catch(err => {
+      setLoading(false);
+      console.log("WRONG PW OR USERNAME")
+    });
+    
 }
 
 
@@ -92,6 +105,7 @@ const Login = () => {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          {!loading ? (
           <Button
             type="submit"
             fullWidth
@@ -102,6 +116,9 @@ const Login = () => {
           >
             Sign In
           </Button>
+          ): (
+            <CircularProgress className={classes.submit}/>
+          )}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

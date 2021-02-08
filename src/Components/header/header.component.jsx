@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        height: '40vh',
+        height: '30vh',
     },
     overlay: {
         position: 'absolute',
@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
       }
   }));
 
-function HeaderImage() {
+function HeaderImage(props) {
     const classes = useStyles();
 
     return (
         <Paper className={classes.bigImage}>
             <div className={classes.overlay}/>
             <Typography variant='h3' className={classes.imageText}>
-                Special deals, just for you (and everyone else)
+                {props.headerText}
             </Typography>
         </Paper>
     )
