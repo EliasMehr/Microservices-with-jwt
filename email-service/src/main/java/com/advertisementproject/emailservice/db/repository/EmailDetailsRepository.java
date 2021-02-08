@@ -10,5 +10,4 @@ import java.util.UUID;
  * Standard JPA repository for doing CRUD operations in the database for email details
  */
 @Repository
-public interface EmailDetailsRepository extends JpaRepository<EmailDetails, UUID> {
-}
+public interface EmailDetailsRepository extends JpaRepository<EmailDetails, UUID> {}

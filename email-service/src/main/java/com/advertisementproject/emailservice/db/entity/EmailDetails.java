@@ -18,6 +18,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 public class EmailDetails {
+
     @Id
     private UUID userId;
     private String token;

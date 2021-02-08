@@ -37,7 +37,7 @@ public class MessageListener {
      * @param messageObject JSON string including an EmailDetailsMessage object from User Service application
      */
     @RabbitListener(queues = "emailDetails")
-    public void emailDetailsListener(String messageObject){
+    public synchronized void emailDetailsListener(String messageObject){
         try {
             EmailDetailsMessage emailDetailsMessage = new ObjectMapper().readValue(messageObject, EmailDetailsMessage.class);
             log.info("[MESSAGE BROKER] Received message: " + emailDetailsMessage);
@@ -58,7 +58,7 @@ public class MessageListener {
      * @param messageObject JSON string including a TokenMessage object from Confirmation Token Service application
      */
     @RabbitListener(queues = "emailToken")
-    public void emailTokenListener(String messageObject){
+    public synchronized void emailTokenListener(String messageObject){
         try {
             TokenMessage tokenMessage = new ObjectMapper().readValue(messageObject, TokenMessage.class);
             log.info("[MESSAGE BROKER] Received message: " + tokenMessage);
