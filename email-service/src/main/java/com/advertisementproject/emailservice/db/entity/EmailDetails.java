@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -18,8 +20,10 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 public class EmailDetails {
+
     @Id
     private UUID userId;
+
     private String token;
     private String name;
     private String email;

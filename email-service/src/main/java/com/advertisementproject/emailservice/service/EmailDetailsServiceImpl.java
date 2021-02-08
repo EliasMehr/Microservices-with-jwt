@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,18 +28,19 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
      * @param emailDetailsMessage email details (except token) to be saved/added to the database for that user id
      */
     @Override
+    @Transactional
     public void saveDetails(EmailDetailsMessage emailDetailsMessage){
-        Optional<EmailDetails> emailDetailsOptional = emailDetailsRepository.findById(emailDetailsMessage.getUserId());
-        EmailDetails emailDetails;
-        if(emailDetailsOptional.isPresent()){
-            emailDetails = emailDetailsOptional.get();
-            emailDetails.setName(emailDetails.getName());
-            emailDetails.setEmail(emailDetails.getEmail());
+        if(emailDetailsRepository.existsById(emailDetailsMessage.getUserId())){
+            emailDetailsRepository.updateEmailSetNameAndEmail(
+                    emailDetailsMessage.getName(),
+                    emailDetailsMessage.getEmail(),
+                    emailDetailsMessage.getUserId());
         }
         else {
-            emailDetails = new EmailDetails(emailDetailsMessage);
+            emailDetailsRepository.save(new EmailDetails(emailDetailsMessage));
+            log.info("Saved NEW EMAILDETAILS for userId: " + emailDetailsMessage.getUserId());
+
         }
-        emailDetailsRepository.save(emailDetails);
         log.info("Saved name and email for userId: " + emailDetailsMessage.getUserId());
     }
 
@@ -47,17 +49,18 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
      * @param tokenMessage message with token and a user id for which the token should be saved in the database
      */
     @Override
+    @Transactional
     public void saveToken(TokenMessage tokenMessage){
-        Optional<EmailDetails> emailDetailsOptional = emailDetailsRepository.findById(tokenMessage.getUserId());
-        EmailDetails emailDetails;
-        if (emailDetailsOptional.isPresent()){
-            emailDetails = emailDetailsOptional.get();
-            emailDetails.setToken(tokenMessage.getToken());
+        if (emailDetailsRepository.existsById(tokenMessage.getUserId())){
+            emailDetailsRepository.updateEmailSetToken(
+                    tokenMessage.getToken(),
+                    tokenMessage.getUserId());
         }
         else {
-            emailDetails = new EmailDetails(tokenMessage);
+            emailDetailsRepository.save(new EmailDetails(tokenMessage));
+            log.info("Saved NEW TOKEN for userId: " + tokenMessage.getUserId());
+
         }
-        emailDetailsRepository.save(emailDetails);
         log.info("Saved token for userId: " + tokenMessage.getUserId());
     }
 
