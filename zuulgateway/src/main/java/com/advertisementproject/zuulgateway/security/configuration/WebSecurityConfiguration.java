@@ -48,7 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/me")
                 .hasAnyAuthority("COMPANY", "CUSTOMER")
 
-                .antMatchers("/**/v*/api-docs", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/swagger-ui/**")
+                .antMatchers("/**/v*/api-docs", "/swagger-resources/**", "/webjars/**", "/swagger-ui/**")
                 .permitAll()
 
                 .antMatchers("/user/register/**")
