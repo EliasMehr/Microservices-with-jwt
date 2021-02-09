@@ -2,6 +2,17 @@
 
 ## Developers: Jessie Eurenius, Daniel Hughes, Elias Mehr
 
+# Documentation
+
+### Swagger API Documentation
+If the project is up and running, Swagger API documentation for all services that have a controller can be viewed at:
+http://localhost:8080/swagger-ui/
+
+### Java Docs
+Each Application has java docs for all classes and methods.
+
+# Getting Started
+
 To download this project and make it runnable, you'll need to clone the repository from the root folder
 
 Create a new **folder** and **cd folderName**
@@ -10,8 +21,6 @@ then run the following command:
 ```
 git clone https://github.com/EliasMehr/Microservices-with-jwt.git
 ```
-
-# Getting Started
 
 You can run the project more easily using docker compose as described in the next section.
 

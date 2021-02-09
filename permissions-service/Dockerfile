@@ -7,6 +7,6 @@ RUN mvn package -DskipTests
 
 FROM adoptopenjdk/openjdk15:x86_64-alpine-jre-15.0.2_7
 RUN mkdir /project
-COPY --from=jreBuilder /usr/src/project/target/permissions-service-0.0.1-SNAPSHOT.jar /project/
+COPY --from=jreBuilder /usr/src/project/target/permission-service-0.0.1-SNAPSHOT.jar /project/
 WORKDIR /project
-CMD java -jar permissions-service-0.0.1-SNAPSHOT.jar
+CMD java -jar permission-service-0.0.1-SNAPSHOT.jar

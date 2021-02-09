@@ -25,7 +25,7 @@ public class SwagResourcesConfig implements SwaggerResourcesProvider {
         List<SwaggerResource> resources = new ArrayList<>();
         resources.add(swaggerResource("campaign-service", "/campaign"));
         resources.add(swaggerResource("user-service", "/user"));
-        resources.add(swaggerResource("permissions-service", "/permissions"));
+        resources.add(swaggerResource("permission-service", "/permission"));
         resources.add(swaggerResource("confirmation-token-service", "/confirmation-token"));
         resources.add(swaggerResource("zuul-gateway", ""));
         return resources;

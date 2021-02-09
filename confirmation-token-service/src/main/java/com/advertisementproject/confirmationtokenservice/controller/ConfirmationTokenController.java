@@ -30,7 +30,7 @@ public class ConfirmationTokenController {
     public ResponseEntity<String> confirm(@PathVariable String token) {
         UUID userId = confirmationTokenService.confirmTokenAndGetUserId(token);
         messagePublisher.sendUserIdMessage("enableUser", userId);
-        messagePublisher.sendUserIdMessage("permissionsAdd", userId);
+        messagePublisher.sendUserIdMessage("permissionAdd", userId);
         return ResponseEntity.ok("Your email has been confirmed");
     }
 }

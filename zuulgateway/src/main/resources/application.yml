@@ -38,7 +38,7 @@ zuul:
     confirmation-token:
       url: http://${CONFIRMATION_TOKEN_SERVICE_HOST:localhost}:8083/
       sensitive-headers: Cookie,Set-Cookie
-    permissions:
+    permission:
       url: http://${PERMISSION_SERVICE_HOST:localhost}:8085/
       sensitive-headers: Cookie,Set-Cookie
 

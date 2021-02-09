@@ -84,74 +84,74 @@ public class MessageBrokerConfig {
     }
 
 
-    //permissions save/update RabbitMQ config
+    //permission save/update RabbitMQ config
 
     /**
      * Queue configuration bean
      *
-     * @return queue for receiving messages with a permissions object to create or update in the database.
+     * @return queue for receiving messages with a permission object to create or update in the database.
      */
     @Bean
-    public Queue permissionsQueue() {
-        return new Queue("zuulPermissions", false);
+    public Queue permissionQueue() {
+        return new Queue("zuulPermission", false);
     }
 
     /**
      * Fanout exchange configuration bean
      *
-     * @return fanout exchange for messages including a permissions object to add/update, which can be received
+     * @return fanout exchange for messages including a permission object to add/update, which can be received
      * by multiple applications that connect to the exchange with a queue.
      */
     @Bean
-    public FanoutExchange permissionsExchange() {
-        return new FanoutExchange("permissions");
+    public FanoutExchange permissionExchange() {
+        return new FanoutExchange("permission");
     }
 
     /**
      * Queue to fanout exchange binding configuration bean
      *
-     * @return binding between permissionsQueue and permissionsExchange, which means that when a message is sent to
-     * "permissions", a copy of that message will be sent to "zuulPermissions", which the application can listen for
+     * @return binding between permissionQueue and permissionExchange, which means that when a message is sent to
+     * "permission", a copy of that message will be sent to "zuulPermission", which the application can listen for
      */
     @Bean
-    public Binding permissionsBinding() {
-        return BindingBuilder.bind(permissionsQueue()).to(permissionsExchange());
+    public Binding permissionBinding() {
+        return BindingBuilder.bind(permissionQueue()).to(permissionExchange());
     }
 
 
-    //permissions delete RabbitMQ config
+    //permission delete RabbitMQ config
 
     /**
      * Queue configuration bean
      *
-     * @return queue for receiving messages with a permissions id to know when a permissions entity should be deleted
+     * @return queue for receiving messages with a permission id to know when a permission entity should be deleted
      */
     @Bean
-    public Queue permissionsDeleteQueue() {
-        return new Queue("zuulPermissionsDelete", false);
+    public Queue permissionDeleteQueue() {
+        return new Queue("zuulPermissionDelete", false);
     }
 
     /**
      * Fanout exchange configuration bean
      *
-     * @return fanout exchange for messages including a permissions id, informing that a permissions entity should be
+     * @return fanout exchange for messages including a permission id, informing that a permission entity should be
      * deleted, which can be received by multiple applications that connect to the exchange with a queue
      */
     @Bean
-    public FanoutExchange permissionsDeleteExchange() {
-        return new FanoutExchange("permissions.delete");
+    public FanoutExchange permissionDeleteExchange() {
+        return new FanoutExchange("permission.delete");
     }
 
     /**
      * Queue to fanout exchange binding configuration bean
      *
-     * @return binding between permissionsDeleteQueue and permissionsDeleteExchange, which means that when a message is
-     * sent to "permissions.delete", a copy of that message will be sent to "zuulPermissionsDelete", which the
+     * @return binding between permissionDeleteQueue and permissionDeleteExchange, which means that when a message is
+     * sent to "permission.delete", a copy of that message will be sent to "zuulPermissionDelete", which the
      * application can listen for
      */
     @Bean
-    public Binding permissionsDeleteBinding() {
-        return BindingBuilder.bind(permissionsDeleteQueue()).to(permissionsDeleteExchange());
+    public Binding permissionDeleteBinding() {
+        return BindingBuilder.bind(permissionDeleteQueue()).to(permissionDeleteExchange());
     }
 
 }

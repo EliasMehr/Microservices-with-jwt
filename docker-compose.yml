@@ -127,14 +127,14 @@ services:
       - matrix-postgres
     restart: on-failure
 
-  permissions-service:
-    build: ./permissions-service
-    container_name: permissions-service
+  permission-service:
+    build: ./permission-service
+    container_name: permission-service
     environment:
       - EUREKA_HOST=${EUREKA_HOST}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${PERMISSIONS_DB}
+      - POSTGRES_DB=${PERMISSION_DB}
       - POSTGRES_HOST=${POSTGRES_HOST}
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
