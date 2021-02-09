@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Zuul Gateway Application is responsible for securing the entire project and routing requests to the different
@@ -42,6 +43,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
+@EnableSwagger2
 public class ZuulGatewayApplication {
 
     /**
