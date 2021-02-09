@@ -39,7 +39,7 @@ zuul:
       url: http://${CONFIRMATION_TOKEN_SERVICE_HOST:localhost}:8083/
       sensitive-headers: Cookie,Set-Cookie
     permissions:
-      url: http://${PERMISSIONS_SERVICE_HOST:localhost}:8085/
+      url: http://${PERMISSION_SERVICE_HOST:localhost}:8085/
       sensitive-headers: Cookie,Set-Cookie
 
 # Eureka client
