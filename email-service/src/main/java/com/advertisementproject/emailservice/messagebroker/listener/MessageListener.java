@@ -34,10 +34,11 @@ public class MessageListener {
      * either as a new entry or added to the same user id if token already has been added for that user id.
      * If all information has been received, EmailService sends out a confirmation link email and then deletes the
      * database row for that user id.
+     *
      * @param messageObject JSON string including an EmailDetailsMessage object from User Service application
      */
     @RabbitListener(queues = "emailDetails")
-    public synchronized void emailDetailsListener(String messageObject){
+    public synchronized void emailDetailsListener(String messageObject) {
         try {
             EmailDetailsMessage emailDetailsMessage = new ObjectMapper().readValue(messageObject, EmailDetailsMessage.class);
             log.info("[MESSAGE BROKER] Received message: " + emailDetailsMessage);
@@ -55,17 +56,17 @@ public class MessageListener {
      * once received, either as a new entry or added to the same user id if other email details already has been added
      * for that user id. If all information has been received, EmailService sends out a confirmation link email and then
      * deletes the database row for that user id.
+     *
      * @param messageObject JSON string including a TokenMessage object from Confirmation Token Service application
      */
     @RabbitListener(queues = "emailToken")
-    public synchronized void emailTokenListener(String messageObject){
+    public synchronized void emailTokenListener(String messageObject) {
         try {
             TokenMessage tokenMessage = new ObjectMapper().readValue(messageObject, TokenMessage.class);
             log.info("[MESSAGE BROKER] Received message: " + tokenMessage);
             emailDetailsService.saveToken(tokenMessage);
             sendEmailAndDeletePostIfCompleteInformation(tokenMessage.getUserId());
-        }
-        catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             log.warn("JsonProcessingException: " + e.getMessage());
         }
     }
@@ -73,11 +74,12 @@ public class MessageListener {
     /**
      * Helper method to send an email if all the required information is available for a user id and in that case also
      * delete email details object for that user id once the email has been sent.
+     *
      * @param userId the user id for which get email details and send email if all the information is present
      */
     private void sendEmailAndDeletePostIfCompleteInformation(UUID userId) {
         EmailDetails emailDetails = emailDetailsService.getCompleteDetailsOrNull(userId);
-        if(emailDetails != null){
+        if (emailDetails != null) {
             emailService.sendConfirmationLinkEmail(emailDetails.getEmail(), emailDetails.getName(), emailDetails.getToken());
             emailDetailsService.deleteEmailDetails(emailDetails);
         }

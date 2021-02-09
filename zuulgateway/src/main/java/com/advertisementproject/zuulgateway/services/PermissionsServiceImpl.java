@@ -19,6 +19,7 @@ public class PermissionsServiceImpl implements PermissionsService {
 
     /**
      * Retrieves permissions object for the supplied user id
+     *
      * @param userId the user id for which to get permissions object
      * @return permissions object for the supplied user id
      * @throws IllegalStateException if the permissions are not found
@@ -26,11 +27,12 @@ public class PermissionsServiceImpl implements PermissionsService {
     @Override
     public Permissions getPermissionsById(UUID userId) {
         return permissionsRepository.findById(userId)
-                .orElseThrow(()-> new IllegalStateException("Permissions not found for userId: " + userId));
+                .orElseThrow(() -> new IllegalStateException("Permissions not found for userId: " + userId));
     }
 
     /**
      * Saves or updates permissions object in the database
+     *
      * @param permissions the permissions object to save/update
      */
     @Override
@@ -40,6 +42,7 @@ public class PermissionsServiceImpl implements PermissionsService {
 
     /**
      * Deletes permissions object matching the supplied user id
+     *
      * @param userId the user id for the permissions object to be deleted
      */
     @Override

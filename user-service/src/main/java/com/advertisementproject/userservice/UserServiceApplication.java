@@ -10,10 +10,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * ADMIN users have total access, COMPANY has access to do more things than a CUSTOMER and CUSTOMER has limited access
  * but more access than a client that is not logged in as a user.
  * In total, this application is responsible for three database tables: users - customer - company
- *
+ * <p>
  * Whenever this application registers new entities or changes information, it informs other microservices about it.
  * Currently no other microservice cares about customer information so no update messages are sent for customers.
- *
+ * <p>
  * Registers with Eureka via @EnableDiscoveryClient. All controller access rights are defined by the Zuul Gateway
  * application.
  *
@@ -25,6 +25,7 @@ public class UserServiceApplication {
 
     /**
      * Runs the application
+     *
      * @param args optional command line arguments that are currently not implemented
      */
     public static void main(String[] args) {

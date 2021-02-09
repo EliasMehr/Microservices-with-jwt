@@ -19,16 +19,18 @@ public class CustomRestExceptionHandler {
 
     /**
      * Handles confirmation token related exceptions
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */
     @ExceptionHandler({ConfirmationTokenException.class})
-    public ResponseEntity<ApiError> handleConfirmationTokenException(ConfirmationTokenException ex){
+    public ResponseEntity<ApiError> handleConfirmationTokenException(ConfirmationTokenException ex) {
         return getAndLogApiError(ex);
     }
 
     /**
      * Helper method for logging an error and generating a response entity with an ApiError report
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */

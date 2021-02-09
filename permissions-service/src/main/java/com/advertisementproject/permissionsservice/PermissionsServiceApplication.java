@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * Permissions Service Application is a microservice for managing user permissions and informing other microservices
  * about the state of user permissions. The controller endpoints are intended for ADMIN users only as that is a
  * restricted privilege normal users should not have access to.
- *
+ * <p>
  * Registers with Eureka via @EnableDiscoveryClient. All controller access rights are defined by the Zuul Gateway
  * application.
  *
@@ -20,6 +20,7 @@ public class PermissionsServiceApplication {
 
     /**
      * Runs the application
+     *
      * @param args optional command line arguments that are currently not implemented
      */
     public static void main(String[] args) {

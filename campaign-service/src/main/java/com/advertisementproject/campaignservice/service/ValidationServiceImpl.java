@@ -17,6 +17,7 @@ public class ValidationServiceImpl implements ValidationService {
 
     /**
      * Validates that all the campaign fields are valid according to their validation annotations
+     *
      * @param campaign the campaign to be validated
      */
     @Override

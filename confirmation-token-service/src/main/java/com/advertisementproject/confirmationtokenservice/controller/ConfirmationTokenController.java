@@ -22,6 +22,7 @@ public class ConfirmationTokenController {
 
     /**
      * Endpoint to handle confirming a token when a user clicks the confirmation link in an email.
+     *
      * @param token the token to be confirmed.
      * @return a message that the email address has been confirmed.
      */

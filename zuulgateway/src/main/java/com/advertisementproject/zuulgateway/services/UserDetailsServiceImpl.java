@@ -26,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     /**
      * Retrieves user by username (email), retrieves permissions based on the user id and then creates a user details
      * object that is returned
+     *
      * @param email the email for which to find a user
      * @return user details object containing a user and security information
      * @throws UsernameNotFoundException if the username (email) doesn't match any existing user
@@ -40,11 +41,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     /**
      * Retrieves user by user id, retrieves permissions based on the user id and then creates a user details
      * object that is returned
+     *
      * @param userId the user id for which to find a user
      * @return user details object containing a user and security information
      * @throws IllegalStateException if a user is not found for the supplied user id
      */
-    public UserDetailsImpl loadUserById(UUID userId) throws IllegalStateException{
+    public UserDetailsImpl loadUserById(UUID userId) throws IllegalStateException {
         User user = userService.getUserById(userId);
         Permissions permissions = getPermissions(user.getId());
         return new UserDetailsImpl(user, permissions.isHasPermission());
@@ -52,6 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * Helper method to retrieve permissions for a supplied user id using PermissionsService
+     *
      * @param userId the user id for which to retrieve permissions
      * @return permissions matching the supplied user id
      */

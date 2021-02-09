@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -25,6 +26,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * Gets a singleton list of the user's role as a granted authority
+     *
      * @return a singleton list of the user's role as a granted authority
      */
     @Override
@@ -35,6 +37,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * Gets the hashed password for the user
+     *
      * @return the hashed password for the user
      */
     @Override
@@ -44,6 +47,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * Gets the username (email) for the user
+     *
      * @return the username (email) for the user
      */
     @Override
@@ -53,6 +57,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * Gets a true or false value for whether the account is non-expired
+     *
      * @return always true, since we don't have expiration dates on accounts
      */
     @Override
@@ -63,6 +68,7 @@ public class UserDetailsImpl implements UserDetails {
     /**
      * Gets a true or false value for whether the account is non-locked, determined in our case by whether the user
      * has valid permissions
+     *
      * @return true if the user has valid permissions, otherwise false
      */
     @Override
@@ -72,6 +78,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * Gets a true or false value for whether the credentials are non-expired
+     *
      * @return always true, since we don't have expiration dates on credentials
      */
     @Override
@@ -81,6 +88,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * Gets a true or false value for whether the user is enabled
+     *
      * @return true if the user is enabled, otherwise false
      */
     @Override

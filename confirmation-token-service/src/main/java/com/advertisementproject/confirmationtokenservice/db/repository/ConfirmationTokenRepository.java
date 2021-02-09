@@ -36,7 +36,8 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 
     /**
      * Sets a specific confirmation token to confirmedAt = supplied timestamp (which should be current timestamp)
-     * @param token the token to confirm
+     *
+     * @param token       the token to confirm
      * @param confirmedAt the confirmedAt time to set (should be current timestamp)
      */
     @Transactional
@@ -49,6 +50,7 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 
     /**
      * Deletes all confirmation tokens for a specific user id
+     *
      * @param userId the user id for which to delete all confirmation tokens
      */
     @Transactional

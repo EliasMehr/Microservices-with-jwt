@@ -20,18 +20,20 @@ public class CustomRestExceptionHandler {
 
     /**
      * Handles exception reporting for PermissionsNotFoundException with status 404 Not Found
+     *
      * @param ex the exception that was thrown
      * @return response entity with an ApiError response object
      */
     @ExceptionHandler({PermissionsNotFoundException.class})
-    public ResponseEntity<ApiError> handleNotFoundException(Exception ex){
+    public ResponseEntity<ApiError> handleNotFoundException(Exception ex) {
         return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
     }
 
 
     /**
      * Helper method to log the exception and return an ApiError response object
-     * @param ex the exception that was thrown
+     *
+     * @param ex         the exception that was thrown
      * @param httpStatus the error status for the exception
      * @return response entity with an ApiError response object
      */

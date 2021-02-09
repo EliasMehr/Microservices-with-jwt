@@ -3,7 +3,6 @@ package com.advertisementproject.campaignservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Campaign Service Application manages campaigns and gets updates from the User Service Application about companies.
@@ -12,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * endpoints with limited information that are open to CUSTOMER users or even the public.
  * There are scheduled jobs to automatically publish campaigns that are set to be published as well as to remove
  * expired campaigns from the database.
- *
+ * <p>
  * Registers with Eureka via @EnableDiscoveryClient. All controller access rights are defined by the Zuul Gateway
  * application.
  *
@@ -24,6 +23,7 @@ public class CampaignServiceApplication {
 
     /**
      * Runs the application
+     *
      * @param args optional command line arguments that are currently not implemented
      */
     public static void main(String[] args) {

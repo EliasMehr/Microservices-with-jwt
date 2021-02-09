@@ -23,9 +23,10 @@ public class MessagePublisher {
     /**
      * Sends a permissions object to a fanout exchange so that any microservice that needs to be updated about when
      * permission are created or updated can receive the update by having a queue connected to the exchange.
+     *
      * @param permissions the permissions object that has been created or updated
      */
-    public void sendPermissionsMessage(Permissions permissions){
+    public void sendPermissionsMessage(Permissions permissions) {
         try {
             String permissionsString = objectMapper.writeValueAsString(permissions);
             rabbitTemplate.convertAndSend("permissions", "", permissionsString);
@@ -37,9 +38,10 @@ public class MessagePublisher {
     /**
      * Sends a user id to a fanout exchange so that any microservice that needs to be updated about when
      * permissions are removed for a user can receive the update by having a queue connected to the exchange.
+     *
      * @param userId the id for the user who's permissions have been removed
      */
-    public void sendPermissionsDeleteMessage(UUID userId){
+    public void sendPermissionsDeleteMessage(UUID userId) {
         rabbitTemplate.convertAndSend("permissions.delete", "", userId);
     }
 }

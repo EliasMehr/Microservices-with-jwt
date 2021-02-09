@@ -22,6 +22,7 @@ public class MessageListener {
 
     /**
      * Listens for messages to add permissions to a specific user and then adds permissions for the user id supplied
+     *
      * @param userId the user id for which to grant permissions
      */
     @RabbitListener(queues = "#{permissionsAddQueue.name}")
@@ -32,10 +33,11 @@ public class MessageListener {
 
     /**
      * Listens for messages to remove permissions for a specific user and then removes permissions for the user id supplied
+     *
      * @param userId the user id for which to remove permissions
      */
     @RabbitListener(queues = "#{permissionsDeleteQueue.name}")
-    public void permissionsDeleteListener(UUID userId){
+    public void permissionsDeleteListener(UUID userId) {
         log.info("[MESSAGE BROKER] Received permissionsDelete message for id: " + userId);
         permissionsService.removePermissions(userId);
     }

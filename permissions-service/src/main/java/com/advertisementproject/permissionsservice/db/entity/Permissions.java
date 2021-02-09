@@ -27,17 +27,18 @@ public class Permissions {
     @NotNull
     private boolean hasPermission;
     @NotNull
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant createdAt;
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant updatedAt;
 
     /**
      * A builder method that takes a user id and builds permissions for that id.
+     *
      * @param userId the user id for which to grant permissions
      * @return permissions object for the supplied user id
      */
-    public static Permissions toPermissions(UUID userId){
+    public static Permissions toPermissions(UUID userId) {
         return Permissions.builder()
                 .userId(userId)
                 .hasPermission(true)

@@ -25,6 +25,7 @@ public class MessageListener {
     /**
      * Listens for messages from Confirmation Token Service including a user id for the user that should be enabled,
      * then enabled the user for the supplied user id.
+     *
      * @param userId the user id for which user should be enabled.
      */
     @RabbitListener(queues = "enableUser")

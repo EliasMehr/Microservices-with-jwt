@@ -25,6 +25,7 @@ public class PermissionsServiceImpl implements PermissionsService {
 
     /**
      * Creates permissions for a user in the database and informs other microservices that permissions have been created.
+     *
      * @param userId the user id for which to create permissions
      */
     @Override
@@ -37,17 +38,18 @@ public class PermissionsServiceImpl implements PermissionsService {
 
     /**
      * Updates permissions for a user in the database and informs other microservices that permissions have been updated.
-     * @param userId the user id for which to update permissions
+     *
+     * @param userId         the user id for which to update permissions
      * @param hasPermissions determines whether permissions should be enabled or disabled
      * @return permissions after they have been altered and saved to the database
-     * @throws IllegalArgumentException if hasPermissions for permissions object is true and the input also is set to
-     * true then a change cannot be made. Same goes for if both are set to false.
+     * @throws IllegalArgumentException     if hasPermissions for permissions object is true and the input also is set to
+     *                                      true then a change cannot be made. Same goes for if both are set to false.
      * @throws PermissionsNotFoundException if the permissions are not found in the database for the supplied user id
      */
     @Override
     public Permissions updatePermissions(UUID userId, boolean hasPermissions) {
         Permissions permissions = getPermissions(userId);
-        if(permissions.isHasPermission() == hasPermissions){
+        if (permissions.isHasPermission() == hasPermissions) {
             throw new IllegalArgumentException("Permissions are already " + hasPermissions + ". Cannot update permissions");
         }
         permissions.setHasPermission(hasPermissions);
@@ -60,6 +62,7 @@ public class PermissionsServiceImpl implements PermissionsService {
 
     /**
      * Retrieves permissions from the database for the supplied user id
+     *
      * @param userId the user id for which to get permissions object
      * @return permissions object for the supplied user id
      * @throws PermissionsNotFoundException if the permissions are not found in the database for the supplied user id
@@ -67,12 +70,13 @@ public class PermissionsServiceImpl implements PermissionsService {
     @Override
     public Permissions getPermissions(UUID userId) {
         return permissionsRepository.findById(userId)
-                .orElseThrow(()-> new PermissionsNotFoundException("Permissions not found for userId: " + userId));
+                .orElseThrow(() -> new PermissionsNotFoundException("Permissions not found for userId: " + userId));
     }
 
     /**
      * Deletes permissions from the database for the supplied user id and informs other microservices that permissions
      * have been deleted.
+     *
      * @param userId the user id for the user to remove permissions for
      */
     @Override

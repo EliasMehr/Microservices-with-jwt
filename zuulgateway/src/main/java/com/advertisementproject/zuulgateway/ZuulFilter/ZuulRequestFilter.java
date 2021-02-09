@@ -22,6 +22,7 @@ public class ZuulRequestFilter extends ZuulFilter {
 
     /**
      * Sets the type of filter
+     *
      * @return string indicating the type of filter
      */
     @Override
@@ -31,6 +32,7 @@ public class ZuulRequestFilter extends ZuulFilter {
 
     /**
      * Sets the filter order
+     *
      * @return integer indicating the filter order
      */
     @Override
@@ -40,6 +42,7 @@ public class ZuulRequestFilter extends ZuulFilter {
 
     /**
      * Sets whether filters should be run
+     *
      * @return always returns true
      */
     @Override
@@ -50,6 +53,7 @@ public class ZuulRequestFilter extends ZuulFilter {
     /**
      * Runs the filter. Extracts user id from jwt token in header using JwtUtils and attaches it to the header of the
      * request which is about to be forwarded. Logs which type of request has been sent and to which endpoint.
+     *
      * @return null
      */
     @Override
@@ -60,7 +64,7 @@ public class ZuulRequestFilter extends ZuulFilter {
         log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
         String header = request.getHeader("Authorization");
-        if(header == null || !header.startsWith("Bearer ")){
+        if (header == null || !header.startsWith("Bearer ")) {
             return null;
         }
         String token = header.replace("Bearer ", "");

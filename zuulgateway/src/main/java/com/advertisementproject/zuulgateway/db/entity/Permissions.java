@@ -20,8 +20,8 @@ public class Permissions {
     @Id
     private UUID userId;
     private boolean hasPermission;
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant createdAt;
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant updatedAt;
 }

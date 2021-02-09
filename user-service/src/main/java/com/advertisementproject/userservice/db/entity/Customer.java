@@ -37,11 +37,12 @@ public class Customer {
     /**
      * Builder method for constructing a customer from relevant fields in a supplied CustomerRegistrationRequest for a
      * supplied user id
-     * @param userId the user id for which to create a customer entity
+     *
+     * @param userId  the user id for which to create a customer entity
      * @param request request including all the relevant fields needed to make a customer entity
      * @return a new customer object based on the supplied user id and request object fields
      */
-    public static Customer toCustomer(UUID userId, CustomerRegistrationRequest request){
+    public static Customer toCustomer(UUID userId, CustomerRegistrationRequest request) {
         return Customer.builder()
                 .userId(userId)
                 .firstName(request.getFirstName())

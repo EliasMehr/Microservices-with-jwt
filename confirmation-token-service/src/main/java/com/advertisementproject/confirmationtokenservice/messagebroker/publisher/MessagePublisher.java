@@ -23,8 +23,9 @@ public class MessagePublisher {
 
     /**
      * Sends a user id to a specified queue which one or more microservices can listen to for updates.
+     *
      * @param queueName the name of the queue to send a user id to.
-     * @param userId the user id that should be sent to one or more microservices.
+     * @param userId    the user id that should be sent to one or more microservices.
      */
     public void sendUserIdMessage(String queueName, UUID userId) {
         log.info("[MESSAGE BROKER] Sending userId to " + queueName + ": " + userId);
@@ -33,6 +34,7 @@ public class MessagePublisher {
 
     /**
      * Sends token and user id as a JSON string to the queue "emailToken" which Email Service application listens to.
+     *
      * @param tokenMessage dto message including token string and user id
      */
     public void sendTokenMessage(TokenMessage tokenMessage) {

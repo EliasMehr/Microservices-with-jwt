@@ -16,6 +16,7 @@ public interface RegistrationService {
 
     /**
      * Registers a customer user using the information supplied in the registration request.
+     *
      * @param registrationRequest request object with all information needed to register a customer user.
      * @return the newly registered customer user
      */
@@ -24,6 +25,7 @@ public interface RegistrationService {
 
     /**
      * Registers a company user using the information supplied in the registration request.
+     *
      * @param registrationRequest request object with all information needed to register a company user.
      * @return the newly registered company user
      */
@@ -32,6 +34,7 @@ public interface RegistrationService {
 
     /**
      * Retrieves email details for a customer/company user with the supplied email
+     *
      * @param email the email for which to retrieve email details
      * @return email details for the supplied email
      */

@@ -23,25 +23,27 @@ public class JwtUtils {
 
     /**
      * Extracts the subject (user id in our case) from a jwt token.
+     *
      * @param token the token to extract the subject (user id) from
      * @return the extracted subject (user id)
-     * @throws io.jsonwebtoken.ExpiredJwtException if the token is expired
+     * @throws io.jsonwebtoken.ExpiredJwtException     if the token is expired
      * @throws io.jsonwebtoken.UnsupportedJwtException if the jwt token format is not supported
-     * @throws io.jsonwebtoken.MalformedJwtException if the jwt token is malformed, typically not including exactly 2 periods
-     * @throws io.jsonwebtoken.SignatureException if the jwt token signature is invalid
-     * @throws IllegalArgumentException if the argument is not a valid string
+     * @throws io.jsonwebtoken.MalformedJwtException   if the jwt token is malformed, typically not including exactly 2 periods
+     * @throws io.jsonwebtoken.SignatureException      if the jwt token signature is invalid
+     * @throws IllegalArgumentException                if the argument is not a valid string
      */
     public String extractSubject(String token) {
-            return Jwts.parser()
-                    .setSigningKey(JWT_SECRET)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
+        return Jwts.parser()
+                .setSigningKey(JWT_SECRET)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     /**
      * Creates a jwt token that expires in 24 hours with authorities from user details as claims and user id from
      * user details as subject. Signs the token using a HS256 signature algorithm and a secret key.
+     *
      * @param userDetails user details to get subject and claims from
      * @return a signed 24 hour token based on user details which can be used to authenticate requests
      */
@@ -62,6 +64,7 @@ public class JwtUtils {
 
     /**
      * Helper method for generating an expiration date
+     *
      * @return expiration timestamp 24 hours later than current timestamp
      */
     private Date generateExpirationDate() {

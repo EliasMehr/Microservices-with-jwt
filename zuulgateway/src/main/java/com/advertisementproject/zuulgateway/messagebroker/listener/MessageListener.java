@@ -29,6 +29,7 @@ public class MessageListener {
 
     /**
      * Listens for messages from User Service application that a user should be added or updated
+     *
      * @param messageObject the user to be created or updated, in JSON string format
      * @throws JsonProcessingException if messageObject cannot be read as a user object
      */
@@ -41,16 +42,18 @@ public class MessageListener {
 
     /**
      * Listens for messages from User Service application that a user should be deleted
+     *
      * @param userId the user id of the user to be deleted
      */
     @RabbitListener(queues = "#{userDeleteQueue.name}")
-    public void userDeleteListener(UUID userId){
+    public void userDeleteListener(UUID userId) {
         log.info("[MESSAGE BROKER] Received user delete message for id: " + userId);
         userService.deleteUser(userId);
     }
 
     /**
      * Listens for messages from Permissions Service application that a permissions entity should be added or updated
+     *
      * @param messageObject the permissions to be created or updated, in JSON string format
      * @throws JsonProcessingException if messageObject cannot be read as a permissions object
      */
@@ -65,10 +68,11 @@ public class MessageListener {
 
     /**
      * Listens for messages from Permissions Service application that a permissions entity should be deleted
+     *
      * @param userId the user id of the permissions entity to be deleted
      */
     @RabbitListener(queues = "#{permissionsDeleteQueue.name}")
-    public void permissionsDeleteListener(UUID userId){
+    public void permissionsDeleteListener(UUID userId) {
         log.info("[MESSAGE BROKER] Received permissions delete message for id: " + userId);
         permissionsService.deletePermissions(userId);
     }

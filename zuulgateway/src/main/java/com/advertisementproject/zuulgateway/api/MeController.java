@@ -15,6 +15,7 @@ public class MeController {
 
     /**
      * Lets a logged in user see the security principal that they are logged in with. Includes user information.
+     *
      * @return principal from the security context holder
      */
     @GetMapping("/me")

@@ -20,6 +20,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     /**
      * Retrieves a specific company
+     *
      * @param companyId the id of the company to retrieve
      * @return the requested company
      * @throws EntityNotFoundException if the company is not found
@@ -27,11 +28,12 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company getCompanyById(UUID companyId) {
         return companyRepository.findById(companyId)
-                .orElseThrow(()-> new EntityNotFoundException("Company not found for companyId: " + companyId));
+                .orElseThrow(() -> new EntityNotFoundException("Company not found for companyId: " + companyId));
     }
 
     /**
      * Saves or updates a company in the database
+     *
      * @param company the company to save/update
      */
     @Override
@@ -41,6 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     /**
      * Deletes a company from the database
+     *
      * @param companyId the id of the company to delete
      */
     @Override

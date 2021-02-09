@@ -19,10 +19,11 @@ public class ServletResponseUtility {
 
     /**
      * Sends a response to the client. Meant for a successful response and used after successful login
-     * @param response the response to be sent
-     * @param status the status of the response
+     *
+     * @param response     the response to be sent
+     * @param status       the status of the response
      * @param responseBody the response body to be sent
-     * @param <T> any type can be accepted as a response body
+     * @param <T>          any type can be accepted as a response body
      * @throws IOException if a data read/write error occurs
      */
     public static <T> void sendResponse(HttpServletResponse response,
@@ -37,9 +38,10 @@ public class ServletResponseUtility {
 
     /**
      * Sends an error response to the client
-     * @param response the response to be sent
+     *
+     * @param response    the response to be sent
      * @param responseMsg the message to include in the response
-     * @param statusCode the error status code
+     * @param statusCode  the error status code
      * @throws IOException if a data read/write error occurs
      */
     public static void sendErrorResponse(HttpServletResponse response,
@@ -52,8 +54,9 @@ public class ServletResponseUtility {
 
     /**
      * Helper method to create and format an error response object
+     *
      * @param responseMsg error message
-     * @param statusCode error status code
+     * @param statusCode  error status code
      * @return error response object
      */
     private static ApiError toErrorResponse(String responseMsg, int statusCode) {
@@ -66,6 +69,7 @@ public class ServletResponseUtility {
 
     /**
      * Helper method to get the current timestamp as a string
+     *
      * @return formatted date string of the current timestamp
      */
     private static String toCurrentDate() {

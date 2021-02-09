@@ -37,10 +37,11 @@ public class ConfirmationToken {
 
     /**
      * Builder method for constructing a confirmation token object using a supplied user id.
+     *
      * @param userId the user id for which to create a token.
      * @return a token object for the supplied user id.
      */
-    public static ConfirmationToken toConfirmationToken(UUID userId){
+    public static ConfirmationToken toConfirmationToken(UUID userId) {
         return ConfirmationToken.builder()
                 .id(UUID.randomUUID())
                 .token(UUID.randomUUID().toString())
@@ -49,7 +50,6 @@ public class ConfirmationToken {
                 .expiresAt(LocalDateTime.now().plusMinutes(15))
                 .build();
     }
-
 
 
 }

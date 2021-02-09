@@ -28,21 +28,23 @@ public class MessageListener {
     /**
      * Listens for when a user has been created, uses that user id to create and save a confirmation token, then
      * informs Email Service application about the new token that has been created.
+     *
      * @param userId the user id for which to create a confirmation token.
      */
     @RabbitListener(queues = "confirmationToken")
-    public void userIdListener(UUID userId){
-            log.info("[MESSAGE BROKER] Received userId: " + userId);
-            String token = confirmationTokenService.generateAndSaveToken(userId);
-            messagePublisher.sendTokenMessage(new TokenMessage(userId, token));
+    public void userIdListener(UUID userId) {
+        log.info("[MESSAGE BROKER] Received userId: " + userId);
+        String token = confirmationTokenService.generateAndSaveToken(userId);
+        messagePublisher.sendTokenMessage(new TokenMessage(userId, token));
     }
 
     /**
      * Listens for when a user has been deleted and then deletes all confirmation tokens for that user id.
+     *
      * @param userId the user id for which to delete all tokens.
      */
     @RabbitListener(queues = "confirmationTokenDelete")
-    public void confirmationTokenDeleteListener(UUID userId){
+    public void confirmationTokenDeleteListener(UUID userId) {
         log.info("[MESSAGE BROKER] Received delete message for userId: " + userId);
         confirmationTokenService.deleteAllConfirmationTokensByUserId(userId);
     }

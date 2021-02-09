@@ -25,6 +25,7 @@ import java.util.UUID;
  * itself for advertising products or services to customers. Fields include validation.
  * Each campaign is tied to a company, which are updated when the application receives messages from the User Service
  * application. If a company is removed then all related campaigns are also removed.
+ *
  * @JsonView restricts the response information shown to only the annotated fields if a controller has set a view.
  */
 @Entity
@@ -68,22 +69,22 @@ public class Campaign {
     @JsonView(value = {View.publicInfo.class})
     private String category;
 
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @NotNull
     @JsonView(value = {View.publicInfo.class})
     private Instant createdAt;
 
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @NotNull
     @JsonView(value = {View.publicInfo.class})
     private Instant publishedAt;
 
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @NotNull
     @JsonView(value = {View.publicInfo.class})
     private Instant expiresAt;
 
-    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @JsonView(value = {View.publicInfo.class})
     private Instant updatedAt;
 
@@ -107,6 +108,7 @@ public class Campaign {
      * published at that later time, otherwise it will be set to published with the current timestamp.
      * If expiredAt timestamp is provided in the request and it's at a later timestamp than the publishAt timestamp
      * then that expiredAt timestamp is set, otherwise expiredAt is set to 60 days after publishAt by default.
+     *
      * @param company the company that created the campaign
      * @param request request object containing information for making the campaign
      * @return campaign with information provided from the request, belonging to the company provided
@@ -114,15 +116,14 @@ public class Campaign {
     public static Campaign toCampaign(Company company, CampaignRequest request) {
         Instant publishedAt;
         boolean isPublished = false;
-        if(request.getPublishedAt() != null && request.getPublishedAt().isAfter(Instant.now())){
+        if (request.getPublishedAt() != null && request.getPublishedAt().isAfter(Instant.now())) {
             publishedAt = request.getPublishedAt();
-        }
-        else {
+        } else {
             publishedAt = Instant.now();
             isPublished = true;
         }
         Instant expiresAt = publishedAt.plus(Period.ofDays(60));
-        if(request.getExpiresAt() != null && request.getExpiresAt().isAfter(publishedAt)){
+        if (request.getExpiresAt() != null && request.getExpiresAt().isAfter(publishedAt)) {
             expiresAt = request.getExpiresAt();
         }
         return Campaign.builder()

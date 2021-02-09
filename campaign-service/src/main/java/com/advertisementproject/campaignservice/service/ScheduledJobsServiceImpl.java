@@ -26,7 +26,7 @@ public class ScheduledJobsServiceImpl implements ScheduledJobsService {
      */
     @Scheduled(cron = "0 */10 * * * *")
     @Override
-    public void runScheduledJobs(){
+    public void runScheduledJobs() {
         log.info("Running scheduled jobs");
         publishScheduledCampaigns();
         removeExpiredCampaigns();

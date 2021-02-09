@@ -37,7 +37,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     /**
      * Attempts authentication for the supplied username (email) and password in the request.
-     * @param request the request, which should contain username (email) and password.
+     *
+     * @param request  the request, which should contain username (email) and password.
      * @param response the response to be sent
      * @return Authentication object which can be successful or unsuccessful depending on the login attempt
      * @throws AuthenticationException if the Authentication object is invalid for whatever reason
@@ -62,9 +63,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     /**
      * Defines what happens when a login attempt is successful. Creates a token based on user details and sends that
      * token along with the user role as a successful login response.
-     * @param request the request, containing a correct username (email) and password.
-     * @param response the response to be sent
-     * @param chain the filter chain that this filter is in
+     *
+     * @param request    the request, containing a correct username (email) and password.
+     * @param response   the response to be sent
+     * @param chain      the filter chain that this filter is in
      * @param authResult the authentication object as a result of a successful authentication
      * @throws IOException if any data reading/writing errors occurs
      */
@@ -83,9 +85,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     /**
      * Sends an error message if any type of exception occurred during the login process.
-     * @param request the request, possibly containing faulty or missing credentials, but can also be valid
+     *
+     * @param request  the request, possibly containing faulty or missing credentials, but can also be valid
      * @param response the response to be sent
-     * @param failed the authentication object as a result of a failed authentication attempt
+     * @param failed   the authentication object as a result of a failed authentication attempt
      * @throws IOException if any data reading/writing errors occurs
      */
     @Override
