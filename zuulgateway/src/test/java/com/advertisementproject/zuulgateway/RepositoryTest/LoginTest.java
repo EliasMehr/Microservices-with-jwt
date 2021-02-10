@@ -18,11 +18,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class LoginTest {
 
-    @Autowired
-    UserRepository repository;
-
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.0");
+    @Autowired
+    UserRepository repository;
 
     @DynamicPropertySource
     static void postgresProperties(DynamicPropertyRegistry registry) {

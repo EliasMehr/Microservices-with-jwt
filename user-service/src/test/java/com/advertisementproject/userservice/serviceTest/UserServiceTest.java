@@ -20,17 +20,16 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserServiceTest {
 
-    private final UserRepository repository;
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.0");
 //    private final UserService userService;
+    private final UserRepository repository;
 
     @Autowired
     public UserServiceTest(UserRepository repository) {
         this.repository = repository;
 //        this.userService = new UserService(repository);
     }
-
-    @Container
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13.0");
 
     @DynamicPropertySource
     static void postgresProperties(DynamicPropertyRegistry registry) {
@@ -79,7 +78,6 @@ class UserServiceTest {
 //        repository.save(userAdlibris);
 
     }
-
 
 
     @Test

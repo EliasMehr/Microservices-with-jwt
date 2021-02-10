@@ -18,6 +18,7 @@ public class DataSourceConfig {
 
     /**
      * HikariDataSource configuration bean
+     *
      * @return a configured hikari data source for connecting to a database
      */
     @Bean

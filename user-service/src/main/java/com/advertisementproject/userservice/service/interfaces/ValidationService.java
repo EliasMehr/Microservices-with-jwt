@@ -14,18 +14,21 @@ public interface ValidationService {
 
     /**
      * Validates a user according to annotations
+     *
      * @param user the user to be validated
      */
     void validateUser(@Valid @RequestBody User user);
 
     /**
      * Validates a customer according to annotations and personal id number
+     *
      * @param customer the customer to be validated
      */
     void validateCustomer(@Valid @RequestBody Customer customer);
 
     /**
      * Validates a company according to annotations and organization number
+     *
      * @param company the company to be validated
      */
     void validateCompany(@Valid @RequestBody Company company);

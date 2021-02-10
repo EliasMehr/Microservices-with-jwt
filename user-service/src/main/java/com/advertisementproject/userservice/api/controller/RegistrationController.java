@@ -31,6 +31,7 @@ public class RegistrationController {
     /**
      * Endpoint for registering a customer user. Validates that required fields are not null, registers a customer user
      * and then sends messages to Confirmation Token Service application and Email Service application.
+     *
      * @param registrationRequest registration request object including all information needed to register a new user.
      * @return Response entity including the newly created user object and related customer object
      */
@@ -51,6 +52,7 @@ public class RegistrationController {
     /**
      * Endpoint for registering a company user. Validates that required fields are not null, registers a company user
      * and then sends messages to Confirmation Token Service application and Email Service application.
+     *
      * @param registrationRequest registration request object including all information needed to register a new user.
      * @return Response entity including the newly created user object and related company object
      */
@@ -72,11 +74,12 @@ public class RegistrationController {
      * Endpoint for sending a new confirmation link email to the supplied email. Retrieves email details related to the
      * user that has that email address, then sends out messages to Confirmation Token Service application and
      * Email Service application so a new confirmation token can be created and a new email sent to the user.
+     *
      * @param email the email address to retrieve email details from and send an email to.
      * @return Response entity with the message that a new email has been sent.
      */
     @GetMapping("resend-email/{email}")
-    public ResponseEntity<String> resendEmail(@PathVariable String email){
+    public ResponseEntity<String> resendEmail(@PathVariable String email) {
         EmailDetailsMessage emailDetails = registrationService.getEmailDetails(email);
         messagePublisher.sendUserIdMessage("confirmationToken", emailDetails.getUserId());
         messagePublisher.sendEmailDetailsMessage(emailDetails);

@@ -31,6 +31,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     /**
      * Registers a customer user using the information supplied in the registration request. The user and customer object
      * are validated before saved in the database.
+     *
      * @param registrationRequest request object with all information needed to register a customer user.
      * @return the newly registered customer user
      */
@@ -51,6 +52,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     /**
      * Registers a company user using the information supplied in the registration request. The user and company object
      * are validated before saved in the database.
+     *
      * @param registrationRequest request object with all information needed to register a company user.
      * @return the newly registered company user
      */
@@ -70,25 +72,24 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     /**
      * Retrieves email details for a customer/company user with the supplied email
+     *
      * @param email the email for which to retrieve email details
      * @return email details for the supplied email
      */
     @Override
-    public EmailDetailsMessage getEmailDetails(String email){
+    public EmailDetailsMessage getEmailDetails(String email) {
         Object userInfo = userService.getFullUserInfoByEmail(email);
         UUID userId;
         String name;
-        if(userInfo instanceof CustomerUserResponse){
+        if (userInfo instanceof CustomerUserResponse) {
             CustomerUserResponse customerUser = (CustomerUserResponse) userInfo;
             userId = customerUser.getUser().getId();
             name = customerUser.getCustomer().getFirstName() + " " + customerUser.getCustomer().getLastName();
-        }
-        else if(userInfo instanceof CompanyUserResponse){
+        } else if (userInfo instanceof CompanyUserResponse) {
             CompanyUserResponse companyUser = (CompanyUserResponse) userInfo;
             userId = companyUser.getUser().getId();
             name = companyUser.getCompany().getName();
-        }
-        else throw new IllegalStateException("Invalid user type");
+        } else throw new IllegalStateException("Invalid user type");
 
         return new EmailDetailsMessage(userId, name, email);
     }

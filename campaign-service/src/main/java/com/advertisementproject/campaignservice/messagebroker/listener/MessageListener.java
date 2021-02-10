@@ -25,6 +25,7 @@ public class MessageListener {
 
     /**
      * Listens for messages to remove campaigns for a specific company and removes campaigns for the company id supplied
+     *
      * @param userId the user id (same as company id) for which to remove campaigns
      */
     @RabbitListener(queues = "#{deleteQueue.name}")
@@ -36,6 +37,7 @@ public class MessageListener {
     /**
      * Listens for messages including a company to add/update in the database and adds/updates the company in the
      * database to keep an up-to-date copy of the company table in the User Service
+     *
      * @param messageObject JSON string including a company, which is then parsed to a company and added/updated
      * @throws JsonProcessingException exception is thrown if the company information in the JSON string cannot be parsed.
      */

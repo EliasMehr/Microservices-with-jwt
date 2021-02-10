@@ -35,6 +35,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Handles showing invalid method argument exceptions to the client
+     *
      * @param ex      the exception that was thrown
      * @param headers headers for the request
      * @param status  error status

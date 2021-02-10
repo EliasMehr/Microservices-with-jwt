@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.time.Instant;
@@ -36,9 +37,10 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Handles showing invalid method argument exceptions to the client
-     * @param ex the exception that was thrown
+     *
+     * @param ex      the exception that was thrown
      * @param headers headers for the request
-     * @param status error status
+     * @param status  error status
      * @param request the request that triggered the exception
      * @return Response entity with an ApiError report
      */
@@ -57,9 +59,10 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Handles showing invalid type mismatch exceptions to the client
-     * @param ex the exception that was thrown
+     *
+     * @param ex      the exception that was thrown
      * @param headers headers for the request
-     * @param status error status
+     * @param status  error status
      * @param request the request that triggered the exception
      * @return Response entity with an ApiError report
      */
@@ -75,6 +78,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Handles showing constraint violation exceptions to the client
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */
@@ -91,36 +95,40 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Handles showing not found exceptions to the client
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */
     @ExceptionHandler({EntityNotFoundException.class})
-    public ResponseEntity<Object> handleNotFoundException(Exception ex){
+    public ResponseEntity<Object> handleNotFoundException(Exception ex) {
         return getAndLogApiError(ex, HttpStatus.NOT_FOUND);
     }
 
     /**
      * Handles showing forbidden access exceptions to the client
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */
     @ExceptionHandler({UnauthorizedAccessException.class})
-    public ResponseEntity<Object> handleForbiddenAccessException(Exception ex){
+    public ResponseEntity<Object> handleForbiddenAccessException(Exception ex) {
         return getAndLogApiError(ex, HttpStatus.FORBIDDEN);
     }
 
     /**
      * Handles showing illegal argument exceptions to the client
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */
     @ExceptionHandler({IllegalArgumentException.class})
-    public ResponseEntity<Object> handleBadRequest(Exception ex){
+    public ResponseEntity<Object> handleBadRequest(Exception ex) {
         return getAndLogApiError(ex, HttpStatus.BAD_REQUEST);
     }
 
     /**
      * Handles showing internal server error exceptions to the client
+     *
      * @param ex the exception that was thrown
      * @return Response entity with an ApiError report
      */
@@ -133,7 +141,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Helper method for creating a response entity with a ApiError report
-     * @param ex the exception that was thrown
+     *
+     * @param ex         the exception that was thrown
      * @param httpStatus the error status
      * @return Response entity with an ApiError report
      */
@@ -150,9 +159,10 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Helper method for creating a response entity with a ApiError report pertaining to potentially multiple errors
+     *
      * @param errorMessage a general error message for the errors
-     * @param httpStatus the error status
-     * @param errors a list of errors that occurred
+     * @param httpStatus   the error status
+     * @param errors       a list of errors that occurred
      * @return Response entity with an ApiError report
      */
     private ResponseEntity<Object> getAndLogApiError(String errorMessage, HttpStatus httpStatus, List<String> errors) {

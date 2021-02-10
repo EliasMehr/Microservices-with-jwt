@@ -1,8 +1,8 @@
 package com.advertisementproject.zuulgateway.messagebroker.listener;
 
-import com.advertisementproject.zuulgateway.db.entity.Permissions;
+import com.advertisementproject.zuulgateway.db.entity.Permission;
 import com.advertisementproject.zuulgateway.db.entity.User;
-import com.advertisementproject.zuulgateway.services.interfaces.PermissionsService;
+import com.advertisementproject.zuulgateway.services.interfaces.PermissionService;
 import com.advertisementproject.zuulgateway.services.interfaces.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,10 +25,11 @@ import java.util.UUID;
 public class MessageListener {
 
     private final UserService userService;
-    private final PermissionsService permissionsService;
+    private final PermissionService permissionService;
 
     /**
      * Listens for messages from User Service application that a user should be added or updated
+     *
      * @param messageObject the user to be created or updated, in JSON string format
      * @throws JsonProcessingException if messageObject cannot be read as a user object
      */
@@ -41,35 +42,38 @@ public class MessageListener {
 
     /**
      * Listens for messages from User Service application that a user should be deleted
+     *
      * @param userId the user id of the user to be deleted
      */
     @RabbitListener(queues = "#{userDeleteQueue.name}")
-    public void userDeleteListener(UUID userId){
+    public void userDeleteListener(UUID userId) {
         log.info("[MESSAGE BROKER] Received user delete message for id: " + userId);
         userService.deleteUser(userId);
     }
 
     /**
-     * Listens for messages from Permissions Service application that a permissions entity should be added or updated
-     * @param messageObject the permissions to be created or updated, in JSON string format
-     * @throws JsonProcessingException if messageObject cannot be read as a permissions object
+     * Listens for messages from Permission Service application that a permission entity should be added or updated
+     *
+     * @param messageObject the permission to be created or updated, in JSON string format
+     * @throws JsonProcessingException if messageObject cannot be read as a permission object
      */
-    @RabbitListener(queues = "#{permissionsQueue.name}")
+    @RabbitListener(queues = "#{permissionQueue.name}")
     public void permissionsListener(String messageObject) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        Permissions permissions = mapper.readValue(messageObject, Permissions.class);
-        log.info("[MESSAGE BROKER] Received permissions message: " + permissions);
-        permissionsService.saveOrUpdatePermissions(permissions);
+        Permission permission = mapper.readValue(messageObject, Permission.class);
+        log.info("[MESSAGE BROKER] Received permissions message: " + permission);
+        permissionService.saveOrUpdatePermission(permission);
     }
 
     /**
-     * Listens for messages from Permissions Service application that a permissions entity should be deleted
-     * @param userId the user id of the permissions entity to be deleted
+     * Listens for messages from Permission Service application that a permissions entity should be deleted
+     *
+     * @param userId the user id of the permission entity to be deleted
      */
-    @RabbitListener(queues = "#{permissionsDeleteQueue.name}")
-    public void permissionsDeleteListener(UUID userId){
+    @RabbitListener(queues = "#{permissionDeleteQueue.name}")
+    public void permissionsDeleteListener(UUID userId) {
         log.info("[MESSAGE BROKER] Received permissions delete message for id: " + userId);
-        permissionsService.deletePermissions(userId);
+        permissionService.deletePermission(userId);
     }
 }

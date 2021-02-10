@@ -27,11 +27,12 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
 
     /**
      * Saves email details from an email details message to the database for the user id in the message
+     *
      * @param emailDetailsMessage email details (except token) to be saved/added to the database for that user id
      */
     @Override
     @Transactional
-    public void saveDetails(EmailDetailsMessage emailDetailsMessage){
+    public void saveDetails(EmailDetailsMessage emailDetailsMessage) {
         emailDetailsRepository.findById(emailDetailsMessage.getUserId())
                 .ifPresentOrElse(emailDetails -> {
                     emailDetails.setEmail(emailDetailsMessage.getEmail());
@@ -42,29 +43,31 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
 
     /**
      * Saves token from a token message to the database for the user id in the message
+     *
      * @param tokenMessage message with token and a user id for which the token should be saved in the database
      */
     @Override
     @Transactional
-    public void saveToken(TokenMessage tokenMessage){
+    public void saveToken(TokenMessage tokenMessage) {
         emailDetailsRepository.findById(tokenMessage.getUserId())
                 .ifPresentOrElse(emailDetails ->
-                        emailDetails.setToken(tokenMessage.getToken()),
+                                emailDetails.setToken(tokenMessage.getToken()),
                         () -> emailDetailsRepository.save(new EmailDetails(tokenMessage)));
         log.info("Saved token for userId: " + tokenMessage.getUserId());
     }
 
     /**
      * Retrieves full email details including token for a user id if all the information is present, otherwise null.
+     *
      * @param userId the user id for which to retrieve full email details
      * @return email details including all the information if available, otherwise null.
      */
     @Override
     public EmailDetails getCompleteDetailsOrNull(UUID userId) {
         Optional<EmailDetails> emailDetailsOptional = emailDetailsRepository.findById(userId);
-        if(emailDetailsOptional.isPresent()){
+        if (emailDetailsOptional.isPresent()) {
             EmailDetails emailDetails = emailDetailsOptional.get();
-            if(emailDetails.getToken() != null && emailDetails.getName() != null && emailDetails.getEmail() != null){
+            if (emailDetails.getToken() != null && emailDetails.getName() != null && emailDetails.getEmail() != null) {
                 return emailDetails;
             }
         }
@@ -74,6 +77,7 @@ public class EmailDetailsServiceImpl implements EmailDetailsService {
 
     /**
      * Deletes the supplied email details from the database
+     *
      * @param emailDetails the email details object to delete from the database
      */
     @Override

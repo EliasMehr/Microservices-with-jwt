@@ -27,6 +27,7 @@ public class EmailDetails {
 
     /**
      * Constructor creating an email details object with all the information except token, which is left as null.
+     *
      * @param emailDetailsMessage email details message received from User Service application
      */
     public EmailDetails(EmailDetailsMessage emailDetailsMessage) {
@@ -37,9 +38,10 @@ public class EmailDetails {
 
     /**
      * Constructor creating an email details object with user id and token. Remaining fields are left as null.
+     *
      * @param tokenMessage token message received from Confirmation Token Service application
      */
-    public EmailDetails(TokenMessage tokenMessage){
+    public EmailDetails(TokenMessage tokenMessage) {
         userId = tokenMessage.getUserId();
         token = tokenMessage.getToken();
     }

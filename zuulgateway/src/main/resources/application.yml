@@ -3,14 +3,14 @@ spring:
   application:
     name: gateway
 
-# RabbitMQ Message Broker
+  # RabbitMQ Message Broker
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
 
-# Database configuration
+  # Database configuration
   jpa:
     hibernate:
       ddl-auto: update
@@ -38,8 +38,8 @@ zuul:
     confirmation-token:
       url: http://${CONFIRMATION_TOKEN_SERVICE_HOST:localhost}:8083/
       sensitive-headers: Cookie,Set-Cookie
-    permissions:
-      url: http://${PERMISSIONS_SERVICE_HOST:localhost}:8085/
+    permission:
+      url: http://${PERMISSION_SERVICE_HOST:localhost}:8085/
       sensitive-headers: Cookie,Set-Cookie
 
 # Eureka client

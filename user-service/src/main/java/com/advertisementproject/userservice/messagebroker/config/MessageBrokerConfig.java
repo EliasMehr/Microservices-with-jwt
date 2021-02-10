@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class MessageBrokerConfig {
     /**
      * Direct messaging queue configuration bean
+     *
      * @return direct messaging queue to inform Confirmation Token Service application that it should create a new
      * token for a user id
      */
@@ -22,6 +23,7 @@ public class MessageBrokerConfig {
 
     /**
      * Direct messaging queue configuration bean
+     *
      * @return direct messaging queue to inform User Service that it should enable a user.
      */
     @Bean
@@ -31,6 +33,7 @@ public class MessageBrokerConfig {
 
     /**
      * Direct messaging queue configuration bean
+     *
      * @return direct messaging queue to supply Email Service application with email details for sending a confirmation
      * link email to a specific user.
      */

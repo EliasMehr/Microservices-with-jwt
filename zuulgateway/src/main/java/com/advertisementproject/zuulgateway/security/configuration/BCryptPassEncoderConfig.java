@@ -15,6 +15,7 @@ public class BCryptPassEncoderConfig {
 
     /**
      * BCrypt password encoder configuration bean
+     *
      * @return BCrypt password encoder
      */
     @Bean

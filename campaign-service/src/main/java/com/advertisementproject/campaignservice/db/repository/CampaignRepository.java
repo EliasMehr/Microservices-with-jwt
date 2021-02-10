@@ -20,6 +20,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
 
     /**
      * Retrieve all campaigns from the database for a specific company id
+     *
      * @param companyId the company id to retrieve campaigns from
      * @return list of campaigns with the supplied company id
      */
@@ -27,12 +28,14 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
 
     /**
      * Deletes all campaigns with the supplied company id
+     *
      * @param companyId the company id for which to delete campaigns
      */
     void deleteByCompanyUserId(UUID companyId);
 
     /**
      * Retrieve all campaigns that are published, in other words where isPublished == true
+     *
      * @return list of all published campaigns
      */
     List<Campaign> findAllByIsPublishedTrue();
@@ -40,6 +43,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
     /**
      * Sets isPublished = true for campaigns that have a publishedAt timestamp in the past and that are not already set
      * to published. This is run as a scheduled job in ScheduledJobsService.
+     *
      * @param instant a timestamp for which to compare the publishedAt timestamp. Normally set to Instant.now()
      * @return the number of campaigns that were set to published
      */
@@ -51,6 +55,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
     /**
      * Removes all campaigns that have a expiredAt timestamp in the past. This is run as a scheduled job in
      * ScheduledJobsService.
+     *
      * @param instant a timestamp for which to compare the expiredAt timestamp. Normally set to Instant.now()
      * @return the number of expired campaigns that were removed
      */

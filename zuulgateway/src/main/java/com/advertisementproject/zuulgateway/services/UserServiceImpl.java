@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 /**
- * Service implementation for doing CRUD operations for permissions
+ * Service implementation for doing CRUD operations for users
  */
 @Service
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param userId the user id for which to get user
      * @return user with the supplied user id
-     * @throws IllegalStateException if the user is not found for the supplied user id
+     * @throws EntityNotFoundException if the user is not found for the supplied user id
      */
     @Override
     public User getUserById(UUID userId) {

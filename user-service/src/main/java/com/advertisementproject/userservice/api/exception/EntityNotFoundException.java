@@ -7,6 +7,7 @@ public class EntityNotFoundException extends RuntimeException {
 
     /**
      * Constructor
+     *
      * @param message the error message to be shown
      */
     public EntityNotFoundException(String message) {

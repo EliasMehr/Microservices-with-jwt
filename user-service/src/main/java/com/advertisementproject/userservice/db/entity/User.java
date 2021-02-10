@@ -68,7 +68,7 @@ public class User {
     private String city;
 
     @NotNull
-    @Pattern( regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits long")
+    @Pattern(regexp = "^[0-9]{5}$", message = "Zip code must be 5 digits long")
     private String zipCode;
 
     private boolean enabled = false;
@@ -76,6 +76,7 @@ public class User {
     /**
      * Builder method for constructing a user from relevant fields in a supplied CustomerRegistrationRequest for a
      * supplied user id.
+     *
      * @param request request including all the relevant fields needed to make a user entity
      * @return a new user object based on the supplied user id and request object fields
      */
@@ -97,6 +98,7 @@ public class User {
     /**
      * Builder method for constructing a user from relevant fields in a supplied CompanyRegistrationRequest for a
      * supplied user id.
+     *
      * @param request request including all the relevant fields needed to make a user entity
      * @return a new user object based on the supplied user id and request object fields
      */

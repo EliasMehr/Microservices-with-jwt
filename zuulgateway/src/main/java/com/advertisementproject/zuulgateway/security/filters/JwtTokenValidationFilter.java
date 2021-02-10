@@ -41,11 +41,12 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
      * user that is enabled, has permissions and allows the ant matchers in WebSecurityConfiguration to verify the user's
      * role. Creates a UsernamePasswordAuthenticationToken that is set in the SecurityContextHolder with details from the
      * request. Sends error response if something fails authentication via ServletResponseUtility.
-     * @param request the request to be filtered
-     * @param response the response to be sent
+     *
+     * @param request     the request to be filtered
+     * @param response    the response to be sent
      * @param filterChain the chain of filters to be continued
      * @throws ServletException if an servlet related exception occurs
-     * @throws IOException if data reading/writing fails
+     * @throws IOException      if data reading/writing fails
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -66,9 +67,9 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
             UserDetailsImpl userDetails = userDetailsService.loadUserById(UUID.fromString(userId));
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities());
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } catch (JwtException | UsernameNotFoundException e) {

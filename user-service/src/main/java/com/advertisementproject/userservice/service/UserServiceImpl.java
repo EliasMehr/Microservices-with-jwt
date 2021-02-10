@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Retrieves all customer/company users
+     *
      * @return list of all users with full user information including user as well as related customer/company
      */
     @Override
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findAll();
         List<Object> extendedUserList = new ArrayList<>();
         for (User user : userList) {
-            if(user.getRole().equals(Role.CUSTOMER)) {
+            if (user.getRole().equals(Role.CUSTOMER)) {
                 extendedUserList.add(new CustomerUserResponse(user, findCustomerById(user.getId())));
             } else {
                 extendedUserList.add(new CompanyUserResponse(user, findCompanyById(user.getId())));
@@ -60,6 +61,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Retrieves all info for a customer/company user
+     *
      * @param id the id for which to retrieve full user information
      * @return full user information including user as well as related customer/company for the supplied user id
      * @throws EntityNotFoundException if the user is not found for the supplied user id
@@ -72,12 +74,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Retrieves all info for a customer/company user
+     *
      * @param email the email for which to retrieve full user information
      * @return full user information including user as well as related customer/company for the supplied email
      * @throws EntityNotFoundException if the user is not found for the supplied email
      */
     @Override
-    public Object getFullUserInfoByEmail(String email){
+    public Object getFullUserInfoByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User not found for email: " + email));
         return getCustomerOrCompanyUser(user);
@@ -86,12 +89,13 @@ public class UserServiceImpl implements UserService {
     /**
      * Saves a customer user to the database and sends messages to inform other microservices that a user has been
      * created so they can update their databases accordingly.
-     * @param user the user object to be saved
+     *
+     * @param user     the user object to be saved
      * @param customer the customer object to be saved
      * @return the newly saved customer user
      */
     @Override
-    public CustomerUserResponse saveCustomerUser(User user, Customer customer){
+    public CustomerUserResponse saveCustomerUser(User user, Customer customer) {
         userRepository.save(user);
         messagePublisher.sendUserMessage(user);
 
@@ -102,12 +106,13 @@ public class UserServiceImpl implements UserService {
     /**
      * Saves a company user to the database and sends messages to inform other microservices that a user has been
      * created as well as that a company has been created so they can update their databases accordingly.
-     * @param user the user object to be saved
+     *
+     * @param user    the user object to be saved
      * @param company the company object to be saved
      * @return the newly saved company user
      */
     @Override
-    public CompanyUserResponse saveCompanyUser(User user, Company company){
+    public CompanyUserResponse saveCompanyUser(User user, Company company) {
         userRepository.save(user);
         messagePublisher.sendUserMessage(user);
 
@@ -120,6 +125,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Validates that a customer/company user is not already registered for a supplied email
+     *
      * @param email the email to validate is not already registered.
      * @throws EmailAlreadyRegisteredException if the supplied email is already registered.
      */
@@ -132,6 +138,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Retrieve a user object for the supplied id
+     *
      * @param id the user id for which to retrieve a user object
      * @return the user object retrieved for the supplied id
      * @throws EntityNotFoundException if the user is not found in the database for the supplied id
@@ -145,6 +152,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Retrieve a customer object for the supplied id
+     *
      * @param id the user id for which to retrieve a customer object
      * @return the customer object retrieved for the supplied id
      * @throws EntityNotFoundException if the customer is not found in the database for the supplied id
@@ -158,6 +166,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Retrieve a company object for the supplied id
+     *
      * @param id the user id for which to retrieve a company object
      * @return the company object retrieved for the supplied id
      * @throws EntityNotFoundException if the company is not found in the database for the supplied id
@@ -172,6 +181,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Deletes user and related customer/company for the supplied id. Informs other microservices that a user has been
      * deleted and that they should remove information related to that user id.
+     *
      * @param id the user id for which to delete a customer/company user
      */
     @Override
@@ -179,7 +189,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(UUID id) {
 
         User user = findUserById(id);
-        if(user.getRole().equals(Role.CUSTOMER)) {
+        if (user.getRole().equals(Role.CUSTOMER)) {
             customerRepository.deleteById(user.getId());
         } else {
             companyRepository.deleteById(user.getId());
@@ -192,7 +202,8 @@ public class UserServiceImpl implements UserService {
      * Updates a customer/company user with the fields supplied in the UpdateUserRequest. Informs other microservices
      * that a user has been updated and that they should update their own user table. If the user is a company user,
      * other microservices are informed that a company has been updated and they should update their own company table.
-     * @param id the id of the customer/company user to be updated
+     *
+     * @param id                the id of the customer/company user to be updated
      * @param updateUserRequest request object including fields that should be updated
      * @return the newly updated customer/company user
      */
@@ -234,6 +245,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Helper method to get a CustomerUserResponse or CompanyUserResponse from a supplied user depending on their role.
+     *
      * @param user the user for which to get a CustomerUserResponse or CompanyUserResponse
      * @return CustomerUserResponse or CompanyUserResponse depending on the role of the supplied user.
      */
@@ -247,71 +259,75 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Helper method to update user using the fields that are not null in the supplied UpdateUserRequest
+     *
      * @param updateUserRequest request object with fields to update the user with.
-     * @param user the user to update
+     * @param user              the user to update
      */
     private void updateUserFields(UpdateUserRequest updateUserRequest, User user) {
 
-        if(updateUserRequest.getEmail() != null) {
+        if (updateUserRequest.getEmail() != null) {
             user.setEmail(updateUserRequest.getEmail());
         }
-        if(updateUserRequest.getPassword() != null) {
+        if (updateUserRequest.getPassword() != null) {
             user.setRawPassword(updateUserRequest.getPassword());
             user.setHashedPassword(new BCryptPasswordEncoder(12).encode(updateUserRequest.getPassword()));
         }
-        if(updateUserRequest.getPhoneNumber() != null) {
+        if (updateUserRequest.getPhoneNumber() != null) {
             user.setPhoneNumber(updateUserRequest.getPhoneNumber());
         }
-        if(updateUserRequest.getAddress() != null) {
+        if (updateUserRequest.getAddress() != null) {
             user.setAddress(updateUserRequest.getAddress());
         }
-        if(updateUserRequest.getCity() != null) {
+        if (updateUserRequest.getCity() != null) {
             user.setCity(updateUserRequest.getCity());
         }
-        if(updateUserRequest.getZipCode() != null) {
+        if (updateUserRequest.getZipCode() != null) {
             user.setZipCode(updateUserRequest.getZipCode());
         }
     }
 
     /**
      * Helper method to update customer using the fields that are not null in the supplied UpdateUserRequest
+     *
      * @param updateUserRequest request object with fields to update the customer with.
-     * @param customer the customer to update
+     * @param customer          the customer to update
      */
     private void updateCustomerFields(UpdateUserRequest updateUserRequest, Customer customer) {
-        if(updateUserRequest.getFirstName() != null) {
+        if (updateUserRequest.getFirstName() != null) {
             customer.setFirstName(updateUserRequest.getFirstName());
         }
-        if(updateUserRequest.getLastName() != null) {
+        if (updateUserRequest.getLastName() != null) {
             customer.setLastName(updateUserRequest.getLastName());
         }
-        if(updateUserRequest.getPersonalIdNumber() != null) {
+        if (updateUserRequest.getPersonalIdNumber() != null) {
             customer.setPersonalIdNumber(updateUserRequest.getPersonalIdNumber());
         }
     }
 
     /**
      * Helper method to update company using the fields that are not null in the supplied UpdateUserRequest
+     *
      * @param updateUserRequest request object with fields to update the company with.
-     * @param company the company to update
+     * @param company           the company to update
      */
     private void updateCompanyFields(UpdateUserRequest updateUserRequest, Company company) {
-        if(updateUserRequest.getName() != null) {
+        if (updateUserRequest.getName() != null) {
             company.setName(updateUserRequest.getName());
         }
-        if(updateUserRequest.getOrganizationNumber() != null) {
+        if (updateUserRequest.getOrganizationNumber() != null) {
             company.setOrganizationNumber(updateUserRequest.getOrganizationNumber());
         }
-        if(updateUserRequest.getDescription() != null) {
+        if (updateUserRequest.getDescription() != null) {
             company.setDescription(updateUserRequest.getDescription());
         }
-        if(updateUserRequest.getCompanyType() != null) {
+        if (updateUserRequest.getCompanyType() != null) {
             company.setCompanyType(updateUserRequest.getCompanyType());
         }
     }
 
     /**
      * Enables the user with supplied id
+     *
      * @param userId the id of the user to be enabled
      * @throws EntityNotFoundException if the user is not found for the supplied id
      */

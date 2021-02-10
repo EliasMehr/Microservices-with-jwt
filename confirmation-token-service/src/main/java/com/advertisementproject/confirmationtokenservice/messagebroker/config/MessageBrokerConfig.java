@@ -13,6 +13,7 @@ public class MessageBrokerConfig {
 
     /**
      * Declarables configuration bean
+     *
      * @return a declarables object including a queue to listen to for when to delete confirmation tokens, a fanout
      * exchange which User Service application can send messages to when a user is deleted and a binding which copies
      * message in the "user.delete" exchange and sends it to "confirmationTokenDelete" which the this application can
@@ -31,6 +32,7 @@ public class MessageBrokerConfig {
 
     /**
      * Direct messaging queue configuration bean
+     *
      * @return direct messaging queue to inform User Service that it should enable a user.
      */
     @Bean
@@ -40,6 +42,7 @@ public class MessageBrokerConfig {
 
     /**
      * Direct messaging queue configuration bean
+     *
      * @return direct messaging queue to inform Email Service that a new token has been created for a user id.
      */
     @Bean
@@ -49,6 +52,7 @@ public class MessageBrokerConfig {
 
     /**
      * Direct messaging queue configuration bean
+     *
      * @return direct messaging queue to inform Permissions Service that it should create permissions for a specific
      * user id.
      */

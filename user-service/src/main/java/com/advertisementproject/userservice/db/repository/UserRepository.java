@@ -16,6 +16,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     /**
      * Retrieves an optional user by email
+     *
      * @param email the email for which to retrieve an optional user
      * @return a user optional or an empty optional if the supplied email doesn't match any user in the database
      */
@@ -23,6 +24,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     /**
      * Sets enabled = true for a specific user
+     *
      * @param userId the user id for which to set enabled = true
      */
     @Transactional
