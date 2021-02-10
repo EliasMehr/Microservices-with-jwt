@@ -8,7 +8,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CampaignList } from '../Components/react-admin-comp/campaignList.component';
 import { CampaignCreate } from '../Components/react-admin-comp/campaignCreate.component';
 import { CampaignEdit } from '../Components/react-admin-comp/campaignEdit.component';
+import myDataProvider from '../Components/react-admin-comp/myDataProvider';
 
+
+
+const httpClient = (url, options = {}) => {
+    options.headers = new Headers({ Accept: 'application/json' });
+    const token = headerRequest().Authorization;
+    console.log("HEADER: " + token)
+    options.headers.set('Authorization', token);
+    return fetchUtils.fetchJson(url, options);
+}
+
+const dataProvider = jsonServerProvider('http://localhost:8080', httpClient, 'X-Total-Count');
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,21 +36,13 @@ const Company = () => {
     const classes = useStyles();
 
      
-        const httpClient = (url, options = {}) => {
-            // if (!options.headers) {
-                options.headers = new Headers({ Accept: 'application/json' });
-            // }
-            const token = headerRequest().Authorization;
-            console.log("HEADER: " + token)
-            options.headers.set('Authorization', token);
-            return fetchUtils.fetchJson(url, options);
-        }
+        
 
    return ( 
     <>
         <HeaderImage headerText="Handle Your Campaigns"/>
         <div className={classes.root}>
-        <Admin dataProvider={jsonServerProvider('http://localhost:8080', httpClient, 'X-Total-Count')}>
+        <Admin dataProvider={dataProvider}>
             <Resource name="campaign" list={CampaignList} edit={CampaignEdit} create={CampaignCreate}/>
         </Admin>
         </div>

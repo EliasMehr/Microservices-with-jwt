@@ -45,7 +45,6 @@ const CampaignCard = props => {
     }
 
     const handleOpen = () => {
-        
         campaignService.getDiscountCode(props.campaign.id).then(res => {
             if(!res) {
                 return history.push('/login');
@@ -69,7 +68,7 @@ const CampaignCard = props => {
                     className={classes.image}
                     component="img"
                     alt="company image"
-                    image={props.campaign.image ? props.campaign.image : StandardImage}
+                    image={props.campaign.image  ? "data:image/png;base64," + props.campaign.image : StandardImage}
                     title="company imageurur"
                     />
                 <CardContent>

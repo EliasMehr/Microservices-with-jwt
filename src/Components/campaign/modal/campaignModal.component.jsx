@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import StandardImg from '../../../resources/campaignMicro.png'
 
 
 const DarkerDisabledTextField = withStyles({
@@ -57,7 +58,6 @@ const useStyles = makeStyles({
 
 const CampaignModal = props => {
     const classes = useStyles();
-    const standardImg = "https://images.theconversation.com/files/350865/original/file-20200803-24-50u91u.jpg?ixlib=rb-1.1.0&rect=37%2C29%2C4955%2C3293&q=45&auto=format&w=926&fit=clip";
 
     const handleRedirect = () => {
         navigator.clipboard.writeText(props.discountCode);
@@ -76,7 +76,7 @@ const CampaignModal = props => {
                     className={classes.image}
                     component="img"
                     alt="company image"
-                    image={props.campaign.image === null ? standardImg : props.campaign.image}
+                    image={props.campaign.image ? "data:image/png;base64," + props.campaign.image : StandardImg}
                     title="company imageurur"
                     />
                 <CardContent className={classes.cardContent}>

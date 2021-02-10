@@ -49,12 +49,11 @@ const CreateCampaignCard = props => {
     return (
         <>
             <Card className={classes.root}>
-                {console.log(StandardImage)}
                 <CardMedia
                     className={classes.image}
                     component="img"
                     alt="company image"
-                    src={props.image ? props.image : StandardImage}
+                    src={props.image ?  props.image : StandardImage}
                     title="company imageurur"
                     />
                 <CardContent className={classes.cardContent}>

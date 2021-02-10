@@ -7,7 +7,9 @@ import {
     DeleteButton,
     DateTimeInput,
     SelectInput,
-    BooleanInput
+    BooleanInput,
+    ImageInput,
+    ImageField
 } from 'react-admin';
 import { Typography, Box, Button} from '@material-ui/core';
 import CreateCampaignCard from './createCampaignCard.component'
@@ -35,6 +37,14 @@ const EditForm = (props) => {
 
       const handleChange = (prop) => (e) => {
         setCampaign({ ...campaign, [prop]: e.target.value})
+      }
+
+      const handleImage = (img) => {
+        let reader = new FileReader();
+        reader.onload = function(event) {
+            setCampaign({...campaign, image: event.target.result})
+          };
+        reader.readAsDataURL(img[0]);
       }
 
 
@@ -78,12 +88,9 @@ const EditForm = (props) => {
                             value={campaign.description}
                             onChange={handleChange('description')}
                             />
-                            <TextInput 
-                            source="image" 
-                            fullWidth
-                            value={campaign.image}
-                            onChange={handleChange('image')}
-                            />
+                            <ImageInput accept="image/*" source="image"  >
+                                <ImageField source="src" title="title" />
+                            </ImageInput>
 
 
                             <Typography variant="h6" gutterBottom>Discount</Typography>

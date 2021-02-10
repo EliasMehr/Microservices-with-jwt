@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useCallback} from 'react';
 import {
     FormWithRedirect,
     TextInput,
@@ -7,12 +7,15 @@ import {
     DeleteButton,
     DateTimeInput,
     SelectInput,
+    ImageInput,
+    ImageField
 } from 'react-admin';
 import { Typography, Box, Button} from '@material-ui/core';
 import CreateCampaignCard from './createCampaignCard.component'
+import {useDropzone} from 'react-dropzone'
+
 
 const CreateForm = (props) => {
-
     
     const [campaign, setCampaign] = useState({
         title: '',
@@ -31,6 +34,14 @@ const CreateForm = (props) => {
            
       }
 
+      const handleImage = (img) => {
+        console.log(img);
+        let reader = new FileReader();
+        reader.onload = function(event) {
+            setCampaign({...campaign, image: event.target.result})
+          };
+        reader.readAsDataURL(img[0]);
+      }
 
     return (
         <FormWithRedirect
@@ -43,7 +54,6 @@ const CreateForm = (props) => {
                         <Box flex={2} mr="1em">
 
                             <Typography variant="h6" gutterBottom>Campaign</Typography>
-
                             <Box display="flex">
                                 <Box flex={1} mr="0.5em">
                                     <TextInput 
@@ -72,12 +82,9 @@ const CreateForm = (props) => {
                             value={campaign.description}
                             onChange={handleChange('description')}
                             />
-                            <TextInput 
-                            source="image" 
-                            fullWidth
-                            value={campaign.image}
-                            onChange={handleChange('image')}
-                            />
+                            <ImageInput  accept="image/*" source="image">
+                                <ImageField  source="url" title="Title or url" />
+                            </ImageInput>
 
 
                             <Typography variant="h6" gutterBottom>Discount</Typography>
