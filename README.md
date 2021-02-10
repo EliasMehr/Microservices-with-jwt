@@ -9,7 +9,12 @@ If the project is up and running, Swagger API documentation for all services tha
 http://localhost:8080/swagger-ui/
 
 ### Java Docs
-Each Application has java docs for all classes and methods.
+Javadocs can be found in the folder:
+```
+/documentation/javadocs
+```
+
+Each Application has javadocs for all classes and methods.
 
 # Getting Started
 
