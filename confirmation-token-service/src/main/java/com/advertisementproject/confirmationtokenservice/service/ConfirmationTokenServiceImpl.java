@@ -21,6 +21,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
+    /**
+     * JPA Repository for confirmation tokens.
+     */
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
     /**

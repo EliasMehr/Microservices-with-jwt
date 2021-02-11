@@ -22,15 +22,29 @@ import java.util.UUID;
 @Builder
 public class Customer {
 
+    /**
+     * Primary id for Customer entity that matches user id.
+     */
     @Id
     private UUID userId;
+
+    /**
+     * The first name of the customer.
+     */
     @NotNull
     @Size(min = 2, max = 20, message = "First name must be 2-20 characters long")
     private String firstName;
 
+    /**
+     * The last name of the customer.
+     */
     @NotNull
     @Size(min = 2, max = 20, message = "Last name must be 2-20 characters long")
     private String lastName;
+
+    /**
+     * Personal identification number for the customer according to the Swedish system.
+     */
     @NotNull(message = "Personal ID number must not be null")
     private String personalIdNumber;
 

@@ -19,6 +19,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessagePublisher {
 
+    /**
+     * Used to send messages via RabbitMQ message broker.
+     */
     private final RabbitTemplate rabbitTemplate;
 
     /**
