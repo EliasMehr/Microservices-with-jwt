@@ -17,7 +17,18 @@ import java.time.Instant;
 @ToString
 public class ApiError {
 
+    /**
+     * The error status of the exception
+     */
     private final HttpStatus status;
+
+    /**
+     * The error message for the exception
+     */
     private final String message;
+
+    /**
+     * Timestamp for when the exception was thrown
+     */
     private final Instant timestamp;
 }

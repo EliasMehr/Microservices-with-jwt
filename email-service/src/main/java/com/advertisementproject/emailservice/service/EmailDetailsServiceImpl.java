@@ -23,6 +23,9 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class EmailDetailsServiceImpl implements EmailDetailsService {
 
+    /**
+     * JPA Repository for EmailDetails
+     */
     private final EmailDetailsRepository emailDetailsRepository;
 
     /**

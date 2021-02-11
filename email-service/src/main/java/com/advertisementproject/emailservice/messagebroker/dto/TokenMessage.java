@@ -10,6 +10,13 @@ import java.util.UUID;
 @Data
 public class TokenMessage {
 
+    /**
+     * The id of the user to send a confirmation link email to.
+     */
     private UUID userId;
+
+    /**
+     * The token to be included in the confirmation link in the confirmation link email.
+     */
     private String token;
 }

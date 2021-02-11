@@ -25,7 +25,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageListener {
 
+    /**
+     * Service for managing CRUD operations for EmailDetails.
+     */
     private final EmailDetailsService emailDetailsService;
+
+    /**
+     * Service for sending confirmation link emails. Settings are configured in application.yml.
+     */
     private final EmailService emailService;
 
     /**

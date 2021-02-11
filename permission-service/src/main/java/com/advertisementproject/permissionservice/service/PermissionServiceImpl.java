@@ -20,7 +20,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PermissionServiceImpl implements PermissionService {
 
+    /**
+     * JPA Repository for managing Permissions.
+     */
     private final PermissionRepository permissionRepository;
+
+    /**
+     * Service for sending messages to other applications via message broker.
+     */
     private final MessagePublisher messagePublisher;
 
     /**

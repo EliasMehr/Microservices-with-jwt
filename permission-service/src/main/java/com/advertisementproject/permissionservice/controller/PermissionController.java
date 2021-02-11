@@ -15,6 +15,9 @@ import java.util.UUID;
 @RequestMapping("/{userId}")
 public class PermissionController {
 
+    /**
+     * Service for managing CRUD operations for Permissions.
+     */
     private final PermissionService permissionService;
 
     @GetMapping
