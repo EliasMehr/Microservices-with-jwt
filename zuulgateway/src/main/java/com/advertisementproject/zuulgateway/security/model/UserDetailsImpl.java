@@ -21,7 +21,15 @@ import java.util.Collections;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
+    /**
+     * User object including user account details such as user id, email etc.
+     */
     private User user;
+
+    /**
+     * Whether the user has permission (true) or not (false) to use the system. Can be revoked by an admin user if there
+     * is suspicious activity, thereby indirectly invalidating any jwt token connected to the user.
+     */
     private boolean hasPermission;
 
     /**

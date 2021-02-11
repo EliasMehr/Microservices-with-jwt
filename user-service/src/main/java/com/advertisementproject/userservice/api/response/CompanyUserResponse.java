@@ -12,7 +12,14 @@ import lombok.Getter;
 @Getter
 public class CompanyUserResponse {
 
+    /**
+     * The core user details for the company user.
+     */
     private final User user;
+
+    /**
+     * The company information for the company user.
+     */
     private final Company company;
 
 }

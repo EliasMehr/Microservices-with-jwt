@@ -17,6 +17,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
 
+    /**
+     * Service for managing CRUD operations for customer users and company users. Does not handle registration.
+     */
     private final UserService userService;
 
     /**

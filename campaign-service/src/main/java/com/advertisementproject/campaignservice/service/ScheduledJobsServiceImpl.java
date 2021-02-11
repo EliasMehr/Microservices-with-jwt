@@ -19,6 +19,9 @@ import java.time.Instant;
 @EnableScheduling
 public class ScheduledJobsServiceImpl implements ScheduledJobsService {
 
+    /**
+     * JPA Repository for Campaigns.
+     */
     private final CampaignRepository campaignRepository;
 
     /**

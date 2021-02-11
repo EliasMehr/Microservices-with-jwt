@@ -25,7 +25,14 @@ public class RegistrationController {
     //TODO fix custom message for enum
     //TODO write lots of tests!
 
+    /**
+     * Service for registering customer users and company users.
+     */
     private final RegistrationService registrationService;
+
+    /**
+     * Service to message other microservices via message broker.
+     */
     private final MessagePublisher messagePublisher;
 
     /**

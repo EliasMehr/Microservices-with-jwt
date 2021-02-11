@@ -26,7 +26,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CampaignController {
 
+    /**
+     * Service for managing CRUD operations for Campaigns.
+     */
     private final CampaignService campaignService;
+
+    /**
+     * Service for managing CRUD operations for Companies.
+     */
     private final CompanyService companyService;
 
     /**

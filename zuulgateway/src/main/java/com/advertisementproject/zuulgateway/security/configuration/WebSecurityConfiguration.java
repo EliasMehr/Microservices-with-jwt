@@ -33,10 +33,33 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Service that handles JWT related tasks such as extracting the subject from a JWT token.
+     */
     private final JwtUtils jwtUtils;
+
+    /**
+     * Service for managing user details, which is checked to see that a user exists, is enabled and has appropriate
+     * permission.
+     */
     private final UserDetailsServiceImpl userDetailsService;
 
 
+    /**
+     * Configures security for the gateway application and thereby the entire system. Cross Site Request Forgery (CSRF)
+     * is disabled. Cross Origin Resource Sharing (CORS) is enabled, allowing requests from other origins.
+     * AntMatchers specify which endpoints each user role has access to, which endpoints are open to the public and
+     * which require that the user is not logged in.
+     * Session is set to stateless.
+     * A filter is run for each request that requires authentication to make sure that the jwt token is supplied in the
+     * header for a valid user that is enabled and has permissions.
+     * When a user goes to the "/login" endpoint, JwtUsernameAndPasswordAuthenticationFilter is run to verify the
+     * credentials that the user supplied to see if the user can be authenticated.
+     *
+     * Worth noting is that attaching the user id to the request header is done in ZuulRequestFilter, not here.
+     * @param http HttpSecurity object used to configure security for the application.
+     * @throws Exception any kind of exception that may occur during any request.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

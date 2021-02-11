@@ -33,7 +33,15 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 @RequiredArgsConstructor
 public class JwtTokenValidationFilter extends OncePerRequestFilter {
 
+    /**
+     * Service that handles JWT related tasks such as extracting the subject from a JWT token.
+     */
     private final JwtUtils jwtUtils;
+
+    /**
+     * Service for managing user details, which is checked to see that a user exists, is enabled and has appropriate
+     * permission.
+     */
     private final UserDetailsServiceImpl userDetailsService;
 
     /**

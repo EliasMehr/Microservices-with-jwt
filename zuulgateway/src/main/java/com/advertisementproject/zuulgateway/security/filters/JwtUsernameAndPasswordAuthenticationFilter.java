@@ -31,8 +31,20 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    /**
+     * Service that handles JWT related tasks such as extracting the subject from a JWT token.
+     */
     private final JwtUtils jwtUtils;
+
+    /**
+     * Service for managing user details, which is checked to see that a user exists, is enabled and has appropriate
+     * permission.
+     */
     private final UserDetailsServiceImpl userDetailsService;
+
+    /**
+     * Authentication manager used to authenticate the user trying to log in.
+     */
     private final AuthenticationManager authenticationManager;
 
     /**

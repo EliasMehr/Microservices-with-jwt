@@ -15,6 +15,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 public class AuthenticationResponse implements Serializable {
+
+    /**
+     * JWT authentication token for the user to attach as a bearer token in the header for any request which requires
+     * authorization.
+     */
     private String token;
+
+    /**
+     * The role of the user that just logged in.
+     */
     private Role role;
 }
