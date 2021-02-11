@@ -65,6 +65,12 @@ http://localhost:8761/eureka
 ```
 http://localhost:3000 
 ```
+If you get the message below during build time you have to navigate to frontend package and   
+run `yarn install`
+```
+warning <DEPENDENCIE>: Package relocated. Please install and migrate to @<DEPENDENCIE>.
+error Your lockfile needs to be updated, but yarn was run with `--frozen-lockfile`
+```
 
 ## RabbitMQ dashboard
 
