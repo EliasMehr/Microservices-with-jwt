@@ -19,10 +19,25 @@ import java.util.UUID;
 @NoArgsConstructor
 public class EmailDetails {
 
+    /**
+     * Primary id for EmailDetails entity, matching the user id.
+     */
     @Id
     private UUID userId;
+
+    /**
+     * Token to add to the confirmation link included in the confirmation link email to be sent to the user.
+     */
     private String token;
+
+    /**
+     * The name of the user to be included in the confirmation link email to be sent to the user.
+     */
     private String name;
+
+    /**
+     * The email address to send the confirmation link email to.
+     */
     private String email;
 
     /**

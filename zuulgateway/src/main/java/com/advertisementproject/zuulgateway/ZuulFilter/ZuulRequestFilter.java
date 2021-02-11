@@ -5,8 +5,6 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class ZuulRequestFilter extends ZuulFilter {
 
+    /**
+     * Service that handles JWT related tasks such as extracting the subject from a JWT token.
+     */
     private final JwtUtils jwtUtils;
 
     /**

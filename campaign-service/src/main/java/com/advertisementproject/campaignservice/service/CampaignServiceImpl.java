@@ -24,7 +24,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CampaignServiceImpl implements CampaignService {
 
+    /**
+     * JPA Repository for Campaigns.
+     */
     private final CampaignRepository campaignRepository;
+
+    /**
+     * Service to validate Campaigns.
+     */
     private final ValidationService validationService;
 
     /**

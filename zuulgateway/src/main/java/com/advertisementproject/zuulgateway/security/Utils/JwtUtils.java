@@ -17,7 +17,14 @@ import java.util.Map;
 @Service
 public class JwtUtils {
 
+    /**
+     * Value for how many hours a jwt token should last before it expires.
+     */
     private final Long EXPIRATION_VALUE = 24L;
+
+    /**
+     * Secret key for signing jwt tokens and extracting data from a jwt token.
+     */
     private final String JWT_SECRET = "ABCABCABCABCABCABCABCABCABCABCABCABCABC";
 
 

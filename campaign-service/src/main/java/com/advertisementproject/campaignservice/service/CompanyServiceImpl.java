@@ -16,6 +16,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
+    /**
+     * JPA Repository for Companies.
+     */
     private final CompanyRepository companyRepository;
 
     /**

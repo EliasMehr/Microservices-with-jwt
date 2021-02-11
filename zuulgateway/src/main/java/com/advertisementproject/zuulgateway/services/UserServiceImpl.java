@@ -17,6 +17,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    /**
+     * JPA Repository for users.
+     */
     private final UserRepository userRepository;
 
     /**

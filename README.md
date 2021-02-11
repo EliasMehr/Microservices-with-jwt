@@ -14,7 +14,7 @@ Javadocs can be found in the folder:
 /documentation/javadocs
 ```
 
-Each Application has javadocs for all classes and methods.
+View javadocs by opening the file "index.html" in that folder.
 
 # Getting Started
 

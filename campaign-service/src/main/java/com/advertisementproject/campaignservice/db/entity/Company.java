@@ -23,18 +23,33 @@ import java.util.UUID;
 @Entity
 public class Company {
 
+    /**
+     * Primary id for Company entity that matches user id.
+     */
     @Id
     private UUID userId;
 
+    /**
+     * The name of the company.
+     */
     @JsonView(value = {View.publicInfo.class})
     private String name;
 
+    /**
+     * The organization number for the company, which is like an id number for companies in the Swedish system.
+     */
     @JsonView(value = {View.publicInfo.class})
     private String organizationNumber;
 
+    /**
+     * Optional description of the company.
+     */
     @JsonView(value = {View.publicInfo.class})
     private String description;
 
+    /**
+     * The type of company that the company can be classified as, for example "RETAIL" or "SOFTWARE".
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     @JsonView(value = {View.publicInfo.class})

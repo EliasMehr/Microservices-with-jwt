@@ -25,7 +25,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
+    /**
+     * Service for managing CRUD operations for Users.
+     */
     private final UserService userService;
+
+    /**
+     * Service for validating customer/company users.
+     */
     private final ValidationService validationService;
 
     /**

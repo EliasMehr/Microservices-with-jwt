@@ -25,14 +25,33 @@ import java.util.UUID;
 @Builder
 public class Company {
 
+    /**
+     * Primary id for company entity that matches user id.
+     */
     @Id
     private UUID userId;
+
+    /**
+     * The name of the company.
+     */
     @NotNull
     @Size(min = 2, max = 30, message = "Name must be 2-30 characters long")
     private String name;
+
+    /**
+     * The organization number for the company, which is like an id number for companies in the Swedish system.
+     */
     @NotNull(message = "Organization number must not be null")
     private String organizationNumber;
+
+    /**
+     * Optional description of the company.
+     */
     private String description;
+
+    /**
+     * The type of company that the company can be classified as, for example "RETAIL" or "SOFTWARE".
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;

@@ -72,8 +72,6 @@ com.advertisementproject.userservice.messagebroker.listener
 com.advertisementproject.userservice.messagebroker.publisher
 com.advertisementproject.userservice.service
 com.advertisementproject.userservice.service.interfaces
-com.advertisementproject.userservice.serviceTest
-com.advertisementproject.userservice.utilities
 com.advertisementproject.zuulgateway
 com.advertisementproject.zuulgateway.api
 com.advertisementproject.zuulgateway.api.exceptions
@@ -85,7 +83,6 @@ com.advertisementproject.zuulgateway.db.entity.types
 com.advertisementproject.zuulgateway.db.repositories
 com.advertisementproject.zuulgateway.messagebroker.config
 com.advertisementproject.zuulgateway.messagebroker.listener
-com.advertisementproject.zuulgateway.RepositoryTest
 com.advertisementproject.zuulgateway.security.configuration
 com.advertisementproject.zuulgateway.security.filters
 com.advertisementproject.zuulgateway.security.model
@@ -93,5 +90,4 @@ com.advertisementproject.zuulgateway.security.Utils
 com.advertisementproject.zuulgateway.services
 com.advertisementproject.zuulgateway.services.interfaces
 com.advertisementproject.zuulgateway.Swagger
-com.advertisementproject.zuulgateway.Utilities
 com.advertisementproject.zuulgateway.ZuulFilter

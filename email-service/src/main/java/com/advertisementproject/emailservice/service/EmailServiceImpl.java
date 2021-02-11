@@ -22,6 +22,9 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
 
+    /**
+     * Java mail sender for sending emails, as configured in application.yml.
+     */
     private final JavaMailSender mailSender;
 
     /**

@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UpdatePermissionRequest {
 
+    /**
+     * Whether the user should have permission.
+     */
     @NotNull
     private final Boolean hasPermission;
 }

@@ -33,10 +33,29 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    /**
+     * JPA Repository for Users.
+     */
     private final UserRepository userRepository;
+
+    /**
+     * JPA Repository for Companies.
+     */
     private final CompanyRepository companyRepository;
+
+    /**
+     * JPA Repository for Customers.
+     */
     private final CustomerRepository customerRepository;
+
+    /**
+     * Service for validating customer/company users.
+     */
     private final ValidationService validationService;
+
+    /**
+     * Service for sending messages to other microservices via message broker.
+     */
     private final MessagePublisher messagePublisher;
 
     /**

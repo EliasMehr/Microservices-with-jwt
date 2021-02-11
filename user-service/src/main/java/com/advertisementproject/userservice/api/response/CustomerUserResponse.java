@@ -12,7 +12,14 @@ import lombok.Getter;
 @Getter
 public class CustomerUserResponse {
 
+    /**
+     * The core user details for the customer user.
+     */
     private final User user;
+
+    /**
+     * Customer information for the customer user.
+     */
     private final Customer customer;
 
 }

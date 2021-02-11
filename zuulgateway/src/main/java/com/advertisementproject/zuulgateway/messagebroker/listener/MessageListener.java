@@ -24,7 +24,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageListener {
 
+    /**
+     * Service for managing CRUD operations for users.
+     */
     private final UserService userService;
+
+    /**
+     * Service for managing CRUD operations for permissions.
+     */
     private final PermissionService permissionService;
 
     /**

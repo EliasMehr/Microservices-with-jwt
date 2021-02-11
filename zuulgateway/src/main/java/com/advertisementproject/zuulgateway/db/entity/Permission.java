@@ -17,11 +17,28 @@ import java.util.UUID;
 @Entity
 public class Permission {
 
+    /**
+     * Primary id for Permission entity, matching the user id
+     */
     @Id
     private UUID userId;
+
+    /**
+     * Whether the user has permission to use the system. Can be revoked by an admin user if needed to indirectly
+     * invalidate jwt tokens and block user in the case of suspicious activity. True if the user has permission,
+     * otherwise false.
+     */
     private boolean hasPermission;
+
+    /**
+     * Timestamp for when the permission was created.
+     */
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant createdAt;
+
+    /**
+     * Timestamp for when the permission was last updated.
+     */
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant updatedAt;
 }

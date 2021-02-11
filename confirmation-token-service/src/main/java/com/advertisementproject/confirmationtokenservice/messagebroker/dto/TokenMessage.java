@@ -12,6 +12,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TokenMessage {
 
+    /**
+     * The id of the user the token belongs to.
+     */
     private UUID userId;
+
+    /**
+     * Token to be used by the Email Service application to send a confirmation link email.
+     */
     private String token;
 }

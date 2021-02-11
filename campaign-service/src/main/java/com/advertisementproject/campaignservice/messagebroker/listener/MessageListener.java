@@ -21,6 +21,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageListener {
 
+    /**
+     * Service for managing CRUD operations for Companies.
+     */
     private final CompanyService companyService;
 
     /**

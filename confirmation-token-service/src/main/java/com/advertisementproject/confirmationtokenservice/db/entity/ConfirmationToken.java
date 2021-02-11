@@ -21,18 +21,38 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ConfirmationToken {
 
+    /**
+     * Primary id for the ConfirmationToken entity.
+     */
     @Id
     private UUID id;
 
+    /**
+     * The token that needs to be supplied in the confirmation link that the user clicks on to confirm their email.
+     */
     @NotNull
     private String token;
+
+    /**
+     * Timestamp for when the confirmation token was created.
+     */
     @NotNull
     private LocalDateTime createdAt;
+
+    /**
+     * Timestamp for when the confirmation token expires.
+     */
     @NotNull
     private LocalDateTime expiresAt;
 
+    /**
+     * Timestamp for when the confirmation token was confirmed.
+     */
     private LocalDateTime confirmedAt;
 
+    /**
+     * The id of the user who's account the confirmation token is meant to confirm.
+     */
     private UUID userId;
 
     /**

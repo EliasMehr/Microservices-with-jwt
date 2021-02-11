@@ -22,7 +22,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageListener {
 
+    /**
+     * Service for managing CRUD operations for confirmation tokens.
+     */
     private final ConfirmationTokenService confirmationTokenService;
+
+    /**
+     * Service that messages other microservices through a message broker.
+     */
     private final MessagePublisher messagePublisher;
 
     /**

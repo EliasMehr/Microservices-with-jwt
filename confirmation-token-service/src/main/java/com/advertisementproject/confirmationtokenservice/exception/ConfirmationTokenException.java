@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class ConfirmationTokenException extends RuntimeException {
 
+    /**
+     * Error status for the exception
+     */
     private final HttpStatus httpStatus;
 
     /**

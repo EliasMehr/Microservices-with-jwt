@@ -17,7 +17,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ConfirmationTokenController {
 
+    /**
+     * Service that manages CRUD operations for confirmation tokens, including confirming them.
+     */
     private final ConfirmationTokenService confirmationTokenService;
+
+    /**
+     * Service that messages other microservices through a message broker.
+     */
     private final MessagePublisher messagePublisher;
 
     /**
