@@ -1,43 +1,39 @@
-import {
-    Edit,
-} from 'react-admin';
-import EditForm from './editForm'
+import { Edit } from "react-admin";
+import EditForm from "./editForm";
+import React from "react";
 
-export const CampaignEdit = props => {
-    
-    const transform = data => {
-
-        if(!data.image || typeof data.image === "string") {
-            return ({
-                ...data
-            })
-        }
-        const promiseImgArray = convertFileToArray(data.image);        
-        return promiseImgArray.then(convertedImg =>  ({
-            ...data,
-            image: [...convertedImg]
-        }))
-        
-            
+export const CampaignEdit = (props) => {
+  const transform = async (data) => {
+    if (!data.image) {
+      return {
+        ...data,
+      };
     }
+    const promiseImgToBase64 = await readFileAsDataURL(data.image);
 
-    const convertFileToArray = file =>
-        new Promise((resolve, reject) => {
+    console.log(promiseImgToBase64);
+    if (promiseImgToBase64) {
+      return {
+        ...data,
+        image: promiseImgToBase64,
+      };
+    }
+  };
 
-            console.log(file);
-            const reader = new FileReader();
-            reader.onload = () => {
-            const bytes = new Uint8Array(reader.result);
-            bytes ? resolve(bytes) : reject('error');
-            }
-            reader.onerror = reject;
-            reader.readAsArrayBuffer(file.rawFile);
-     })
+  async function readFileAsDataURL(file) {
+    let result_base64 = await new Promise((resolve) => {
+      let fileReader = new FileReader();
+      fileReader.onload = (e) => resolve(fileReader.result);
+      fileReader.readAsDataURL(file.rawFile);
+    });
 
-    return (
-        <Edit {...props} transform={transform}>
-            <EditForm/>
-        </Edit>
-    )
-    
-}
+    console.log(result_base64);
+    return result_base64;
+  }
+
+  return (
+    <Edit {...props} transform={transform}>
+      <EditForm redirect="list" />
+    </Edit>
+  );
+};

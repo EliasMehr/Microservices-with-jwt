@@ -1,53 +1,40 @@
-import {
-    Create
-} from 'react-admin';
+import { Create } from "react-admin";
 
-import React from 'react';
-import CreateForm from './createForm.component';
+import React from "react";
+import CreateForm from "./createForm.component";
 
-
-export const CampaignCreate = props => {
-
-
-    const transform = data => {
-
-        if(!data.image) {
-            return ({
-                ...data
-            })
-        }
-        const promiseImgArray = convertFileToArray(data.image);        
-        return promiseImgArray.then(convertedImg =>  ({
-            ...data,
-            image: [...convertedImg]
-        }))
-        
-            
+export const CampaignCreate = (props) => {
+  const transform = async (data) => {
+    if (!data.image) {
+      return {
+        ...data,
+      };
     }
+    const promiseImgToBase64 = await readFileAsDataURL(data.image);
+    console.log(promiseImgToBase64.length);
+    if (promiseImgToBase64) {
+      return {
+        ...data,
+        image: promiseImgToBase64,
+      };
+    }
+  };
 
-    const convertFileToArray = file =>
-        new Promise((resolve, reject) => {
+  async function readFileAsDataURL(file) {
+    let result_base64 = await new Promise((resolve) => {
+      let fileReader = new FileReader();
+      fileReader.onload = (e) => resolve(fileReader.result);
+      fileReader.readAsDataURL(file.rawFile);
+    });
 
-            console.log(file);
-            const reader = new FileReader();
-            reader.onload = () => {
-            const bytes = new Uint8Array(reader.result);
-            bytes ? resolve(bytes) : reject('error');
-            }
-            
+    console.log(result_base64);
 
-            reader.onerror = reject;
-            reader.readAsArrayBuffer(file.rawFile);
-            //  return reject("HEJJJJJJJJJJJJJJ");
-     })
+    return result_base64;
+  }
 
-
-
-
-    return (
-         <Create {...props} transform={transform}>
-            <CreateForm redirect="list"/>
-        </Create>
-    )
-}
-
+  return (
+    <Create {...props} transform={transform}>
+      <CreateForm redirect="list" />
+    </Create>
+  );
+};

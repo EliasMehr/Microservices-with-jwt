@@ -1,12 +1,11 @@
-import authService from '../services/authService';
+import authService from "../services/authService";
 
 export default function headerRequest() {
-    const currentUser = authService.currentUserValue;
+  const currentUser = authService.currentUserValue;
 
-    if(currentUser && currentUser.token) {
-        return { Authorization: `Bearer ${currentUser.token}`}
-    }
-    else {
-        return {}
-    }
+  if (currentUser && currentUser.token) {
+    return { Authorization: `Bearer ${currentUser.token}` };
+  } else {
+    return {};
+  }
 }
