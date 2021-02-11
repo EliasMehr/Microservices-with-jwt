@@ -62,7 +62,6 @@ public class Campaign {
     @JsonView(value = {View.publicInfo.class})
     private boolean isPercentage;
 
-    @Lob
     @Column(columnDefinition = "text")
     @JsonView(value = {View.publicInfo.class})
     @Size(min = 1000, message = "Too short. Image must be in base64 string format")

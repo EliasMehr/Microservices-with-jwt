@@ -34,6 +34,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @return list of companies related to the supplied company id
      */
     @Override
+    @Transactional
     public List<Campaign> getAllCampaignsByCompanyId(UUID companyId) {
         return campaignRepository.findAllByCompanyUserId(companyId);
     }
@@ -58,6 +59,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @return the requested campaign
      */
     @Override
+    @Transactional
     public Campaign getCampaignById(UUID campaignId, UUID companyId) {
         return getCampaignAndAuthorize(campaignId, companyId);
     }
@@ -70,6 +72,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @return the newly created campaign
      */
     @Override
+    @Transactional
     public Campaign createCampaign(Company company, CampaignRequest campaignRequest) {
         Campaign campaign = Campaign.toCampaign(company, campaignRequest);
         validationService.validateCampaign(campaign);
@@ -87,6 +90,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @return the newly updated campaign
      */
     @Override
+    @Transactional
     public Campaign updateCampaignById(UUID campaignId, UUID companyId, CampaignRequest campaignRequest) {
         Campaign campaign = getCampaignAndAuthorize(campaignId, companyId);
 
@@ -104,6 +108,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @param companyId  the company id for the campaign. Used to verify that the company client has ownership of the
      */
     @Override
+    @Transactional
     public void deleteCampaignById(UUID campaignId, UUID companyId) {
         Campaign campaign = getCampaignAndAuthorize(campaignId, companyId);
         campaignRepository.delete(campaign);
@@ -133,6 +138,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @return list of all campaigns
      */
     @Override
+    @Transactional
     public List<Campaign> getAllCampaigns() {
         return campaignRepository.findAll();
     }
@@ -143,6 +149,7 @@ public class CampaignServiceImpl implements CampaignService {
      * @return list of all published campaigns
      */
     @Override
+    @Transactional
     public List<Campaign> getAllPublishedCampaigns() {
         return campaignRepository.findAllByIsPublishedTrue();
     }
