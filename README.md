@@ -59,6 +59,13 @@ Paste this URL into your web browser
 http://localhost:8761/eureka
 ```
 
+## Frontend
+***Company*** have access to a dashboard where the company can view, create, delete & edit their campaigns.      
+***Customer*** can view all published campaigns and retrieve the discount code.
+```
+http://localhost:3000 
+```
+
 ## RabbitMQ dashboard
 
 You can inspect the RabbitMQ message broker by going to this address and logging in as 'guest' with the password '
