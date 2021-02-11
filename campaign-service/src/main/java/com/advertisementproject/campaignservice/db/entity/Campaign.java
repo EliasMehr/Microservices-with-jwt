@@ -62,8 +62,10 @@ public class Campaign {
     @JsonView(value = {View.publicInfo.class})
     private boolean isPercentage;
 
+    @Lob
+    @Column(columnDefinition = "text")
     @JsonView(value = {View.publicInfo.class})
-    @Size(min = 30000, message = "Too short. Image must be in base64 string format")
+    @Size(min = 1000, message = "Too short. Image must be in base64 string format")
     @Pattern(regexp = "^data:image/.*$", message = "image string must begin with 'data:image/' image descriptor")
     private String image;
 
