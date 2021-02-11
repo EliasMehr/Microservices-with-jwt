@@ -33,8 +33,8 @@ export const CampaignCreate = (props) => {
   }
 
   return (
-    <Create {...props} transform={transform}>
-      <CreateForm redirect="list" />
+    <Create {...props} transform={transform} >
+      <CreateForm redirect="list" submitOnEnter={false}  />
     </Create>
   );
 };

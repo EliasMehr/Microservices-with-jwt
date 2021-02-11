@@ -10,7 +10,7 @@ import {
   ImageInput,
   ImageField,
 } from "react-admin";
-import { Typography, Box, Button } from "@material-ui/core";
+import { Typography, Box } from "@material-ui/core";
 import CreateCampaignCard from "./createCampaignCard.component";
 
 const CreateForm = (props) => {
@@ -148,7 +148,6 @@ const CreateForm = (props) => {
           </Box>
           <Toolbar>
             <Box display="flex" justifyContent="center" width="100%">
-              <Button variant="primary">Go Back</Button>
               <SaveButton
                 saving={formProps.saving}
                 handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}

@@ -11,6 +11,7 @@ import { UserContext } from "../../context/UserContext";
 import authService from "../../services/authService";
 import { PrivateRoute } from "../routes/privateroute.component";
 
+
 function App() {
   const [user, userDispatch] = useContext(UserContext);
   useEffect(() => {
@@ -21,6 +22,8 @@ function App() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
 
   return (
     <div>
