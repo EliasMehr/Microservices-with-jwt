@@ -14,6 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.time.Period;
@@ -61,8 +62,11 @@ public class Campaign {
     @JsonView(value = {View.publicInfo.class})
     private boolean isPercentage;
 
+    @Column(columnDefinition = "text")
     @JsonView(value = {View.publicInfo.class})
-    private byte[] image;
+    @Size(min = 1000, message = "Too short. Image must be in base64 string format")
+    @Pattern(regexp = "^data:image/.*$", message = "image string must begin with 'data:image/' image descriptor")
+    private String image;
 
     @NotNull
     @Size(min = 2, max = 20, message = "Category must be between 2-20 characters long")

@@ -18,7 +18,7 @@ public class CampaignRequest {
     private Double discount;
     @NotNull
     private Boolean isPercentage;
-    private byte[] image;
+    private String image;
     @NotNull
     private String category;
     private Instant publishedAt;
