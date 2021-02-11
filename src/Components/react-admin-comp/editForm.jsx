@@ -27,9 +27,12 @@ const EditForm = (props) => {
     discountCode: "",
   });
 
-  useEffect((props) => {
-    setCampaign(setCampaign(props.record));
+  useEffect(() => {
+    console.log("HEJ");
+    setCampaign(props.record);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const handleChange = (prop) => (e) => {
     setCampaign({ ...campaign, [prop]: e.target.value });
@@ -84,7 +87,7 @@ const EditForm = (props) => {
                   onChange={handleChange("description")}
                 />
 
-                <ImageInput accept="image/*" source="image">
+                <ImageInput accept="image/*" source="image" options={{onDrop: image => handleImage(image)}}>
                   <ImageField source="url" title="Title or url" />
                 </ImageInput>
 

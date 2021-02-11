@@ -31,7 +31,6 @@ const CreateForm = (props) => {
   };
 
   const handleImage = (img) => {
-    console.log(img);
     let reader = new FileReader();
     reader.onload = function (event) {
       setCampaign({ ...campaign, image: event.target.result });
@@ -43,7 +42,6 @@ const CreateForm = (props) => {
     <FormWithRedirect
       {...props}
       render={(formProps) => (
-        // here starts the custom form layout
         <form>
           <Box p="1em" display="flex" justifyContent="center">
             <Box display="flex">
@@ -79,7 +77,7 @@ const CreateForm = (props) => {
                   value={campaign.description}
                   onChange={handleChange("description")}
                 />
-                <ImageInput accept="image/*" source="image">
+                <ImageInput accept="image/*" source="image" options={{onDrop: image => handleImage(image)}}>
                   <ImageField source="url" title="Title or url" />
                 </ImageInput>
 

@@ -16,10 +16,10 @@ function App() {
   useEffect(() => {
     authService.currentUser.subscribe((x) => {
       if (x !== null) {
-        // eslint-disable-next-line
         userDispatch({ type: "LOAD_USER", payload: x });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
