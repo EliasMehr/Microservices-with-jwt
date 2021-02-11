@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import Copyright from "../copyright/copyright.component";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import Signup from "../../pages/Signup";
@@ -10,6 +9,7 @@ import { Switch, Route } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import authService from "../../services/authService";
 import { PrivateRoute } from "../routes/privateroute.component";
+import Footer from '../footer/footer.component'
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
 
 
   return (
-    <div>
+    <>
       <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
@@ -35,8 +35,8 @@ function App() {
         <Route path="/signup" component={Signup} />
         <PrivateRoute path="/company" component={Company} roles={[user.role]} />
       </Switch>
-      <Copyright />
-    </div>
+      <Footer/>
+      </>
   );
 }
 

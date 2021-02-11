@@ -78,7 +78,7 @@ const CampaignModal = (props) => {
             alt="company image"
             image={
               props.campaign.image
-                ? "data:image/png;base64," + props.campaign.image
+                ?  props.campaign.image
                 : StandardImg
             }
             title="company imageurur"

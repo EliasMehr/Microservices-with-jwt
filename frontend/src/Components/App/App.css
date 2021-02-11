@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.MuiDrawer-root a[href^='paperAnchorLeft'] {
+  display: none;
+}

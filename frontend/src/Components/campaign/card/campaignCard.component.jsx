@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -17,7 +17,6 @@ import StandardImage from "../../../resources/campaignMicro.png";
 const useStyles = makeStyles({
   root: {
     textAlign: "center",
-    minHeight: 400,
   },
   image: {
     height: 140,
@@ -34,7 +33,12 @@ const CampaignCard = (props) => {
   const [campaignModalShow, setCampaignModalShow] = useState(false);
   const [collapseShow, setCollapseShow] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
+  const [campaignRaised, setCampaignRaised] = useState(false);
   let history = useHistory();
+
+  const onHoverTrigger = () => {
+    setCampaignRaised(!campaignRaised);
+  };
 
   const classes = useStyles();
 
@@ -50,7 +54,6 @@ const CampaignCard = (props) => {
       setDiscountCode(res);
       setCampaignModalShow(true);
     });
-    // setCampaignModalShow(true);
   };
 
   const handleCollapse = (e) => {
@@ -60,7 +63,12 @@ const CampaignCard = (props) => {
   return (
     <>
       <Grid item xs={12} sm={3}>
-        <Card className={classes.root}>
+        <Card
+          className={classes.root}
+          raised={campaignRaised}
+          onMouseEnter={onHoverTrigger}
+          onMouseLeave={onHoverTrigger}
+        >
           <CardMedia
             className={classes.image}
             component="img"

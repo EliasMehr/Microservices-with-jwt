@@ -5,13 +5,20 @@ import App from "./Components/App/App.js";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
+import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import "fontsource-roboto";
+import theme from './theme';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <UserProvider>
-      <App />
-    </UserProvider>
-  </BrowserRouter>,
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <BrowserRouter>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </BrowserRouter>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

@@ -7,8 +7,18 @@ import {
   EditButton,
 } from "react-admin";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(
+  theme => ({
+    Sidebar: {
+      display: "none"
+    }
+   
+  }));
+
 export const CampaignList = (props) => (
-  <List {...props}>
+  <List pagination={null} theme={useStyles} {...props}>
     <Datagrid>
       <TextField source="title" />
       <TextField source="description" />
