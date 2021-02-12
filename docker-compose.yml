@@ -175,6 +175,19 @@ services:
       - "5555:80"
     restart: unless-stopped
 
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    stdin_open: true
+    depends_on:
+      - zuul-gateway
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 #Volumes for DB data
 volumes:
   pgadmin-data:
